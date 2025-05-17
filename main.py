@@ -36,7 +36,7 @@ class KitboyApp(CTk):
 
     def add_sidebar_buttons(self):
         buttons = [
-            ("analytics_icon.png", "Dashboard", "transparent", "transparent", None, 60),
+            ("analytics_icon.png", "Dashboard", "dashboard", "transparent", None, 60),
             ("package_icon.png", "Orders", "#fff", "#eee", "#601E88", 16),
             ("list_icon.png", "Orders", "transparent", "transparent", None, 16),
             ("returns_icon.png", "Returns", "transparent", "transparent", None, 16),
@@ -68,6 +68,11 @@ class KitboyApp(CTk):
         self.create_search_container()
         self.create_table()
 
+        # Add this line to create the content_frame
+        self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
+        self.content_frame.pack(expand=True, fill="both", padx=27, pady=21)
+        self.show_page("dashboard")
+
     def create_title_frame(self):
         title_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
@@ -75,10 +80,10 @@ class KitboyApp(CTk):
         CTkButton(master=title_frame, text="+ New Order", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#207244").pack(anchor="ne", side="right")
 
     def show_page(self, page_name):
-        for widget in self.table_frame.winfo_children():
+        for widget in self.content_frame.winfo_children():
             widget.destroy()
         if page_name == "dashboard":
-            Dashboard(self.table_frame).pack(expand=True, fill="both")
+            Dashboard(self.content_frame).pack(expand=True, fill="both")
         # elif page_name == "orders":
         #    OrdersPage(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
