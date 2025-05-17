@@ -1,7 +1,8 @@
 import os
 import sys
 import importlib
-import db
+import connection
+import img
 from customtkinter import *
 from tkinter import messagebox
 from PIL import Image
@@ -44,7 +45,7 @@ class Login(CTk):
     def login_action(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        db = connection.db
+        db = connection
         dbcon = db.dbcon
         class Dummy: pass
         db_obj = Dummy()
@@ -57,7 +58,7 @@ class Login(CTk):
             result = db_obj.cur.fetchone()
             if result:
                 self.destroy()
-                dashboard = importlib.import_module("dashboard.main")
+                dashboard = importlib.import_module("main")
                 dashboard.main()
             else:
                 messagebox.showerror("Login Failed", "Invalid email or password.")
