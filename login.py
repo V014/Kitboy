@@ -8,7 +8,7 @@ from PIL import Image
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-class LoginApp(CTk):
+class Login(CTk):
     def __init__(self):
         super().__init__()
         self.geometry("600x480")
@@ -68,5 +68,5 @@ class LoginApp(CTk):
                 db_obj.con.close()
 
 if __name__ == "__main__":
-    app = LoginApp()
+    app = Login()
     app.mainloop()
