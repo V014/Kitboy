@@ -2,6 +2,7 @@ import os
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
+from dashboard import Dashboard
 
 class KitboyApp(CTk):
     def __init__(self):
@@ -18,7 +19,7 @@ class KitboyApp(CTk):
     def setup_window(self):
         self.geometry("856x645")
         self.resizable(0, 0)
-        # set_appearance_mode("light")
+        set_appearance_mode("light")
 
     def create_sidebar(self):
         self.sidebar_frame = CTkFrame(master=self, fg_color="#601E88", width=176, height=650, corner_radius=0)
@@ -35,14 +36,14 @@ class KitboyApp(CTk):
 
     def add_sidebar_buttons(self):
         buttons = [
-            ("analytics_icon.png", "Dashboard", "transparent", "#207244", None, 60),
+            ("analytics_icon.png", "Dashboard", "transparent", "transparent", None, 60),
             ("package_icon.png", "Orders", "#fff", "#eee", "#601E88", 16),
-            ("list_icon.png", "Orders", "transparent", "#207244", None, 16),
-            ("returns_icon.png", "Returns", "transparent", "#207244", None, 16),
-            ("settings_icon.png", "Settings", "transparent", "#207244", None, 16),
-            ("person_icon.png", "Account", "transparent", "#207244", None, 160),
+            ("list_icon.png", "Orders", "transparent", "transparent", None, 16),
+            ("returns_icon.png", "Returns", "transparent", "transparent", None, 16),
+            ("settings_icon.png", "Settings", "transparent", "transparent", None, 16),
+            ("person_icon.png", "Account", "transparent", "transparent", None, 160),
         ]
-        for icon, text, fg, hover, text_color, pady in buttons:
+        for icon, text, page, fg, text_color, pady in buttons:
             img_data = Image.open(icon)
             img = CTkImage(dark_image=img_data, light_image=img_data)
             CTkButton(
@@ -51,9 +52,10 @@ class KitboyApp(CTk):
                 text=text,
                 fg_color=fg,
                 font=("Arial Bold", 14),
-                hover_color=hover,
+                hover_color="#601E88",
                 anchor="w",
-                text_color=text_color if text_color else "#fff"
+                text_color=text_color if text_color else "#fff",
+                command=lambda p=page: self.show_page(p)
             ).pack(anchor="center", ipady=5, pady=(pady, 0))
 
     def create_main_view(self):
@@ -71,6 +73,15 @@ class KitboyApp(CTk):
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Orders", font=("Arial Black", 25), text_color="#601E88").pack(anchor="nw", side="left")
         CTkButton(master=title_frame, text="+ New Order", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#207244").pack(anchor="ne", side="right")
+
+    def show_page(self, page_name):
+        for widget in self.table_frame.winfo_children():
+            widget.destroy()
+        if page_name == "dashboard":
+            Dashboard(self.table_frame).pack(expand=True, fill="both")
+        # elif page_name == "orders":
+        #    OrdersPage(self.content_frame).pack(expand=True, fill="both")
+        # ... other pages ...
 
     def create_metrics_frame(self):
         metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
