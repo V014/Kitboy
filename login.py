@@ -1,7 +1,7 @@
 import os
 import sys
 import importlib
-import connection.db
+import db
 from customtkinter import *
 from tkinter import messagebox
 from PIL import Image
