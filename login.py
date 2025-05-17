@@ -2,9 +2,9 @@ import os
 import sys
 import importlib
 import connection
-import img
 from customtkinter import *
 from tkinter import messagebox
+from main import KitboyApp
 from PIL import Image
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -58,8 +58,8 @@ class Login(CTk):
             result = db_obj.cur.fetchone()
             if result:
                 self.destroy()
-                dashboard = importlib.import_module("main")
-                dashboard.main()
+                app = KitboyApp()
+                app.mainloop()
             else:
                 messagebox.showerror("Login Failed", "Invalid email or password.")
         except Exception as e:
