@@ -5,21 +5,35 @@ from PIL import Image
 from dashboard import Dashboard
 
 class KitboyApp(CTk):
-    def __init__(self):
-        super().__init__()
-        self.setup_environment()
-        self.setup_window()
-        self.create_sidebar()
-        self.create_main_view()
+    def __init__(self): # constructor
+        super().__init__() # inherit from custom tkinter
+        self.setup_environment() # call method that identifies files in root folder
+        self.setup_window() # call method that sets the ui theme and resolution
+        self.create_main_view() # call method that shows area with forms
+        self.create_sidebar() # call method that loads the sidebar
 
     def setup_environment(self):
-        # Set the working directory to the script's directory
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     def setup_window(self):
         self.geometry("856x645")
         self.resizable(0, 0)
         set_appearance_mode("light")
+
+    def create_main_view(self):
+        self.main_view = CTkFrame(master=self, fg_color="#fff", width=680, height=650, corner_radius=0)
+        self.main_view.pack_propagate(0)
+        self.main_view.pack(side="left")
+
+        self.create_title_frame()
+        self.create_metrics_frame()
+        self.create_search_container()
+        self.create_table()
+
+        # Add this line to create the content_frame
+        self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
+        self.content_frame.pack(expand=True, fill="both", padx=27, pady=21)
+        self.show_page("dashboard")
 
     def create_sidebar(self):
         self.sidebar_frame = CTkFrame(master=self, fg_color="#601E88", width=176, height=650, corner_radius=0)
@@ -57,21 +71,6 @@ class KitboyApp(CTk):
                 text_color=text_color if text_color else "#fff",
                 command=lambda p=page: self.show_page(p)
             ).pack(anchor="center", ipady=5, pady=(pady, 0))
-
-    def create_main_view(self):
-        self.main_view = CTkFrame(master=self, fg_color="#fff", width=680, height=650, corner_radius=0)
-        self.main_view.pack_propagate(0)
-        self.main_view.pack(side="left")
-
-        self.create_title_frame()
-        self.create_metrics_frame()
-        self.create_search_container()
-        self.create_table()
-
-        # Add this line to create the content_frame
-        self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        self.content_frame.pack(expand=True, fill="both", padx=27, pady=21)
-        self.show_page("dashboard")
 
     def create_title_frame(self):
         title_frame = CTkFrame(master=self.main_view, fg_color="transparent")
