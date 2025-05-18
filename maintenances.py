@@ -2,7 +2,7 @@ from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 
-class maintenances(CTkFrame):
+class Maintenances(CTkFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         # Title

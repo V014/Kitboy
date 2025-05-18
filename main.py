@@ -3,6 +3,7 @@ from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 from dashboard import Dashboard
+from maintenances import Maintenances
 
 class KitboyApp(CTk):
     def __init__(self): # constructor
@@ -50,8 +51,8 @@ class KitboyApp(CTk):
 
     def add_sidebar_buttons(self):
         buttons = [
-            ("analytics_icon.png", "Dashboard", "dashboard", "transparent", None, 60),
-            ("package_icon.png", "Orders", "#fff", "#eee", "#601E88", 16),
+            ("analytics_icon.png", "Dashboard", "dashboard", "#eee", "#601E88", 60),
+            ("package_icon.png", "Maintenances", "maintenances", "transparent", None, 16),
             ("list_icon.png", "Orders", "transparent", "transparent", None, 16),
             ("returns_icon.png", "Returns", "transparent", "transparent", None, 16),
             ("settings_icon.png", "Settings", "transparent", "transparent", None, 16),
@@ -83,8 +84,8 @@ class KitboyApp(CTk):
             widget.destroy()
         if page_name == "dashboard":
             Dashboard(self.content_frame).pack(expand=True, fill="both")
-        # elif page_name == "orders":
-        #    OrdersPage(self.content_frame).pack(expand=True, fill="both")
+        elif page_name == "maintenances":
+           Maintenances(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
     def create_metrics_frame(self):
