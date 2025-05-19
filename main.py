@@ -10,8 +10,8 @@ class KitboyApp(CTk):
         super().__init__() # inherit from custom tkinter
         self.setup_environment() # call method that identifies files in root folder
         self.setup_window() # call method that sets the ui theme and resolution
-        self.create_main_view() # call method that shows area with forms
-        self.create_sidebar() # call method that loads the sidebar
+        self.create_sidebar() # call sidebar first
+        self.create_main_view() # call view after
 
     def setup_environment(self):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -26,10 +26,10 @@ class KitboyApp(CTk):
         self.main_view.pack_propagate(0)
         self.main_view.pack(side="left")
 
-        self.create_title_frame()
-        self.create_metrics_frame()
-        self.create_search_container()
-        self.create_table()
+        # self.create_title_frame()
+        # self.create_metrics_frame()
+        # self.create_search_container()
+        # self.create_table()
 
         # Add this line to create the content_frame
         self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
