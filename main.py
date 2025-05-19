@@ -1,4 +1,5 @@
 import os
+import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
@@ -104,7 +105,7 @@ class KitboyApp(CTk):
         person_img = self.load_icon("assets/icons/person_icon.png", (43, 43))
         CTkLabel(master=customers_metric, image=person_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=customers_metric, text="Customers", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=customers_metric, text="123", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        CTkLabel(master=customers_metric, text=str(get_customers_count()), text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
         # Maintenances metric
         maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
@@ -113,7 +114,7 @@ class KitboyApp(CTk):
         maintenance_img = self.load_icon("assets/icons/maintenance_icon.png", (43, 43))
         CTkLabel(master=maintenances_metric, image=maintenance_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=maintenances_metric, text="Maintenances", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=maintenances_metric, text="91", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        CTkLabel(master=maintenances_metric, text=str(get_maintenances_count()), text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
         # Reminders metric
         reminders_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
@@ -122,7 +123,7 @@ class KitboyApp(CTk):
         reminder_img = self.load_icon("assets/icons/reminder_icon.png", (43, 43))
         CTkLabel(master=reminders_metric, image=reminder_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=reminders_metric, text="Reminders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=reminders_metric, text="23", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        CTkLabel(master=reminders_metric, text=str(get_reminders_count()), text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
     def load_icon(self, filename, size=None):
         img_data = Image.open(filename)
@@ -164,6 +165,58 @@ class KitboyApp(CTk):
         table = CTkTable(master=table_frame, values=table_data, colors=["#E6E6E6", "#EEEEEE"], header_color="#601E88", hover_color="#B4B4B4")
         table.edit_row(0, text_color="#fff", hover_color="#601E88")
         table.pack(expand=True)
+
+# pull data for metrics
+def get_customers_count():
+    db = connection
+    dbcon = db.dbcon
+    class Dummy: pass
+    db_obj = Dummy()
+    dbcon(db_obj)
+    count = 0
+    if db_obj.con:
+        try:
+            db_obj.cur.execute("SELECT COUNT(*) FROM customers")
+            count = db_obj.cur.fetchone()[0]
+        except Exception:
+            pass
+        finally:
+            db_obj.con.close()
+    return count
+
+def get_maintenances_count():
+    db = connection
+    dbcon = db.dbcon
+    class Dummy: pass
+    db_obj = Dummy()
+    dbcon(db_obj)
+    count = 0
+    if db_obj.con:
+        try:
+            db_obj.cur.execute("SELECT COUNT(*) FROM maintenances")
+            count = db_obj.cur.fetchone()[0]
+        except Exception:
+            pass
+        finally:
+            db_obj.con.close()
+    return count
+
+def get_reminders_count():
+    db = connection
+    dbcon = db.dbcon
+    class Dummy: pass
+    db_obj = Dummy()
+    dbcon(db_obj)
+    count = 0
+    if db_obj.con:
+        try:
+            db_obj.cur.execute("SELECT COUNT(*) FROM reminders")
+            count = db_obj.cur.fetchone()[0]
+        except Exception:
+            pass
+        finally:
+            db_obj.con.close()
+    return count
 
 if __name__ == "__main__":
     app = KitboyApp()
