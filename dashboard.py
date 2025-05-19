@@ -1,5 +1,6 @@
 from customtkinter import *
 from CTkTable import CTkTable
+from PIL import Image
 
 class Dashboard(CTkFrame):
     def __init__(self, master):

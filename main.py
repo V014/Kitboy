@@ -19,6 +19,7 @@ class KitboyApp(CTk):
     def setup_window(self):
         self.geometry("856x645")
         self.resizable(0, 0)
+        self.title("Kitboy")
         set_appearance_mode("light")
 
     def create_main_view(self):
@@ -27,7 +28,7 @@ class KitboyApp(CTk):
         self.main_view.pack(side="left")
 
         # self.create_title_frame()
-        # self.create_metrics_frame()
+        self.create_metrics_frame()
         # self.create_search_container()
         # self.create_table()
 
@@ -92,32 +93,32 @@ class KitboyApp(CTk):
         metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         metrics_frame.pack(anchor="n", fill="x", padx=27, pady=(36, 0))
 
-        # Orders metric
-        orders_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
-        orders_metric.grid_propagate(0)
-        orders_metric.pack(side="left")
-        logistics_img = self.load_icon("logistics_icon.png", (43, 43))
-        CTkLabel(master=orders_metric, image=logistics_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=orders_metric, text="Orders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=orders_metric, text="123", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        # Customers metric
+        customers_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
+        customers_metric.grid_propagate(0)
+        customers_metric.pack(side="left")
+        person_img = self.load_icon("person_icon.png", (43, 43))
+        CTkLabel(master=customers_metric, image=person_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
+        CTkLabel(master=customers_metric, text="Customers", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
+        CTkLabel(master=customers_metric, text="123", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
-        # Shipping metric
-        shipped_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
-        shipped_metric.grid_propagate(0)
-        shipped_metric.pack(side="left", expand=True, anchor="center")
-        shipping_img = self.load_icon("shipping_icon.png", (43, 43))
-        CTkLabel(master=shipped_metric, image=shipping_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=shipped_metric, text="Shipping", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=shipped_metric, text="91", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        # Maintenances metric
+        maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
+        maintenances_metric.grid_propagate(0)
+        maintenances_metric.pack(side="left", expand=True, anchor="center")
+        maintenance_img = self.load_icon("maintenance_icon.png", (43, 43))
+        CTkLabel(master=maintenances_metric, image=maintenance_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
+        CTkLabel(master=maintenances_metric, text="Maintenances", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
+        CTkLabel(master=maintenances_metric, text="91", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
-        # Delivered metric
-        delivered_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
-        delivered_metric.grid_propagate(0)
-        delivered_metric.pack(side="right")
-        delivered_img = self.load_icon("delivered_icon.png", (43, 43))
-        CTkLabel(master=delivered_metric, image=delivered_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=delivered_metric, text="Delivered", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=delivered_metric, text="23", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        # Reminders metric
+        reminders_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
+        reminders_metric.grid_propagate(0)
+        reminders_metric.pack(side="right")
+        reminder_img = self.load_icon("reminder_icon.png", (43, 43))
+        CTkLabel(master=reminders_metric, image=reminder_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
+        CTkLabel(master=reminders_metric, text="Reminders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
+        CTkLabel(master=reminders_metric, text="23", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
     def load_icon(self, filename, size=None):
         img_data = Image.open(filename)
