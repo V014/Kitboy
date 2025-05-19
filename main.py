@@ -37,6 +37,7 @@ class KitboyApp(CTk):
         self.content_frame.pack(expand=True, fill="both", padx=27, pady=21)
         self.show_page("dashboard")
 
+    # sidebar
     def create_sidebar(self):
         self.sidebar_frame = CTkFrame(master=self, fg_color="#601E88", width=176, height=650, corner_radius=0)
         self.sidebar_frame.pack_propagate(0)
@@ -46,18 +47,18 @@ class KitboyApp(CTk):
         self.add_sidebar_buttons()
 
     def add_sidebar_logo(self):
-        logo_img_data = Image.open("logo.png")
+        logo_img_data = Image.open("assets/images/logo.png")
         logo_img = CTkImage(dark_image=logo_img_data, light_image=logo_img_data, size=(77.68, 85.42))
         CTkLabel(master=self.sidebar_frame, text="", image=logo_img).pack(pady=(38, 0), anchor="center")
 
     def add_sidebar_buttons(self):
         buttons = [
-            ("analytics_icon.png", "Dashboard", "dashboard", "#eee", "#601E88", 60),
-            ("package_icon.png", "Maintenances", "maintenances", "transparent", None, 16),
-            ("list_icon.png", "Orders", "transparent", "transparent", None, 16),
-            ("returns_icon.png", "Returns", "transparent", "transparent", None, 16),
-            ("settings_icon.png", "Settings", "transparent", "transparent", None, 16),
-            ("person_icon.png", "Account", "transparent", "transparent", None, 160),
+            ("assets/icons/analytics_icon.png", "Dashboard", "dashboard", "transparent", None, 60),
+            ("assets/icons/maintenance_icon.png", "Maintenances", "maintenances", "transparent", None, 16),
+            ("assets/icons/person_icon.png", "Customers", "customers", "transparent", None, 16),
+            ("assets/icons/vehicle_icon.png", "Vehicles", "vehicles", "transparent", None, 16),
+            ("assets/icons/bell_icon.png", "Reminders", "reminders", "transparent", None, 16),
+            ("assets/icons/settings_icon.png", "Settings", "settings", "transparent", None, 160),
         ]
         for icon, text, page, fg, text_color, pady in buttons:
             img_data = Image.open(icon)
@@ -68,18 +69,20 @@ class KitboyApp(CTk):
                 text=text,
                 fg_color=fg,
                 font=("Arial Bold", 14),
-                hover_color="#601E88",
+                hover_color="#9569AF",
                 anchor="w",
                 text_color=text_color if text_color else "#fff",
                 command=lambda p=page: self.show_page(p)
             ).pack(anchor="center", ipady=5, pady=(pady, 0))
 
+    # title frame
     def create_title_frame(self):
         title_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Orders", font=("Arial Black", 25), text_color="#601E88").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="+ New Order", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#207244").pack(anchor="ne", side="right")
+        CTkButton(master=title_frame, text="+ New Job", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
 
+    # show page
     def show_page(self, page_name):
         for widget in self.content_frame.winfo_children():
             widget.destroy()
@@ -89,6 +92,7 @@ class KitboyApp(CTk):
            Maintenances(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
+    # metrics frame
     def create_metrics_frame(self):
         metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         metrics_frame.pack(anchor="n", fill="x", padx=27, pady=(36, 0))
@@ -97,7 +101,7 @@ class KitboyApp(CTk):
         customers_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
         customers_metric.grid_propagate(0)
         customers_metric.pack(side="left")
-        person_img = self.load_icon("person_icon.png", (43, 43))
+        person_img = self.load_icon("assets/icons/person_icon.png", (43, 43))
         CTkLabel(master=customers_metric, image=person_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=customers_metric, text="Customers", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=customers_metric, text="123", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
@@ -106,7 +110,7 @@ class KitboyApp(CTk):
         maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
         maintenances_metric.grid_propagate(0)
         maintenances_metric.pack(side="left", expand=True, anchor="center")
-        maintenance_img = self.load_icon("maintenance_icon.png", (43, 43))
+        maintenance_img = self.load_icon("assets/icons/maintenance_icon.png", (43, 43))
         CTkLabel(master=maintenances_metric, image=maintenance_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=maintenances_metric, text="Maintenances", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=maintenances_metric, text="91", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
@@ -115,7 +119,7 @@ class KitboyApp(CTk):
         reminders_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
         reminders_metric.grid_propagate(0)
         reminders_metric.pack(side="right")
-        reminder_img = self.load_icon("reminder_icon.png", (43, 43))
+        reminder_img = self.load_icon("assets/icons/reminder_icon.png", (43, 43))
         CTkLabel(master=reminders_metric, image=reminder_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=reminders_metric, text="Reminders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=reminders_metric, text="23", text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))

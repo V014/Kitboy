@@ -7,7 +7,7 @@ from tkinter import messagebox
 from main import KitboyApp
 from PIL import Image
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 class Login(CTk):
     def __init__(self):
@@ -16,11 +16,27 @@ class Login(CTk):
         self.resizable(0, 0)
         self.title("Login")
 
-        # Load images
-        self.side_img = CTkImage(dark_image=Image.open("side-img.png"), light_image=Image.open("side-img.png"), size=(300, 480))
-        self.email_icon = CTkImage(dark_image=Image.open("email-icon.png"), light_image=Image.open("email-icon.png"), size=(20, 20))
-        self.password_icon = CTkImage(dark_image=Image.open("password-icon.png"), light_image=Image.open("password-icon.png"), size=(17, 17))
-        self.google_icon = CTkImage(dark_image=Image.open("google-icon.png"), light_image=Image.open("google-icon.png"), size=(17, 17))
+        # Load images using organized asset paths
+        self.side_img = CTkImage(
+            dark_image=Image.open(os.path.join("assets", "images", "side-img.png")),
+            light_image=Image.open(os.path.join("assets", "images", "side-img.png")),
+            size=(300, 480)
+        )
+        self.email_icon = CTkImage(
+            dark_image=Image.open(os.path.join("assets", "icons", "email-icon.png")),
+            light_image=Image.open(os.path.join("assets", "icons", "email-icon.png")),
+            size=(20, 20)
+        )
+        self.password_icon = CTkImage(
+            dark_image=Image.open(os.path.join("assets", "icons", "password-icon.png")),
+            light_image=Image.open(os.path.join("assets", "icons", "password-icon.png")),
+            size=(17, 17)
+        )
+        self.google_icon = CTkImage(
+            dark_image=Image.open(os.path.join("assets", "icons", "google-icon.png")),
+            light_image=Image.open(os.path.join("assets", "icons", "google-icon.png")),
+            size=(17, 17)
+        )
 
         CTkLabel(master=self, text="", image=self.side_img).pack(expand=True, side="left")
 
