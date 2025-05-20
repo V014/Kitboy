@@ -105,7 +105,8 @@ class KitboyApp(CTk):
         person_img = self.load_icon("assets/icons/person_icon.png", (43, 43))
         CTkLabel(master=customers_metric, image=person_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=customers_metric, text="Customers", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=customers_metric, text=str(get_customers_count()), text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        self.customers_count_label = CTkLabel(master=customers_metric, text=str(get_customers_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
+        self.customers_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
 
         # Maintenances metric
         maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
@@ -114,7 +115,8 @@ class KitboyApp(CTk):
         maintenance_img = self.load_icon("assets/icons/maintenance_icon.png", (43, 43))
         CTkLabel(master=maintenances_metric, image=maintenance_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=maintenances_metric, text="Maintenances", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=maintenances_metric, text=str(get_maintenances_count()), text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        self.maintenances_count_label = CTkLabel(master=maintenances_metric, text=str(get_maintenances_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
+        self.maintenances_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
 
         # Reminders metric
         reminders_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
@@ -123,7 +125,17 @@ class KitboyApp(CTk):
         reminder_img = self.load_icon("assets/icons/reminder_icon.png", (43, 43))
         CTkLabel(master=reminders_metric, image=reminder_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=reminders_metric, text="Reminders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=reminders_metric, text=str(get_reminders_count()), text_color="#fff", font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        self.reminders_count_label = CTkLabel(master=reminders_metric, text=str(get_reminders_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
+        self.reminders_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
+
+        # Start periodic update
+        self.update_metrics()
+
+    def update_metrics(self):
+        self.customers_count_label.configure(text=str(get_customers_count()))
+        self.maintenances_count_label.configure(text=str(get_maintenances_count()))
+        self.reminders_count_label.configure(text=str(get_reminders_count()))
+        self.after(5000, self.update_metrics)
 
     def load_icon(self, filename, size=None):
         img_data = Image.open(filename)
