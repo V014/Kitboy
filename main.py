@@ -1,9 +1,5 @@
 import os
 import connection
-import matplotlib
-matplotlib.use("Agg")  # Use a non-interactive backend
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
@@ -34,7 +30,7 @@ class KitboyApp(CTk):
 
         # self.create_title_frame()
         self.create_metrics_frame()
-        self.create_payments_chart()
+        
         # self.create_search_container()
         # self.create_table()
 
@@ -147,27 +143,6 @@ class KitboyApp(CTk):
         if size:
             return CTkImage(light_image=img_data, dark_image=img_data, size=size)
         return CTkImage(light_image=img_data, dark_image=img_data)
-    
-    def create_payments_chart(self):
-        # Example data: Replace with your database query results
-        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-        payments = [1200, 1500, 1100, 1800, 1700, 1600]
-
-        # Create a matplotlib figure
-        fig = Figure(figsize=(4, 2), dpi=100)
-        ax = fig.add_subplot(111)
-        ax.bar(months, payments, color="#601E88")
-        ax.set_title("Payments Over Time")
-        ax.set_ylabel("Amount ($)")
-        ax.set_xlabel("Month")
-
-        # Embed the figure in the Tkinter frame
-        chart_frame = CTkFrame(master=self.main_view, fg_color="white")
-        chart_frame.pack(fill="x", padx=27, pady=(10, 0))
-
-        canvas = FigureCanvasTkAgg(fig, master=chart_frame)
-        canvas.draw()
-        canvas.get_tk_widget().pack(fill="both", expand=True)
 
     def create_search_container(self):
         search_container = CTkFrame(master=self.main_view, height=50, fg_color="#F0F0F0")
