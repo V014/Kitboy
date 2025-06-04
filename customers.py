@@ -29,7 +29,7 @@ class Customers(CTkFrame):
             finally:
                 db_obj.con.close()
 
-        table_data = [["ID", "Firstname", "Lastname", "Contact"]]
+        table_data = [["ID", "Firstname", "Lastname", "Contact", "Action"]]
         table_data.extend([list(row) for row in customers])
 
         if hasattr(self, "customers_table"):
@@ -38,9 +38,10 @@ class Customers(CTkFrame):
         self.customers_table = CTkTable(
             master=self,
             values=table_data,
-            colors=["#E6E6E6", "#EEEEEE"],
+            colors=["#030712", "#040C15"],
             header_color="#601E88",
-            hover_color="#B4B4B4"
+            hover_color="#9569AF",
+            text_color="#ffffff"
         )
-        self.customers_table.edit_row(0, text_color="#fff", hover_color="#601E88")
+        self.customers_table.edit_row(0, text_color="#ffffff", hover_color="#601E88")
         self.customers_table.pack(fill="both", expand=True, padx=27, pady=(10, 0))
