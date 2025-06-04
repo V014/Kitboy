@@ -24,10 +24,14 @@ class Dashboard(CTkFrame):
         payments = [1200, 1500, 1100, 1800, 1700, 1600]
 
         # Create a matplotlib figure with custom background
-        fig = Figure(figsize=(4, 2), dpi=100, facecolor="#040C15")
+        fig = Figure(figsize=(4, 2), dpi=100, facecolor="#030712")
         ax = fig.add_subplot(111, facecolor="#040C15")  # Set axes background
 
-        ax.bar(months, payments, color="#601E88")
+        markerline, stemlines, baseline = ax.stem(months, payments, linefmt="#601E88", markerfmt="o", basefmt=" ")
+        markerline.set_markerfacecolor("#E44982")  # Change marker color
+        markerline.set_markersize(8)               # Change marker size
+        stemlines.set_linewidth(2)                 # Change stem line width
+
         ax.set_title("Payments Over Time", color="white")
         ax.set_ylabel("Amount ($)", color="white")
         ax.set_xlabel("Month", color="white")
@@ -35,10 +39,10 @@ class Dashboard(CTkFrame):
         # Change tick and spine colors for better visibility
         ax.tick_params(colors="white")
         for spine in ax.spines.values():
-            spine.set_color("white")
+            spine.set_color("purple")
 
         # Embed the figure in the Tkinter frame
-        chart_frame = CTkFrame(master=self, fg_color="#040C15")
+        chart_frame = CTkFrame(master=self, fg_color="#030712")
         chart_frame.pack(fill="x", padx=27, pady=(10, 0))
 
         canvas = FigureCanvasTkAgg(fig, master=chart_frame)
