@@ -25,7 +25,7 @@ class KitboyApp(CTk):
         set_appearance_mode("light")
 
     def create_main_view(self):
-        self.main_view = CTkFrame(master=self, fg_color="#fff", width=680, height=650, corner_radius=0)
+        self.main_view = CTkFrame(master=self, fg_color="#030712", width=680, height=650, corner_radius=0)
         self.main_view.pack_propagate(0)
         self.main_view.pack(side="left")
 
@@ -102,7 +102,7 @@ class KitboyApp(CTk):
         metrics_frame.pack(anchor="n", fill="x", padx=27, pady=(36, 0))
 
         # Customers metric
-        customers_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
+        customers_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         customers_metric.grid_propagate(0)
         customers_metric.pack(side="left")
         person_img = self.load_icon("assets/icons/person_icon.png", (43, 43))
@@ -112,7 +112,7 @@ class KitboyApp(CTk):
         self.customers_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
 
         # Maintenances metric
-        maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
+        maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         maintenances_metric.grid_propagate(0)
         maintenances_metric.pack(side="left", expand=True, anchor="center")
         maintenance_img = self.load_icon("assets/icons/maintenance_icon.png", (43, 43))
@@ -122,7 +122,7 @@ class KitboyApp(CTk):
         self.maintenances_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
 
         # Reminders metric
-        reminders_metric = CTkFrame(master=metrics_frame, fg_color="#601E88", width=200, height=60)
+        reminders_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         reminders_metric.grid_propagate(0)
         reminders_metric.pack(side="right")
         reminder_img = self.load_icon("assets/icons/reminder_icon.png", (43, 43))
@@ -147,7 +147,7 @@ class KitboyApp(CTk):
         return CTkImage(light_image=img_data, dark_image=img_data)
 
     def create_search_container(self):
-        search_container = CTkFrame(master=self.main_view, height=50, fg_color="#F0F0F0")
+        search_container = CTkFrame(master=self.main_view, height=50, fg_color="#040C15")
         search_container.pack(fill="x", pady=(45, 0), padx=27)
         CTkEntry(master=search_container, width=305, placeholder_text="Search Job", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent Order", "Least Recent Order"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#207244",dropdown_hover_color="#207244" , dropdown_fg_color="#601E88", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
