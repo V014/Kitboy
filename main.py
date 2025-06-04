@@ -5,6 +5,7 @@ from CTkTable import CTkTable
 from PIL import Image
 from dashboard import Dashboard
 from maintenances import Maintenances
+from customers import Customers
 
 class KitboyApp(CTk):
     def __init__(self): # constructor
@@ -30,8 +31,7 @@ class KitboyApp(CTk):
 
         # self.create_title_frame()
         self.create_metrics_frame()
-        
-        # self.create_search_container()
+        self.create_search_container()
         # self.create_table()
 
         # Add this line to create the content_frame
@@ -41,7 +41,7 @@ class KitboyApp(CTk):
 
     # sidebar
     def create_sidebar(self):
-        self.sidebar_frame = CTkFrame(master=self, fg_color="#601E88", width=176, height=650, corner_radius=0)
+        self.sidebar_frame = CTkFrame(master=self, fg_color="#040C15", width=176, height=650, corner_radius=0)
         self.sidebar_frame.pack_propagate(0)
         self.sidebar_frame.pack(fill="y", anchor="w", side="left")
 
@@ -92,6 +92,8 @@ class KitboyApp(CTk):
             Dashboard(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "maintenances":
            Maintenances(self.content_frame).pack(expand=True, fill="both")
+        elif page_name == "customers":
+           Customers(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
     # metrics frame
@@ -147,7 +149,7 @@ class KitboyApp(CTk):
     def create_search_container(self):
         search_container = CTkFrame(master=self.main_view, height=50, fg_color="#F0F0F0")
         search_container.pack(fill="x", pady=(45, 0), padx=27)
-        CTkEntry(master=search_container, width=305, placeholder_text="Search Order", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
+        CTkEntry(master=search_container, width=305, placeholder_text="Search Job", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent Order", "Least Recent Order"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#207244",dropdown_hover_color="#207244" , dropdown_fg_color="#601E88", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Status", "Processing", "Confirmed", "Packing", "Shipping", "Delivered", "Cancelled"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#207244",dropdown_hover_color="#207244" , dropdown_fg_color="#601E88", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
 

@@ -40,18 +40,18 @@ class Login(CTk):
 
         CTkLabel(master=self, text="", image=self.side_img).pack(expand=True, side="left")
 
-        frame = CTkFrame(master=self, width=300, height=480, fg_color="#ffffff")
+        frame = CTkFrame(master=self, width=300, height=480, fg_color="#030712")
         frame.pack_propagate(0)
         frame.pack(expand=True, side="right")
 
-        CTkLabel(master=frame, text="Welcome Back!", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(50, 5), padx=(25, 0))
+        CTkLabel(master=frame, text="Welcome Back!", text_color="#ffffff", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(50, 5), padx=(25, 0))
         CTkLabel(master=frame, text="Sign in to your account", text_color="#7E7E7E", anchor="w", justify="left", font=("Arial Bold", 12)).pack(anchor="w", padx=(25, 0))
 
-        CTkLabel(master=frame, text="  Username:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), image=self.email_icon, compound="left").pack(anchor="w", pady=(38, 0), padx=(25, 0))
+        CTkLabel(master=frame, text="  Username:", text_color="#ffffff", anchor="w", justify="left", font=("Arial Bold", 14), image=self.email_icon, compound="left").pack(anchor="w", pady=(38, 0), padx=(25, 0))
         self.username_entry = CTkEntry(master=frame, width=225, fg_color="#EEEEEE", border_color="#601E88", border_width=1, text_color="#000000")
         self.username_entry.pack(anchor="w", padx=(25, 0))
 
-        CTkLabel(master=frame, text="  Password:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), image=self.password_icon, compound="left").pack(anchor="w", pady=(21, 0), padx=(25, 0))
+        CTkLabel(master=frame, text="  Password:", text_color="#ffffff", anchor="w", justify="left", font=("Arial Bold", 14), image=self.password_icon, compound="left").pack(anchor="w", pady=(21, 0), padx=(25, 0))
         self.password_entry = CTkEntry(master=frame, width=225, fg_color="#EEEEEE", border_color="#601E88", border_width=1, text_color="#000000", show="*")
         self.password_entry.pack(anchor="w", padx=(25, 0))
 
