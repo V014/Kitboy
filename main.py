@@ -29,10 +29,8 @@ class KitboyApp(CTk):
         self.main_view.pack_propagate(0)
         self.main_view.pack(side="left")
 
-        # self.create_title_frame()
         self.create_metrics_frame()
         self.create_search_container()
-        # self.create_table()
 
         # Add this line to create the content_frame
         self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
@@ -76,13 +74,6 @@ class KitboyApp(CTk):
                 text_color=text_color if text_color else "#fff",
                 command=lambda p=page: self.show_page(p)
             ).pack(anchor="center", ipady=5, pady=(pady, 0))
-
-    # title frame
-    def create_title_frame(self):
-        title_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
-        CTkLabel(master=title_frame, text="Orders", font=("Arial Black", 25), text_color="#601E88").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="+ New Job", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
 
     # show page
     def show_page(self, page_name):
