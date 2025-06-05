@@ -65,11 +65,17 @@ class Maintenances(CTkFrame):
         self.maintenances_table.bind("<ButtonRelease-1>", self.on_row_click)
 
     def on_row_click(self, event):
-        # Get selected row index (skip header)
         row_index = self.maintenances_table.get_selected_row()
-        if row_index is not None and row_index > 0:
+        print("row_index:", row_index, type(row_index))  # Debug print
+
+        # Handle if row_index is a dict or string
+        if isinstance(row_index, dict):
+            row_index = int(row_index.get("row", 0))
+        elif isinstance(row_index, str):
+            row_index = int(row_index)
+
+        if row_index > 0:
             row_data = self.maintenances_table.get_row(row_index)
-            # Fetch more details from DB if needed, or show all row data
             details = (
                 f"Reg Number: {row_data[0]}\n"
                 f"Mileage: {row_data[1]}\n"
