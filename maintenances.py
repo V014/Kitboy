@@ -25,7 +25,7 @@ class Maintenances(CTkFrame):
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Vehicle Maintenances", font=("Arial Black", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="+ New Job", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#207244", command=self.open_form).pack(anchor="ne", side="right")
+        CTkButton(master=title_frame, text="+ New Job", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self.open_form).pack(anchor="ne", side="right")
 
         self._load_and_display_maintenances_table()
 
@@ -109,7 +109,7 @@ class Maintenances(CTkFrame):
         if db_obj.con:
             try:
                 # Customize this query to fetch all relevant details for a maintenance item
-                db_obj.cur.execute("SELECT reg_number, mileage, last_service, date, description, status, cost FROM maintenances WHERE id = %s", (maintenance_id,))
+                db_obj.cur.execute("SELECT reg_number, mileage, last_service, date, description, date, cost FROM maintenances WHERE id = %s", (maintenance_id,))
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
@@ -118,7 +118,7 @@ class Maintenances(CTkFrame):
                         f"Last Service Date: {record[2]}\n"
                         f"Maintenance Date: {record[3]}\n"
                         f"Description: {record[4] if record[4] else 'N/A'}\n"
-                        f"Status: {record[5] if record[5] else 'N/A'}\n"
+                        f"Date: {record[5] if record[5] else 'N/A'}\n"
                         f"Cost: ${record[6]:.2f}" if record[6] is not None else "Cost: N/A"
                     )
             except Exception as e:
