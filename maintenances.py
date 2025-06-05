@@ -12,6 +12,8 @@ class Maintenances(CTkFrame):
         CTkLabel(master=title_frame, text="Vehicle Maintenances", font=("Arial Black", 25), text_color="#ffffff").pack(anchor="nw", side="left")
         CTkButton(master=title_frame, text="+ New Job", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#207244", command=self.open_form).pack(anchor="ne", side="right")
 
+        self.load_maintenances_data()
+
     def open_form(self):
         # Fetch data from your DB here:
         customers = self.fetch_customers()   # e.g., ["John Doe", "Jane Smith"]
@@ -36,7 +38,7 @@ class Maintenances(CTkFrame):
         # Replace with actual DB query
         return ["Mike", "Anna"]
     
-    def load_customers_data(self):
+    def load_maintenances_data(self):
         db = connection
         dbcon_func = db.dbcon # Get the function itself
         class DummyDB: pass
@@ -46,12 +48,12 @@ class Maintenances(CTkFrame):
         maintenances = []
         if db_obj.con: # Check if connection was successful
             try:
-                db_obj.cur.execute("SELECT id, firstname, lastname, contact FROM customers")
+                db_obj.cur.execute("SELECT reg_number, mileage, last_service, date FROM maintenances")
                 maintenances = db_obj.cur.fetchall()
             finally:
                 db_obj.con.close()
 
-        table_data = [["ID", "Firstname", "Lastname", "Contact", "Action"]]
+        table_data = [["Reg number", "Mileage", "Last Service", "Date", "Action"]]
         table_data.extend([list(row) for row in maintenances])
 
         if hasattr(self, "maintenances_table"):
