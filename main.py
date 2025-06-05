@@ -30,7 +30,7 @@ class KitboyApp(CTk):
         self.main_view.pack(side="left")
 
         self.create_metrics_frame()
-        self.create_search_container()
+        # self.create_search_container()
 
         # Add this line to create the content_frame
         self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
