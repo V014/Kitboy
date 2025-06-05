@@ -12,31 +12,21 @@ class Maintenances(CTkFrame):
         CTkLabel(master=title_frame, text="Vehicle Maintenances", font=("Arial Black", 25), text_color="#ffffff").pack(anchor="nw", side="left")
         CTkButton(master=title_frame, text="+ New Job", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#207244", command=self.open_form).pack(anchor="ne", side="right")
 
+        self.details_frame = CTkFrame(self, fg_color="#040C15")
+        self.details_frame.pack(fill="x", padx=27, pady=(0, 10))
+        self.details_label = CTkLabel(self.details_frame, text="", text_color="#fff", font=("Arial", 13), anchor="w", justify="left")
+        self.details_label.pack(anchor="w", padx=10, pady=10)
+
         self.load_maintenances_data()
 
     def open_form(self):
         # Fetch data from your DB here:
-        customers = self.fetch_customers()   # e.g., ["John Doe", "Jane Smith"]
-        cars = self.fetch_cars()             # e.g., ["Toyota Corolla", "Honda Civic"]
-        mechanics = self.fetch_mechanics()   # e.g., ["Mike", "Anna"]
 
         def on_submit(data):
             # Save to DB or process as needed
             print("Job assigned:", data)
 
-        MaintenanceForm(self, customers, cars, mechanics, on_submit)
-
-    def fetch_maintenances(self):
-        # Replace with actual DB query
-        return ["John Doe", "Jane Smith"]
-
-    def fetch_cars(self):
-        # Replace with actual DB query
-        return ["Toyota Corolla", "Honda Civic"]
-
-    def fetch_mechanics(self):
-        # Replace with actual DB query
-        return ["Mike", "Anna"]
+        MaintenanceForm(self, on_submit)
     
     def load_maintenances_data(self):
         db = connection
@@ -54,7 +44,8 @@ class Maintenances(CTkFrame):
                 db_obj.con.close()
 
         table_data = [["Reg number", "Mileage", "Last Service", "Date", "Action"]]
-        table_data.extend([list(row) for row in maintenances])
+        for row in maintenances:
+            table_data.append(list(row) + ["More"])
 
         if hasattr(self, "maintenances_table"):
             self.maintenances_table.destroy()
@@ -69,3 +60,22 @@ class Maintenances(CTkFrame):
         )
         self.maintenances_table.edit_row(0, text_color="#ffffff", hover_color="#601E88")
         self.maintenances_table.pack(fill="both", expand=True, padx=27, pady=(10, 0))
+
+        # Bind row click event
+        self.maintenances_table.bind("<ButtonRelease-1>", self.on_row_click)
+
+    def on_row_click(self, event):
+        # Get selected row index (skip header)
+        row_index = self.maintenances_table.get_selected_row()
+        if row_index is not None and row_index > 0:
+            row_data = self.maintenances_table.get_row(row_index)
+            # Fetch more details from DB if needed, or show all row data
+            details = (
+                f"Reg Number: {row_data[0]}\n"
+                f"Mileage: {row_data[1]}\n"
+                f"Last Service: {row_data[2]}\n"
+                f"Date: {row_data[3]}"
+            )
+            self.details_label.configure(text=details)
+        else:
+            self.details_label.configure(text="")
