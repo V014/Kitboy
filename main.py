@@ -70,7 +70,7 @@ class KitboyApp(CTk):
             ("assets/icons/bell_icon.png", "Reminders", "reminders", "transparent", None, 16),
             ("assets/icons/mechanic_icon.png", "Mechanics", "mechanics", "transparent", None, 16),
             ("assets/icons/payment_icon.png", "Payments", "payments", "transparent", None, 16),
-            ("assets/icons/turn-off_icon.png", "Logout", "logout", "transparent", None, 50),
+            ("assets/icons/turn-off_icon.png", "Logout", "logout", "transparent", None, 16),
             # ("assets/icons/settings_icon.png", "Settings", "settings", "transparent", None, 16)
         ]
         for icon, text, page, fg, text_color, pady in buttons:
