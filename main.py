@@ -20,28 +20,38 @@ class KitboyApp(CTk):
 
     def setup_window(self):
         self.geometry("856x645")
-        self.resizable(0, 0)
+        # self.resizable(0, 0) # Allow resizing
         self.title("Kitboy")
         set_appearance_mode("light")
+
+        # Configure grid layout for the main window
+        self.grid_columnconfigure(0, weight=0)  # Sidebar (fixed width)
+        self.grid_columnconfigure(1, weight=1)  # Main content (expandable)
+        self.grid_rowconfigure(0, weight=1)     # Single row for sidebar and main content
 
     def create_main_view(self):
         self.main_view = CTkFrame(master=self, fg_color="#030712", width=680, height=650, corner_radius=0)
         self.main_view.pack_propagate(0)
-        self.main_view.pack(side="left")
+        self.main_view.grid(row=0, column=1, sticky="nsew")
+
+        # Configure grid layout for the main_view
+        self.main_view.grid_rowconfigure(0, weight=0)    # For metrics_frame
+        self.main_view.grid_rowconfigure(1, weight=1)    # For content_frame (expandable)
+        self.main_view.grid_columnconfigure(0, weight=1) # Single column
 
         self.create_metrics_frame()
         # self.create_search_container()
 
         # Add this line to create the content_frame
         self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        self.content_frame.pack(expand=True, fill="both", padx=27, pady=21)
+        self.content_frame.grid(row=1, column=0, sticky="nsew", padx=27, pady=21)
         self.show_page("dashboard")
 
     # sidebar
     def create_sidebar(self):
         self.sidebar_frame = CTkFrame(master=self, fg_color="#040C15", width=176, height=650, corner_radius=0)
         self.sidebar_frame.pack_propagate(0)
-        self.sidebar_frame.pack(fill="y", anchor="w", side="left")
+        self.sidebar_frame.grid(row=0, column=0, sticky="nsew")
 
         self.add_sidebar_logo()
         self.add_sidebar_buttons()
@@ -60,7 +70,7 @@ class KitboyApp(CTk):
             ("assets/icons/bell_icon.png", "Reminders", "reminders", "transparent", None, 16),
             ("assets/icons/mechanic_icon.png", "Mechanics", "mechanics", "transparent", None, 16),
             ("assets/icons/payment_icon.png", "Payments", "payments", "transparent", None, 16),
-            ("assets/icons/turn-off_icon.png", "Logout", "logout", "transparent", None, 16),
+            ("assets/icons/turn-off_icon.png", "Logout", "logout", "transparent", None, 50),
             # ("assets/icons/settings_icon.png", "Settings", "settings", "transparent", None, 16)
         ]
         for icon, text, page, fg, text_color, pady in buttons:
@@ -93,37 +103,47 @@ class KitboyApp(CTk):
     # metrics frame
     def create_metrics_frame(self):
         metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        metrics_frame.pack(anchor="n", fill="x", padx=27, pady=(36, 0))
+        metrics_frame.grid(row=0, column=0, sticky="ew", padx=27, pady=(36, 0))
+
+        # Configure grid columns for metrics_frame
+        metrics_frame.grid_columnconfigure(0, weight=0) # Customers metric (fixed width)
+        metrics_frame.grid_columnconfigure(1, weight=0) # Maintenances metric (fixed width)
+        metrics_frame.grid_columnconfigure(2, weight=0) # Reminders metric (fixed width)
+        metrics_frame.grid_columnconfigure(3, weight=1) # Spacer column to push metrics left
 
         # Customers metric
         customers_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         customers_metric.grid_propagate(0)
-        customers_metric.pack(side="left")
+        customers_metric.grid(row=0, column=0, sticky="ew", padx=(0,5)) # sticky="ew" to fill cell width
         person_img = self.load_icon("assets/icons/person_icon.png", (43, 43))
         CTkLabel(master=customers_metric, image=person_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=customers_metric, text="Customers", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         self.customers_count_label = CTkLabel(master=customers_metric, text=str(get_customers_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
         self.customers_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
+        # Ensure internal grid of customers_metric is configured if needed, though simple content might not require it.
+        customers_metric.grid_columnconfigure(1, weight=1) # Allow text label to use available space
 
         # Maintenances metric
         maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         maintenances_metric.grid_propagate(0)
-        maintenances_metric.pack(side="left", expand=True, anchor="center")
+        maintenances_metric.grid(row=0, column=1, sticky="ew", padx=5) # sticky="ew" to fill cell width
         maintenance_img = self.load_icon("assets/icons/maintenance_icon.png", (43, 43))
         CTkLabel(master=maintenances_metric, image=maintenance_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=maintenances_metric, text="Maintenances", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         self.maintenances_count_label = CTkLabel(master=maintenances_metric, text=str(get_maintenances_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
         self.maintenances_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
+        maintenances_metric.grid_columnconfigure(1, weight=1)
 
         # Reminders metric
         reminders_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         reminders_metric.grid_propagate(0)
-        reminders_metric.pack(side="right")
+        reminders_metric.grid(row=0, column=2, sticky="ew", padx=(5,0)) # sticky="ew" to fill cell width
         reminder_img = self.load_icon("assets/icons/reminder_icon.png", (43, 43))
         CTkLabel(master=reminders_metric, image=reminder_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=reminders_metric, text="Reminders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         self.reminders_count_label = CTkLabel(master=reminders_metric, text=str(get_reminders_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
         self.reminders_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
+        reminders_metric.grid_columnconfigure(1, weight=1)
 
         # Start periodic update
         self.update_metrics()
