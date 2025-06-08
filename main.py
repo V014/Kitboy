@@ -105,28 +105,26 @@ class KitboyApp(CTk):
         metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         metrics_frame.grid(row=0, column=0, sticky="ew", padx=27, pady=(36, 0))
 
-        # Configure grid columns for metrics_frame
-        metrics_frame.grid_columnconfigure(0, weight=0) # Customers metric (fixed width)
-        metrics_frame.grid_columnconfigure(1, weight=0) # Maintenances metric (fixed width)
-        metrics_frame.grid_columnconfigure(2, weight=0) # Reminders metric (fixed width)
-        metrics_frame.grid_columnconfigure(3, weight=1) # Spacer column to push metrics left
+        # Metrics will be packed left-to-right and wrap automatically.
+        # No explicit grid column configuration needed inside metrics_frame for this.
+        # The individual metric frames will maintain their size due to grid_propagate(0).
+        # padx=5 and pady=5 will provide spacing around each metric.
 
         # Customers metric
         customers_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         customers_metric.grid_propagate(0)
-        customers_metric.grid(row=0, column=0, sticky="ew", padx=(0,5)) # sticky="ew" to fill cell width
+        customers_metric.pack(side="left", anchor="nw", padx=5, pady=5)
         person_img = self.load_icon("assets/icons/person_icon.png", (43, 43))
         CTkLabel(master=customers_metric, image=person_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=customers_metric, text="Customers", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         self.customers_count_label = CTkLabel(master=customers_metric, text=str(get_customers_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
         self.customers_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
-        # Ensure internal grid of customers_metric is configured if needed, though simple content might not require it.
         customers_metric.grid_columnconfigure(1, weight=1) # Allow text label to use available space
 
         # Maintenances metric
         maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         maintenances_metric.grid_propagate(0)
-        maintenances_metric.grid(row=0, column=1, sticky="ew", padx=5) # sticky="ew" to fill cell width
+        maintenances_metric.pack(side="left", anchor="nw", padx=5, pady=5)
         maintenance_img = self.load_icon("assets/icons/maintenance_icon.png", (43, 43))
         CTkLabel(master=maintenances_metric, image=maintenance_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=maintenances_metric, text="Maintenances", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
@@ -137,13 +135,35 @@ class KitboyApp(CTk):
         # Reminders metric
         reminders_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         reminders_metric.grid_propagate(0)
-        reminders_metric.grid(row=0, column=2, sticky="ew", padx=(5,0)) # sticky="ew" to fill cell width
+        reminders_metric.pack(side="left", anchor="nw", padx=5, pady=5)
         reminder_img = self.load_icon("assets/icons/reminder_icon.png", (43, 43))
         CTkLabel(master=reminders_metric, image=reminder_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=reminders_metric, text="Reminders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         self.reminders_count_label = CTkLabel(master=reminders_metric, text=str(get_reminders_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
         self.reminders_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
         reminders_metric.grid_columnconfigure(1, weight=1)
+
+        # Payments metric
+        payments_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
+        payments_metric.grid_propagate(0)
+        payments_metric.pack(side="left", anchor="nw", padx=5, pady=5)
+        payment_img = self.load_icon("assets/icons/payment_icon.png", (43, 43)) # Assumed icon name
+        CTkLabel(master=payments_metric, image=payment_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
+        CTkLabel(master=payments_metric, text="Payments", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
+        self.payments_count_label = CTkLabel(master=payments_metric, text=str(get_payments_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
+        self.payments_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
+        payments_metric.grid_columnconfigure(1, weight=1)
+
+        # Vehicles metric
+        vehicles_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
+        vehicles_metric.grid_propagate(0)
+        vehicles_metric.pack(side="left", anchor="nw", padx=5, pady=5)
+        vehicle_img = self.load_icon("assets/icons/vehicle_icon.png", (43, 43)) # Assumed icon name
+        CTkLabel(master=vehicles_metric, image=vehicle_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
+        CTkLabel(master=vehicles_metric, text="Vehicles", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
+        self.vehicles_count_label = CTkLabel(master=vehicles_metric, text=str(get_vehicles_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
+        self.vehicles_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
+        vehicles_metric.grid_columnconfigure(1, weight=1)
 
         # Start periodic update
         self.update_metrics()
@@ -152,6 +172,8 @@ class KitboyApp(CTk):
         self.customers_count_label.configure(text=str(get_customers_count()))
         self.maintenances_count_label.configure(text=str(get_maintenances_count()))
         self.reminders_count_label.configure(text=str(get_reminders_count()))
+        self.payments_count_label.configure(text=str(get_payments_count()))
+        self.vehicles_count_label.configure(text=str(get_vehicles_count()))
         self.after(5000, self.update_metrics)
 
     def load_icon(self, filename, size=None):
@@ -214,6 +236,42 @@ def get_reminders_count():
             db_obj.cur.execute("SELECT COUNT(*) FROM reminders")
             count = db_obj.cur.fetchone()[0]
         except Exception:
+            pass
+        finally:
+            db_obj.con.close()
+    return count
+
+def get_payments_count():
+    db = connection
+    dbcon = db.dbcon
+    class Dummy: pass
+    db_obj = Dummy()
+    dbcon(db_obj)
+    count = 0
+    if db_obj.con:
+        try:
+            db_obj.cur.execute("SELECT COUNT(*) FROM customer_payments") # Assuming table name
+            count = db_obj.cur.fetchone()[0]
+        except Exception as e:
+            print(f"Error getting payments count: {e}")
+            pass
+        finally:
+            db_obj.con.close()
+    return count
+
+def get_vehicles_count():
+    db = connection
+    dbcon = db.dbcon
+    class Dummy: pass
+    db_obj = Dummy()
+    dbcon(db_obj)
+    count = 0
+    if db_obj.con:
+        try:
+            db_obj.cur.execute("SELECT COUNT(*) FROM vehicles") # Assuming table name
+            count = db_obj.cur.fetchone()[0]
+        except Exception as e:
+            print(f"Error getting vehicles count: {e}")
             pass
         finally:
             db_obj.con.close()
