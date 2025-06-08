@@ -1,5 +1,6 @@
 from customtkinter import *
 from CTkTable import CTkTable
+import connection # Import the connection module
 from PIL import Image
 import matplotlib
 matplotlib.use("Agg")  # Use a non-interactive backend
@@ -18,10 +19,47 @@ class Dashboard(CTkFrame):
         CTkButton(master=title_frame, text="+ New Job", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
         self.create_payments_chart()
 
+    def get_monthly_payments_data(self):
+        """Fetches and aggregates monthly payment data from the database."""
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB: pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+
+        months = []
+        payments = []
+
+        if db_obj.con:
+            try:
+                # Query to get sum of payments grouped by month.
+                # Adjust DATE_FORMAT for your specific SQL dialect if not MySQL.
+                # Example: For SQLite, use strftime('%b', payment_date)
+                query = """
+                    SELECT DATE_FORMAT(date, '%b') AS month, SUM(amount) AS total_payments
+                    FROM customer_payments
+                    GROUP BY DATE_FORMAT(date, '%Y-%m')
+                    ORDER BY MIN(date)
+                    LIMIT 6; 
+                """ # Limiting to 6 months for display, adjust as needed
+                db_obj.cur.execute(query)
+                results = db_obj.cur.fetchall()
+                for row in results:
+                    months.append(row[0])
+                    payments.append(float(row[1])) # Ensure amount is float
+            except Exception as e:
+                print(f"Error fetching payment data: {e}")
+            finally:
+                db_obj.con.close()
+        return months, payments
+
     def create_payments_chart(self):
-        # Example data: Replace with your database query results
-        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-        payments = [1200, 1500, 1100, 1800, 1700, 1600]
+        months, payments = self.get_monthly_payments_data()
+
+        # Handle case where no data is found
+        if not months or not payments:
+            months = ["N/A"]
+            payments = [0]
 
         # Create a matplotlib figure with custom background
         fig = Figure(figsize=(4, 2), dpi=100, facecolor="#030712")
@@ -33,7 +71,7 @@ class Dashboard(CTkFrame):
         stemlines.set_linewidth(2)                 # Change stem line width
 
         ax.set_title("Payments Over Time", color="white")
-        ax.set_ylabel("Amount ($)", color="white")
+        ax.set_ylabel("Amount (MWK)", color="white")
         ax.set_xlabel("Month", color="white")
 
         # Change tick and spine colors for better visibility
