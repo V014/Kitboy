@@ -1,6 +1,4 @@
 import os
-import sys
-import importlib
 import connection
 from customtkinter import *
 from tkinter import messagebox
@@ -14,7 +12,7 @@ class Login(CTk):
         super().__init__()
         self.geometry("600x480")
         self.resizable(0, 0)
-        self.title("Login")
+        self.title("KitboyLogin")
 
         # Load images using organized asset paths
         self.side_img = CTkImage(
@@ -55,8 +53,8 @@ class Login(CTk):
         self.password_entry = CTkEntry(master=frame, width=225, fg_color="#EEEEEE", border_color="#601E88", border_width=1, text_color="#000000", show="*")
         self.password_entry.pack(anchor="w", padx=(25, 0))
 
-        CTkButton(master=frame, text="Login", fg_color="#601E88", hover_color="#E44982", font=("Arial Bold", 12), text_color="#ffffff", width=225, command=self.login_action).pack(anchor="w", pady=(40, 0), padx=(25, 0))
-        CTkButton(master=frame, text="Continue With Google", fg_color="#EEEEEE", hover_color="#EEEEEE", font=("Arial Bold", 9), text_color="#601E88", width=225, image=self.google_icon).pack(anchor="w", pady=(20, 0), padx=(25, 0))
+        CTkButton(master=frame, text="Login", fg_color="#601E88", hover_color="#9569AF", font=("Arial Bold", 12), text_color="#ffffff", width=225, command=self.login_action).pack(anchor="w", pady=(40, 0), padx=(25, 0))
+        CTkButton(master=frame, text="Coming soon...", fg_color="#202020", hover_color="#202020", font=("Arial Bold", 9), text_color="#EEEEEE", width=225, image=self.google_icon).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
     def login_action(self):
         username = self.username_entry.get()
