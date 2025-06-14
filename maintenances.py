@@ -66,9 +66,9 @@ class Maintenances(CTkFrame):
             finally:
                 db_obj.con.close()
 
-        table_display_values = [["Reg number", "Completion" + "%", "Date", "Action"]]
+        table_display_values = [["Reg number", "Completion", "Date", "Action"]]
         for row_data in self.all_maintenances_data:
-            # row_data is (id, reg_number, mileage, last_service, date)
+            # row_data is (id, reg_number, completion, last_service, date)
             # We display all except ID, and add "View Details" for action
             display_row = list(row_data[1:]) + ["View Details"]
             table_display_values.append(display_row)
