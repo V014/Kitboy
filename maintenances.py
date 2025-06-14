@@ -61,12 +61,12 @@ class Maintenances(CTkFrame):
         if db_obj.con:
             try:
                 # Ensure you select the 'id' column
-                db_obj.cur.execute("SELECT id, reg_number, mileage, last_service, date FROM maintenances")
+                db_obj.cur.execute("SELECT id, reg_number, completion, date FROM maintenances")
                 self.all_maintenances_data = db_obj.cur.fetchall()
             finally:
                 db_obj.con.close()
 
-        table_display_values = [["Reg number", "Mileage", "Last Service", "Date", "Action"]]
+        table_display_values = [["Reg number", "Completion" + "%", "Date", "Action"]]
         for row_data in self.all_maintenances_data:
             # row_data is (id, reg_number, mileage, last_service, date)
             # We display all except ID, and add "View Details" for action
