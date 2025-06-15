@@ -6,6 +6,7 @@ from PIL import Image
 from dashboard import Dashboard
 from maintenances import Maintenances
 from customers import Customers
+from vehicles import Vehicles
 
 class KitboyApp(CTk):
     def __init__(self): # constructor
@@ -98,6 +99,8 @@ class KitboyApp(CTk):
            Maintenances(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "customers":
            Customers(self.content_frame).pack(expand=True, fill="both")
+        elif page_name == "vehicles":
+           Vehicles(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
     # metrics frame
