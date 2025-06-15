@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 08, 2025 at 02:37 PM
+-- Generation Time: Jun 16, 2025 at 12:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,12 +58,12 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `user_id`, `firstname`, `lastname`, `email`, `address`, `contact`, `payment_status`, `date_registered`) VALUES
-(1, NULL, 'Wanga', 'Kanjala', 'wangakanjala@gmail.com', 'box 1738, Blantyre, Chilomoni Fargo', '0996335639', 'complete', '2025-06-08 12:28:52'),
-(2, NULL, 'Emmanuel', 'Chinyanja', 'emkach@gmail.com', 'Box 1234, Blantyre, Chilobwe', '0987425369', 'complete', '2025-06-08 12:31:17'),
-(3, NULL, 'Michael ', 'Golden', 'michaelgolden@gmail.com', 'Box 2234, Blantyre, Namiwawa', '0993485763', 'pending', '2025-05-27 08:46:36'),
-(4, NULL, 'Emily', 'Golden', 'emilygolden@gmail.com', 'box 2233, Blantyre, Nyambadwe', '09934567847', 'pending', '2025-05-27 08:46:36'),
-(5, NULL, 'Benson', 'Clark', 'bensonclark@gmail.com', 'Box 4321, Blantyre, Chinyonga', '0998485748', 'pending', '2025-05-27 08:46:36'),
-(6, NULL, 'Richie', 'Chiwaula', 'rc@gmail.com', 'Zomba, Chikupira, Box 1234', '0885112269', 'pending', '2025-06-08 12:25:37');
+(1, NULL, 'Wanga', 'Kanjala', 'wangakanjala@gmail.com', 'box 1738, Blantyre, Chilomoni Fargo', '0996335639', 'complete', '2025-01-08 12:28:52'),
+(2, NULL, 'Emmanuel', 'Chinyanja', 'emkach@gmail.com', 'Box 1234, Blantyre, Chilobwe', '0987425369', 'complete', '2025-02-08 12:31:17'),
+(3, NULL, 'Michael ', 'Golden', 'michaelgolden@gmail.com', 'Box 2234, Blantyre, Namiwawa', '0993485763', 'pending', '2025-02-27 08:46:36'),
+(4, NULL, 'Emily', 'Golden', 'emilygolden@gmail.com', 'box 2233, Blantyre, Nyambadwe', '09934567847', 'pending', '2025-03-27 08:46:36'),
+(5, NULL, 'Benson', 'Clark', 'bensonclark@gmail.com', 'Box 4321, Blantyre, Chinyonga', '0998485748', 'pending', '2025-04-27 08:46:36'),
+(6, NULL, 'Richie', 'Chiwaula', 'rc@gmail.com', 'Zomba, Chikupira, Box 1234', '0885112269', 'pending', '2025-05-08 12:25:37');
 
 -- --------------------------------------------------------
 
@@ -87,8 +87,11 @@ CREATE TABLE `customer_payments` (
 --
 
 INSERT INTO `customer_payments` (`id`, `customer_id`, `vehicle_id`, `maintenance_id`, `method`, `amount`, `recipt_number`, `date`) VALUES
-(1, 1, 1, 1, 'cash', 1100000.00, 'bt2345', '2025-06-08 12:26:57'),
-(2, 2, 2, 2, 'national bank', 200000.00, 'cj2345', '2025-06-08 12:30:58');
+(1, 1, 1, 1, 'cash', 1100000.00, 'bt2345', '2025-01-08 12:26:57'),
+(2, 2, 2, 2, 'national bank', 200000.00, 'cj2345', '2025-02-08 12:30:58'),
+(3, 3, 3, 3, 'cash', 400000.00, 'mj8890', '2025-03-01 12:52:14'),
+(4, 4, 4, 4, 'national bank', 80000.00, 'er7654', '2025-04-01 12:54:04'),
+(5, 6, 5, 5, 'standard bank', 500000.00, 'rc7654', '2025-05-01 12:55:01');
 
 -- --------------------------------------------------------
 
@@ -114,7 +117,6 @@ CREATE TABLE `maintenances` (
   `customers_id` int(7) NOT NULL,
   `vehicle_id` int(7) NOT NULL,
   `mechanic_id` int(7) NOT NULL,
-  `reg_number` varchar(255) NOT NULL,
   `mileage` int(7) NOT NULL,
   `last_service` date DEFAULT NULL,
   `next_service` date DEFAULT NULL,
@@ -132,12 +134,12 @@ CREATE TABLE `maintenances` (
 -- Dumping data for table `maintenances`
 --
 
-INSERT INTO `maintenances` (`id`, `customers_id`, `vehicle_id`, `mechanic_id`, `reg_number`, `mileage`, `last_service`, `next_service`, `service_type`, `description`, `parts_used`, `notes`, `labor_hours`, `completion`, `cost`, `date`) VALUES
-(1, 1, 1, 1, 'BT3321', 86112, '2025-01-01', '2025-06-01', 'Suspension over hall, wheel alignment', 'Steering wobbling erratically during drive, Tyres worn out due to suspension issues.', NULL, NULL, NULL, 0, 1100000.00, '2025-06-05 10:29:10'),
-(2, 2, 2, 1, 'MN2345', 92345, '2025-03-01', '2025-09-01', 'Oil change, break change, wheel alignment', 'Schedule general service', 'New break pads, 15w-40 oil', NULL, 6, 50, 200000.00, '2025-06-05 10:29:10'),
-(3, 3, 3, 1, 'TH3456', 113456, '2025-04-01', '2025-10-01', 'Wheel alignment, tire replacement', 'Due to misalignment, front tires have worn out and need replacement. ', 'Two size 16 tires', NULL, 4, 50, 400000.00, '2025-06-05 10:29:10'),
-(4, 4, 4, 1, 'MG 4432', 60334, '2025-01-01', '2025-06-01', 'Engine Misfire', 'Requires OBD-II engine scan to identify issue.', 'OBD-II Diagnostics device', NULL, 2, 10, 80000.00, '2025-06-05 10:29:10'),
-(5, 5, 5, 1, 'SC 213H', 100345, '2025-01-01', '2025-06-01', 'Battery change and oil pump change', 'Pulling reduced due to lack of fuel being sent to the combustion chamber', 'Oil filter, battery N70', NULL, 4, 25, 500000.00, '2025-06-05 10:29:10');
+INSERT INTO `maintenances` (`id`, `customers_id`, `vehicle_id`, `mechanic_id`, `mileage`, `last_service`, `next_service`, `service_type`, `description`, `parts_used`, `notes`, `labor_hours`, `completion`, `cost`, `date`) VALUES
+(1, 1, 1, 1, 86112, '2025-01-01', '2025-06-01', 'Suspension over hall, wheel alignment', 'Steering wobbling erratically during drive, Tyres worn out due to suspension issues.', NULL, NULL, NULL, 0, 1100000.00, '2025-01-05 10:29:10'),
+(2, 2, 2, 1, 92345, '2025-03-01', '2025-09-01', 'Oil change, break change, wheel alignment', 'Schedule general service', 'New break pads, 15w-40 oil', NULL, 6, 50, 200000.00, '2025-02-05 10:29:10'),
+(3, 3, 3, 1, 113456, '2025-04-01', '2025-10-01', 'Wheel alignment, tire replacement', 'Due to misalignment, front tires have worn out and need replacement. ', 'Two size 16 tires', NULL, 4, 50, 400000.00, '2025-02-05 10:29:10'),
+(4, 4, 4, 1, 60334, '2025-01-01', '2025-06-01', 'Engine Misfire', 'Requires OBD-II engine scan to identify issue.', 'OBD-II Diagnostics device', NULL, 2, 10, 80000.00, '2025-04-05 10:29:10'),
+(5, 5, 5, 1, 100345, '2025-01-01', '2025-06-01', 'Battery change and oil pump change', 'Pulling reduced due to lack of fuel being sent to the combustion chamber', 'Oil filter, battery N70', NULL, 4, 25, 500000.00, '2025-05-05 10:29:10');
 
 -- --------------------------------------------------------
 
@@ -231,10 +233,13 @@ CREATE TABLE `user_sessions` (
 CREATE TABLE `vehicles` (
   `id` int(7) NOT NULL,
   `customer_id` int(7) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `brand` varchar(255) NOT NULL,
-  `year_of_make` int(4) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `make` varchar(255) NOT NULL,
+  `year` year(4) NOT NULL,
+  `reg_number` varchar(255) NOT NULL,
+  `vin_number` varchar(255) NOT NULL,
   `transmission` enum('manual','automatic','','') NOT NULL,
+  `color` varchar(255) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -242,12 +247,12 @@ CREATE TABLE `vehicles` (
 -- Dumping data for table `vehicles`
 --
 
-INSERT INTO `vehicles` (`id`, `customer_id`, `name`, `brand`, `year_of_make`, `transmission`, `date`) VALUES
-(1, 1, 'Dualis', 'Nissan', 2010, 'automatic', '2025-05-18 16:43:38'),
-(2, 2, 'Hulux', 'Toyota', 2010, 'manual', '2025-05-20 08:37:16'),
-(3, 3, 'Belta', 'Toyota', 2012, 'automatic', '2025-05-20 08:37:58'),
-(4, 4, 'Tiguan', 'Volkswagen', 2016, 'automatic', '2025-05-20 08:39:04'),
-(5, 5, 'E250', 'Mercedes', 2012, 'automatic', '2025-05-20 08:39:37');
+INSERT INTO `vehicles` (`id`, `customer_id`, `model`, `make`, `year`, `reg_number`, `vin_number`, `transmission`, `color`, `date`) VALUES
+(1, 1, 'Dualis', 'Nissan', '2010', 'BT3321', '', 'automatic', 'Beige', '2025-06-15 22:05:19'),
+(2, 2, 'Hulux', 'Toyota', '2010', 'MN2345', '', 'manual', 'White', '2025-06-15 22:05:19'),
+(3, 3, 'Belta', 'Toyota', '2012', 'TH3456', '', 'automatic', 'Brown', '2025-06-15 22:05:19'),
+(4, 4, 'Tiguan', 'Volkswagen', '2016', 'MG4432', '', 'automatic', 'Silver', '2025-06-15 22:05:19'),
+(5, 5, 'E250', 'Mercedes', '2012', 'SC213H', '', 'automatic', 'Black', '2025-06-15 22:05:19');
 
 --
 -- Indexes for dumped tables
@@ -344,7 +349,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `customer_payments`
 --
 ALTER TABLE `customer_payments`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `error_logs`
