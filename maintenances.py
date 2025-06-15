@@ -60,8 +60,14 @@ class Maintenances(CTkFrame):
         self.all_maintenances_data = []
         if db_obj.con:
             try:
-                # Ensure you select the 'id' column
-                db_obj.cur.execute("SELECT id, reg_number, completion, date FROM maintenances")
+                # Query to get maintenance info, vehicle's reg_number
+                # Assumes 'maintenances' table has 'id', 'vehicle_id', 'completion', 'date'
+                query = """
+                    SELECT m.id, v.reg_number, m.completion, DATE_FORMAT(m.date, '%Y-%m-%d')
+                    FROM maintenances m
+                    JOIN vehicles v ON m.vehicle_id = v.id
+                """
+                db_obj.cur.execute(query)
                 self.all_maintenances_data = db_obj.cur.fetchall()
             finally:
                 db_obj.con.close()
@@ -69,7 +75,7 @@ class Maintenances(CTkFrame):
         table_display_values = [["Reg number", "Completion", "Date", "Action"]]
         for row_data in self.all_maintenances_data:
             # row_data is (id, reg_number, completion, last_service, date)
-            # We display all except ID, and add "View Details" for action
+            # We display reg_number, completion, date, and "View Details" for action
             display_row = list(row_data[1:]) + ["View Details"]
             table_display_values.append(display_row)
 
@@ -117,18 +123,37 @@ class Maintenances(CTkFrame):
         details_text = "Details not found."
         if db_obj.con:
             try:
-                # Customize this query to fetch all relevant details for a maintenance item
-                db_obj.cur.execute("SELECT reg_number, mileage, last_service, date, description, date, cost FROM maintenances WHERE id = %s", (maintenance_id,))
+                # Query to get detailed maintenance info, vehicle details, and customer details
+                # Assumes 'maintenances' table has: vehicle_id, mileage, last_service (date), date (maintenance_date), description, cost, completion
+                # Assumes 'vehicles' table has: reg_number, make, model, customer_id
+                # Assumes 'customers' table has: firstname, lastname
+                query = """
+                    SELECT
+                        v.reg_number, v.make, v.model,       -- Vehicle details
+                        c.firstname, c.lastname,             -- Customer details
+                        m.mileage,                           -- Maintenance details
+                        DATE_FORMAT(m.last_service, '%Y-%m-%d') AS formatted_last_service,
+                        DATE_FORMAT(m.date, '%Y-%m-%d') AS formatted_maintenance_date,
+                        m.description,
+                        m.cost,
+                        m.completion
+                    FROM maintenances m
+                    JOIN vehicles v ON m.vehicle_id = v.id
+                    JOIN customers c ON v.customer_id = c.id
+                    WHERE m.id = %s
+                """
+                db_obj.cur.execute(query, (maintenance_id,))
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
-                        f"Registration Number: {record[0]}\n"
-                        f"Mileage: {record[1]}\n"
-                        f"Last Service Date: {record[2]}\n"
-                        f"Maintenance Date: {record[3]}\n"
-                        f"Description: {record[4] if record[4] else 'N/A'}\n"
-                        f"Date: {record[5] if record[5] else 'N/A'}\n"
-                        f"Cost: ${record[6]:.2f}" if record[6] is not None else "Cost: N/A"
+                        f"Vehicle Registration: {record[0]} ({record[1]} {record[2]})\n"
+                        f"Owner: {record[3]} {record[4]}\n\n"
+                        f"Mileage: {record[5] if record[5] is not None else 'N/A'}\n"
+                        f"Last Service Date: {record[6] if record[6] else 'N/A'}\n"
+                        f"Maintenance Date: {record[7] if record[7] else 'N/A'}\n"
+                        f"Description: {record[8] if record[8] else 'N/A'}\n"
+                        f"Cost: MWK {record[9]:.2f}" if record[9] is not None else "Cost: N/A\n"
+                        f"Status: {record[10] if record[10] else 'N/A'}"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
