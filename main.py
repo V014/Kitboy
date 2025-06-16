@@ -8,7 +8,7 @@ from maintenances import Maintenances
 from customers import Customers
 from vehicles import Vehicles
 from reminders import Reminders
-from mechanics import Mechanics
+# from mechanics import Mechanics
 
 class KitboyApp(CTk):
     def __init__(self): # constructor

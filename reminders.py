@@ -50,7 +50,7 @@ class Reminders(CTkFrame):
                 # Query to get reminder info, customer's name, and vehicle's reg_number
                 query = """
                     SELECT r.id, c.firstname, c.lastname, v.reg_number, 
-                           r.reminder_type, r.description, r.due_date, r.status
+                           r.description, r.due_date, r.status
                     FROM reminders r
                     JOIN customers c ON r.customer_id = c.id
                     LEFT JOIN vehicles v ON r.vehicle_id = v.id
@@ -64,16 +64,15 @@ class Reminders(CTkFrame):
             finally:
                 db_obj.con.close()
 
-        table_display_values = [["Customer", "Vehicle", "Type", "Description", "Due Date", "Status", "Action"]]
+        table_display_values = [["Customer", "Vehicle", "Description", "Due Date", "Status", "Action"]]
         for row_data in self.all_reminders_data:
-            # row_data: (r.id, c.firstname, c.lastname, v.reg_number, r.reminder_type, r.description, r.due_date, r.status)
+            # row_data: (r.id, c.firstname, c.lastname, v.reg_number, r.description, r.due_date, r.status)
             customer_name = f"{row_data[1]} {row_data[2]}"
             vehicle_reg = row_data[3] if row_data[3] else "N/A"
-            reminder_type = row_data[4]
-            description = row_data[5] # Consider truncating if too long
-            due_date = str(row_data[6]) if row_data[6] else "N/A"
-            status = row_data[7]
-            display_row = [customer_name, vehicle_reg, reminder_type, description, due_date, status, "View Details"]
+            description = row_data[4] # Consider truncating if too long
+            due_date = str(row_data[5]) if row_data[6] else "N/A"
+            status = row_data[6]
+            display_row = [customer_name, vehicle_reg, description, due_date, status, "View Details"]
             table_display_values.append(display_row)
 
         if hasattr(self, "reminders_table"):
@@ -123,7 +122,7 @@ class Reminders(CTkFrame):
             try:
                 query = """
                     SELECT 
-                        r.reminder_type, r.description, r.due_date, r.status, r.notes,
+                        r.description, r.due_date, r.status, r.notes,
                         c.firstname, c.lastname, c.contact AS customer_contact,
                         v.reg_number, v.make AS vehicle_make, v.model AS vehicle_model
                     FROM reminders r
@@ -134,9 +133,8 @@ class Reminders(CTkFrame):
                 db_obj.cur.execute(query, (reminder_id,))
                 record = db_obj.cur.fetchone()
                 if record:
-                    # record: (type, desc, due_date, status, notes, c.fn, c.ln, c.contact, v.reg, v.make, v.model)
+                    # record: (desc, due_date, status, notes, c.fn, c.ln, c.contact, v.reg, v.make, v.model)
                     details_text = (
-                        f"Type: {record[0]}\n"
                         f"Description: {record[1]}\n"
                         f"Due Date: {record[2] if record[2] else 'N/A'}\n"
                         f"Status: {record[3]}\n"
