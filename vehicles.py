@@ -72,7 +72,7 @@ class Vehicles(CTkFrame):
             master=self,
             values=table_display_values,
             colors=["#030712", "#040C15"],
-            header_color="#601E88",
+            header_color="#030712",
             hover_color="#9569AF",
             text_color="#ffffff",
             command=self.handle_table_action  # <-- Add this
