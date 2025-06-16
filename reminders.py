@@ -50,7 +50,7 @@ class Reminders(CTkFrame):
                 # Query to get reminder info, customer's name, and vehicle's reg_number
                 query = """
                     SELECT r.id, c.firstname, c.lastname, v.reg_number, 
-                           r.description, r.due_date, r.status
+                           r.type, r.due_date, r.status
                     FROM reminders r
                     JOIN customers c ON r.customer_id = c.id
                     LEFT JOIN vehicles v ON r.vehicle_id = v.id
@@ -64,15 +64,15 @@ class Reminders(CTkFrame):
             finally:
                 db_obj.con.close()
 
-        table_display_values = [["Customer", "Vehicle", "Description", "Due Date", "Status", "Action"]]
+        table_display_values = [["Customer", "Vehicle", "Type", "Due Date", "Status", "Action"]]
         for row_data in self.all_reminders_data:
-            # row_data: (r.id, c.firstname, c.lastname, v.reg_number, r.description, r.due_date, r.status)
+            # row_data: (r.id, c.firstname, c.lastname, v.reg_number, r.type, r.due_date, r.status)
             customer_name = f"{row_data[1]} {row_data[2]}"
             vehicle_reg = row_data[3] if row_data[3] else "N/A"
-            description = row_data[4] # Consider truncating if too long
+            type = row_data[4] # Consider truncating if too long
             due_date = str(row_data[5]) if row_data[6] else "N/A"
             status = row_data[6]
-            display_row = [customer_name, vehicle_reg, description, due_date, status, "View Details"]
+            display_row = [customer_name, vehicle_reg, type, due_date, status, "View Details"]
             table_display_values.append(display_row)
 
         if hasattr(self, "reminders_table"):

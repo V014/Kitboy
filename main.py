@@ -105,8 +105,6 @@ class KitboyApp(CTk):
            Vehicles(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "reminders":
            Reminders(self.content_frame).pack(expand=True, fill="both")
-        elif page_name == "mechanics":
-           Mechanics(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
     # metrics frame
