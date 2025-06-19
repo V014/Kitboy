@@ -43,7 +43,7 @@ class KitboyApp(CTk):
         self.create_metrics_frame()
         # self.create_search_container()
 
-        # Add this line to create the content_frame
+        # create the content_frame
         self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         self.content_frame.grid(row=1, column=0, sticky="nsew", padx=27, pady=21)
         self.show_page("dashboard")

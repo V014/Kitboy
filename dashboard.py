@@ -15,12 +15,12 @@ class Dashboard(CTkFrame):
         # Title
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
-        CTkLabel(master=title_frame, text="Dashboard", font=("Arial Black", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="+ New Job", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
+        CTkLabel(master=title_frame, text="Dashboard", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
+        CTkButton(master=title_frame, text="New Job", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
         self.create_payments_chart()
 
     def get_monthly_payments_data(self):
-        """Fetches and aggregates monthly payment data from the database."""
+        # Fetches and aggregates monthly payment data from the database.
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -33,8 +33,6 @@ class Dashboard(CTkFrame):
         if db_obj.con:
             try:
                 # Query to get sum of payments grouped by month.
-                # Adjust DATE_FORMAT for your specific SQL dialect if not MySQL.
-                # Example: For SQLite, use strftime('%b', payment_date)
                 query = """
                     SELECT DATE_FORMAT(date, '%b') AS month, SUM(amount) AS total_payments
                     FROM customer_payments
