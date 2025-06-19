@@ -12,7 +12,7 @@ class Customers(CTkFrame):
         self.show_customers_list_view()
 
     def clear_frame(self):
-        """Clears all widgets from this frame."""
+        # Clears all widgets from this frame.
         for widget in self.winfo_children():
             widget.destroy()
 
@@ -23,8 +23,8 @@ class Customers(CTkFrame):
         # Title
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
-        CTkLabel(master=title_frame, text="Customers", font=("Arial Black", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="+ New Customer", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
+        CTkLabel(master=title_frame, text="Customers", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
+        CTkButton(master=title_frame, text="New Customer", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
         self.create_search_container()
         self._load_and_display_customers_table()
 
@@ -68,7 +68,7 @@ class Customers(CTkFrame):
             header_color="#030712",
             hover_color="#9569AF",
             text_color="#ffffff",
-            command=self.handle_table_action  # <-- Add this
+            command=self.handle_table_action  # <-- Respond to event
         )
         self.customers_table.edit_row(0, text_color="#ffffff", hover_color="#601E88")
         self.customers_table.pack(fill="both", expand=True, padx=27, pady=(10, 0))
@@ -101,7 +101,6 @@ class Customers(CTkFrame):
         if db_obj.con:
             try:
                 # Customize this query to fetch all relevant details for a customer
-                # Assuming columns like email, address, notes, registration_date exist
                 db_obj.cur.execute("SELECT firstname, lastname, contact, email, address, payment_status, DATE_FORMAT(date_registered, '%Y-%m-%d') FROM customers WHERE id = %s", (customer_id,))
                 record = db_obj.cur.fetchone()
                 if record:
