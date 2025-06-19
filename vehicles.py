@@ -12,7 +12,7 @@ class Vehicles(CTkFrame):
         self.show_vehicles_list_view()
 
     def clear_frame(self):
-        """Clears all widgets from this frame."""
+        # Clears all widgets from this frame.
         for widget in self.winfo_children():
             widget.destroy()
 
@@ -23,9 +23,9 @@ class Vehicles(CTkFrame):
         # Title
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
-        CTkLabel(master=title_frame, text="Vehicles", font=("Arial Black", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="+ New Vehicle", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
-        # Add command for new vehicle form if you have one, e.g., command=self.open_vehicle_form
+        CTkLabel(master=title_frame, text="Vehicles", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
+        CTkButton(master=title_frame, text="Add Vehicle", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
+        
         self.create_search_container()
         self._load_and_display_vehicles_table()
 
@@ -75,7 +75,7 @@ class Vehicles(CTkFrame):
             header_color="#030712",
             hover_color="#9569AF",
             text_color="#ffffff",
-            command=self.handle_table_action  # <-- Add this
+            command=self.handle_table_action  # <-- Respond to event
         )
         self.vehicles_table.edit_row(0, text_color="#ffffff", hover_color="#601E88")
         self.vehicles_table.pack(fill="both", expand=True, padx=27, pady=(10, 0))
