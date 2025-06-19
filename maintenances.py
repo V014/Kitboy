@@ -9,13 +9,12 @@ class Maintenances(CTkFrame):
         self.all_maintenances_data = [] # To store data including IDs
         self.current_view = "list" # To manage view state: "list" or "detail"
 
-        self.create_search_container()
         self.show_maintenances_list_view()
     
     def create_search_container(self):
         search_container = CTkFrame(master=self, height=50, fg_color="#040C15")
         search_container.pack(fill="x", pady=(45, 0), padx=27)
-        CTkEntry(master=search_container, width=305, placeholder_text="Search Job", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
+        CTkEntry(master=search_container, width=305, placeholder_text="Search Maintenance", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent", "Least Recent"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Status", "Processing", "Confirmed", "Packing", "Shipping", "Delivered", "Cancelled"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
 
@@ -28,14 +27,13 @@ class Maintenances(CTkFrame):
         self.clear_frame()
         self.current_view = "list"
 
-        self.create_search_container()  # <-- Add this line
-
         # Title
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
-        CTkLabel(master=title_frame, text="Vehicle Maintenances", font=("Arial Black", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="+ New Job", font=("Arial Black", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self.open_form).pack(anchor="ne", side="right")
+        CTkLabel(master=title_frame, text="Vehicle Maintenances", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
+        CTkButton(master=title_frame, text="Set Maintenance", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self.open_form).pack(anchor="ne", side="right")
 
+        self.create_search_container()  # <-- Add this line
         self._load_and_display_maintenances_table()
 
     def open_form(self):
@@ -124,9 +122,6 @@ class Maintenances(CTkFrame):
         if db_obj.con:
             try:
                 # Query to get detailed maintenance info, vehicle details, and customer details
-                # Assumes 'maintenances' table has: vehicle_id, mileage, last_service (date), date (maintenance_date), description, cost, completion
-                # Assumes 'vehicles' table has: reg_number, make, model, customer_id
-                # Assumes 'customers' table has: firstname, lastname
                 query = """
                     SELECT
                         v.reg_number, v.make, v.model,       -- Vehicle details
