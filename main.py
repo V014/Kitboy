@@ -2,6 +2,7 @@ import os
 import connection
 from customtkinter import *
 from CTkTable import CTkTable
+import pywinstyles
 from PIL import Image
 from dashboard import Dashboard
 from maintenances import Maintenances
@@ -282,4 +283,5 @@ def get_vehicles_count():
 
 if __name__ == "__main__":
     app = KitboyApp()
+    pywinstyles.apply_style(app, "acrylic")
     app.mainloop()
