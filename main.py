@@ -283,7 +283,7 @@ def get_vehicles_count():
 
 if __name__ == "__main__":
     app = KitboyApp()
-    pywinstyles.apply_style(app, "acrylic")
+    pywinstyles.apply_style(app, "acrylic")  # Apply a style to the app
     # app.iconbitmap("assets/images/kitboy_icon.ico")  # Set the application icon
     # Available styles: ['dark', 'mica', 'aero', 'transparent', 'acrylic', 'win7', 'inverse', 'popup', 'native', 'optimised', 'light', 'normal']
     app.mainloop()
