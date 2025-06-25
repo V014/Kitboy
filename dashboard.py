@@ -6,6 +6,8 @@ import matplotlib
 matplotlib.use("Agg")  # Use a non-interactive backend
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import numpy as np
+from scipy.interpolate import make_interp_spline
 
 class Dashboard(CTkFrame):
     def __init__(self, master):
@@ -53,34 +55,39 @@ class Dashboard(CTkFrame):
 
     def create_payments_chart(self):
         months, payments = self.get_monthly_payments_data()
-
-        # Handle case where no data is found
         if not months or not payments:
             months = ["N/A"]
             payments = [0]
 
-        # Create a matplotlib figure with custom background
         fig = Figure(figsize=(4, 2), dpi=100, facecolor="#030712")
-        ax = fig.add_subplot(111, facecolor="#040C15")  # Set axes background
+        ax = fig.add_subplot(111, facecolor="#040C15")
 
-        markerline, stemlines, baseline = ax.stem(months, payments, linefmt="#601E88", markerfmt="o", basefmt=" ")
-        markerline.set_markerfacecolor("#E44982")  # Change marker color
-        markerline.set_markersize(8)               # Change marker size
-        stemlines.set_linewidth(2)                 # Change stem line width
+        # Convert months to numbers for interpolation
+        x = np.arange(len(months))
+        y = np.array(payments)
+
+        # Smooth the line if enough points
+        if len(x) > 2:
+            x_smooth = np.linspace(x.min(), x.max(), 300)
+            spl = make_interp_spline(x, y, k=3)
+            y_smooth = spl(x_smooth)
+            ax.plot(x_smooth, y_smooth, color="#E44982", linewidth=2)
+            ax.set_xticks(x)
+            ax.set_xticklabels(months)
+        else:
+            ax.plot(x, y, color="#E44982", linewidth=2)
+
+        # ax.bar(x, y, color="#601E88", alpha=0.5)
 
         ax.set_title("Payments Over Time", color="white")
         ax.set_ylabel("Amount (MWK)", color="white")
         ax.set_xlabel("Month", color="white")
-
-        # Change tick and spine colors for better visibility
         ax.tick_params(colors="white")
         for spine in ax.spines.values():
             spine.set_color("purple")
 
-        # Embed the figure in the Tkinter frame
         chart_frame = CTkFrame(master=self, fg_color="#030712")
         chart_frame.pack(fill="x", padx=27, pady=(10, 0))
-
         canvas = FigureCanvasTkAgg(fig, master=chart_frame)
         canvas.draw()
         canvas.get_tk_widget().pack(fill="both", expand=True)
