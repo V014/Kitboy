@@ -84,7 +84,7 @@ class Dashboard(CTkFrame):
         ax.set_xlabel("Month", color="white")
         ax.tick_params(colors="white")
         for spine in ax.spines.values():
-            spine.set_color("purple")
+            spine.set_color("#030712")
 
         chart_frame = CTkFrame(master=self, fg_color="#030712")
         chart_frame.pack(fill="x", padx=27, pady=(10, 0))

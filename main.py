@@ -109,11 +109,6 @@ class KitboyApp(CTk):
         metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         metrics_frame.grid(row=0, column=0, sticky="ew", padx=27, pady=(36, 0))
 
-        # Metrics will be packed left-to-right and wrap automatically.
-        # No explicit grid column configuration needed inside metrics_frame for this.
-        # The individual metric frames will maintain their size due to grid_propagate(0).
-        # padx=5 and pady=5 will provide spacing around each metric.
-
         # Customers metric
         customers_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         customers_metric.grid_propagate(0)
@@ -151,7 +146,7 @@ class KitboyApp(CTk):
         payments_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         payments_metric.grid_propagate(0)
         payments_metric.pack(side="left", anchor="nw", padx=5, pady=5)
-        payment_img = self.load_icon("assets/icons/payment_icon.png", (43, 43)) # Assumed icon name
+        payment_img = self.load_icon("assets/icons/payment_icon.png", (43, 43))
         CTkLabel(master=payments_metric, image=payment_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=payments_metric, text="Payments", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         self.payments_count_label = CTkLabel(master=payments_metric, text=str(get_payments_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
@@ -162,7 +157,7 @@ class KitboyApp(CTk):
         vehicles_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
         vehicles_metric.grid_propagate(0)
         vehicles_metric.pack(side="left", anchor="nw", padx=5, pady=5)
-        vehicle_img = self.load_icon("assets/icons/vehicle_icon.png", (43, 43)) # Assumed icon name
+        vehicle_img = self.load_icon("assets/icons/vehicle_icon.png", (43, 43))
         CTkLabel(master=vehicles_metric, image=vehicle_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
         CTkLabel(master=vehicles_metric, text="Vehicles", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         self.vehicles_count_label = CTkLabel(master=vehicles_metric, text=str(get_vehicles_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
