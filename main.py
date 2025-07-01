@@ -50,7 +50,7 @@ class KitboyApp(CTk):
         self.show_page("dashboard")
 
     def create_search_container(self):
-        search_container = CTkFrame(master=self, height=50, fg_color="#040C15")
+        search_container = CTkFrame(master=self.main_view, height=50, fg_color="#040C15")
         search_container.pack(fill="x", pady=(45, 0), padx=27)
         CTkEntry(master=search_container, width=305, placeholder_text="Search Maintenance", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent", "Least Recent"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
@@ -111,77 +111,6 @@ class KitboyApp(CTk):
            Vehicles(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
-    # metrics frame
-    def create_metrics_frame(self):
-        metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        metrics_frame.grid(row=0, column=0, sticky="ew", padx=27, pady=(36, 0))
-
-        # Customers metric
-        customers_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
-        customers_metric.grid_propagate(0)
-        customers_metric.pack(side="left", anchor="nw", padx=5, pady=5)
-        person_img = self.load_icon("assets/icons/person_icon.png", (43, 43))
-        CTkLabel(master=customers_metric, image=person_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=customers_metric, text="Customers", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        self.customers_count_label = CTkLabel(master=customers_metric, text=str(get_customers_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
-        self.customers_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
-        customers_metric.grid_columnconfigure(1, weight=1) # Allow text label to use available space
-
-        # Maintenances metric
-        maintenances_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
-        maintenances_metric.grid_propagate(0)
-        maintenances_metric.pack(side="left", anchor="nw", padx=5, pady=5)
-        maintenance_img = self.load_icon("assets/icons/maintenance_icon.png", (43, 43))
-        CTkLabel(master=maintenances_metric, image=maintenance_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=maintenances_metric, text="Maintenances", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        self.maintenances_count_label = CTkLabel(master=maintenances_metric, text=str(get_maintenances_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
-        self.maintenances_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
-        maintenances_metric.grid_columnconfigure(1, weight=1)
-
-        # Reminders metric
-        reminders_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
-        reminders_metric.grid_propagate(0)
-        reminders_metric.pack(side="left", anchor="nw", padx=5, pady=5)
-        reminder_img = self.load_icon("assets/icons/reminder_icon.png", (43, 43))
-        CTkLabel(master=reminders_metric, image=reminder_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=reminders_metric, text="Reminders", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        self.reminders_count_label = CTkLabel(master=reminders_metric, text=str(get_reminders_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
-        self.reminders_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
-        reminders_metric.grid_columnconfigure(1, weight=1)
-
-        # Payments metric
-        payments_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
-        payments_metric.grid_propagate(0)
-        payments_metric.pack(side="left", anchor="nw", padx=5, pady=5)
-        payment_img = self.load_icon("assets/icons/payment_icon.png", (43, 43))
-        CTkLabel(master=payments_metric, image=payment_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=payments_metric, text="Payments", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        self.payments_count_label = CTkLabel(master=payments_metric, text=str(get_payments_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
-        self.payments_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
-        payments_metric.grid_columnconfigure(1, weight=1)
-
-        # Vehicles metric
-        vehicles_metric = CTkFrame(master=metrics_frame, fg_color="#040C15", width=200, height=60)
-        vehicles_metric.grid_propagate(0)
-        vehicles_metric.pack(side="left", anchor="nw", padx=5, pady=5)
-        vehicle_img = self.load_icon("assets/icons/vehicle_icon.png", (43, 43))
-        CTkLabel(master=vehicles_metric, image=vehicle_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
-        CTkLabel(master=vehicles_metric, text="Vehicles", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        self.vehicles_count_label = CTkLabel(master=vehicles_metric, text=str(get_vehicles_count()), text_color="#fff", font=("Arial Black", 15), justify="left")
-        self.vehicles_count_label.grid(row=1, column=1, sticky="nw", pady=(0,10))
-        vehicles_metric.grid_columnconfigure(1, weight=1)
-
-        # Start periodic update
-        self.update_metrics()
-
-    def update_metrics(self):
-        self.customers_count_label.configure(text=str(get_customers_count()))
-        self.maintenances_count_label.configure(text=str(get_maintenances_count()))
-        self.reminders_count_label.configure(text=str(get_reminders_count()))
-        self.payments_count_label.configure(text=str(get_payments_count()))
-        self.vehicles_count_label.configure(text=str(get_vehicles_count()))
-        self.after(5000, self.update_metrics)
-
     def load_icon(self, filename, size=None):
         img_data = Image.open(filename)
         if size:
@@ -194,94 +123,6 @@ class KitboyApp(CTk):
         CTkEntry(master=search_container, width=305, placeholder_text="Search Job", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent Order", "Least Recent Order"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Status", "Processing", "Confirmed", "Packing", "Shipping", "Delivered", "Cancelled"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
-
-# pull data for metrics
-def get_customers_count():
-    db = connection
-    dbcon = db.dbcon
-    class Dummy: pass
-    db_obj = Dummy()
-    dbcon(db_obj)
-    count = 0
-    if db_obj.con:
-        try:
-            db_obj.cur.execute("SELECT COUNT(*) FROM customers")
-            count = db_obj.cur.fetchone()[0]
-        except Exception:
-            pass
-        finally:
-            db_obj.con.close()
-    return count
-
-def get_maintenances_count():
-    db = connection
-    dbcon = db.dbcon
-    class Dummy: pass
-    db_obj = Dummy()
-    dbcon(db_obj)
-    count = 0
-    if db_obj.con:
-        try:
-            db_obj.cur.execute("SELECT COUNT(*) FROM maintenances")
-            count = db_obj.cur.fetchone()[0]
-        except Exception:
-            pass
-        finally:
-            db_obj.con.close()
-    return count
-
-def get_reminders_count():
-    db = connection
-    dbcon = db.dbcon
-    class Dummy: pass
-    db_obj = Dummy()
-    dbcon(db_obj)
-    count = 0
-    if db_obj.con:
-        try:
-            db_obj.cur.execute("SELECT COUNT(*) FROM reminders")
-            count = db_obj.cur.fetchone()[0]
-        except Exception:
-            pass
-        finally:
-            db_obj.con.close()
-    return count
-
-def get_payments_count():
-    db = connection
-    dbcon = db.dbcon
-    class Dummy: pass
-    db_obj = Dummy()
-    dbcon(db_obj)
-    count = 0
-    if db_obj.con:
-        try:
-            db_obj.cur.execute("SELECT COUNT(*) FROM customer_payments") # Assuming table name
-            count = db_obj.cur.fetchone()[0]
-        except Exception as e:
-            print(f"Error getting payments count: {e}")
-            pass
-        finally:
-            db_obj.con.close()
-    return count
-
-def get_vehicles_count():
-    db = connection
-    dbcon = db.dbcon
-    class Dummy: pass
-    db_obj = Dummy()
-    dbcon(db_obj)
-    count = 0
-    if db_obj.con:
-        try:
-            db_obj.cur.execute("SELECT COUNT(*) FROM vehicles") # Assuming table name
-            count = db_obj.cur.fetchone()[0]
-        except Exception as e:
-            print(f"Error getting vehicles count: {e}")
-            pass
-        finally:
-            db_obj.con.close()
-    return count
 
 if __name__ == "__main__":
     app = KitboyApp()
