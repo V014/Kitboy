@@ -10,13 +10,6 @@ class Maintenances(CTkFrame):
         self.current_view = "list" # To manage view state: "list" or "detail"
 
         self.show_maintenances_list_view()
-    
-    def create_search_container(self):
-        search_container = CTkFrame(master=self, height=50, fg_color="#040C15")
-        search_container.pack(fill="x", pady=(45, 0), padx=27)
-        CTkEntry(master=search_container, width=305, placeholder_text="Search Maintenance", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
-        CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent", "Least Recent"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
-        CTkComboBox(master=search_container, width=125, values=["Status", "Processing", "Confirmed", "Packing", "Shipping", "Delivered", "Cancelled"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
 
     def clear_frame(self):
         """Clears all widgets from this frame."""
@@ -33,7 +26,6 @@ class Maintenances(CTkFrame):
         CTkLabel(master=title_frame, text="Vehicle Maintenances", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
         CTkButton(master=title_frame, text="Set Maintenance", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self.open_form).pack(anchor="ne", side="right")
 
-        self.create_search_container()  # <-- Add this line
         self._load_and_display_maintenances_table()
 
     def open_form(self):
