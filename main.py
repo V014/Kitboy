@@ -1,7 +1,5 @@
 import os
-import connection
 from customtkinter import *
-from CTkTable import CTkTable
 import pywinstyles
 from PIL import Image
 from dashboard import Dashboard
