@@ -6,6 +6,7 @@ from dashboard import Dashboard
 from maintenances import Maintenances
 from customers import Customers
 from vehicles import Vehicles
+from mechanics import Mechanics
 
 class KitboyApp(CTk):
     def __init__(self): # constructor
