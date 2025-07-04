@@ -37,12 +37,11 @@ class KitboyApp(CTk):
         self.main_view.grid(row=0, column=1, sticky="nsew")
 
         # Configure grid layout for the main_view
-        self.main_view.grid_rowconfigure(0, weight=0)    # For metrics_frame
+        self.main_view.grid_rowconfigure(0, weight=0)    # For search_container
         self.main_view.grid_rowconfigure(1, weight=1)    # For content_frame (expandable)
         self.main_view.grid_columnconfigure(0, weight=1) # Single column
 
-        self.create_metrics_frame()
-        self.create_search_container()
+        self.create_search_container() # Call the method to create and place the search container
 
         # create the content_frame
         self.content_frame = CTkFrame(master=self.main_view, fg_color="transparent")
@@ -50,8 +49,12 @@ class KitboyApp(CTk):
         self.show_page("dashboard")
 
     def create_search_container(self):
+        # The master for search_container should be self.main_view
         search_container = CTkFrame(master=self.main_view, height=50, fg_color="#040C15")
-        search_container.pack(fill="x", pady=(45, 0), padx=27)
+        # Place the search_container using grid within main_view
+        # It should be in row 0, column 0 of main_view's grid
+        search_container.grid(row=0, column=0, sticky="ew", pady=(45, 0), padx=27)
+
         CTkEntry(master=search_container, width=305, placeholder_text="Search Maintenance", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent", "Least Recent"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
         CTkComboBox(master=search_container, width=125, values=["Status", "Processing", "Confirmed", "Packing", "Shipping", "Delivered", "Cancelled"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
@@ -104,11 +107,11 @@ class KitboyApp(CTk):
         if page_name == "dashboard":
             Dashboard(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "maintenances":
-           Maintenances(self.content_frame).pack(expand=True, fill="both")
+            Maintenances(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "customers":
-           Customers(self.content_frame).pack(expand=True, fill="both")
+            Customers(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "vehicles":
-           Vehicles(self.content_frame).pack(expand=True, fill="both")
+            Vehicles(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
     def load_icon(self, filename, size=None):
@@ -117,16 +120,9 @@ class KitboyApp(CTk):
             return CTkImage(light_image=img_data, dark_image=img_data, size=size)
         return CTkImage(light_image=img_data, dark_image=img_data)
 
-    def create_search_container(self):
-        search_container = CTkFrame(master=self.main_view, height=50, fg_color="#040C15")
-        search_container.pack(fill="x", pady=(45, 0), padx=27)
-        CTkEntry(master=search_container, width=305, placeholder_text="Search Job", border_color="#601E88", border_width=2).pack(side="left", padx=(13, 0), pady=15)
-        CTkComboBox(master=search_container, width=125, values=["Date", "Most Recent Order", "Least Recent Order"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
-        CTkComboBox(master=search_container, width=125, values=["Status", "Processing", "Confirmed", "Packing", "Shipping", "Delivered", "Cancelled"], button_color="#601E88", border_color="#601E88", border_width=2, button_hover_color="#9569AF",dropdown_hover_color="#9569AF" , dropdown_fg_color="#030712", dropdown_text_color="#fff").pack(side="left", padx=(13, 0), pady=15)
-
 if __name__ == "__main__":
     app = KitboyApp()
-    pywinstyles.apply_style(app, "acrylic")  # Apply a style to the app
+    pywinstyles.apply_style(app, "optimised")  # Apply a style to the app
     # app.iconbitmap("assets/images/kitboy_icon.ico")  # Set the application icon
     # Available styles: ['dark', 'mica', 'aero', 'transparent', 'acrylic', 'win7', 'inverse', 'popup', 'native', 'optimised', 'light', 'normal']
     app.mainloop()
