@@ -121,6 +121,6 @@ class KitboyApp(CTk):
 if __name__ == "__main__":
     app = KitboyApp()
     pywinstyles.apply_style(app, "optimised")  # Apply a style to the app
-    # app.iconbitmap("assets/images/kitboy_icon.ico")  # Set the application icon
+    app.iconbitmap("assets/icons/kitboy.ico")  # Set the application icon
     # Available styles: ['dark', 'mica', 'aero', 'transparent', 'acrylic', 'win7', 'inverse', 'popup', 'native', 'optimised', 'light', 'normal']
     app.mainloop()
