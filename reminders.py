@@ -37,7 +37,7 @@ class Reminders(CTkFrame):
         if db_obj.con: # Check if connection was successful
             try:
                 # Ensure you select the 'id' column first
-                # Query to get mechanic's info
+                # Query to get reminder's info
                 query = """
                     SELECT r.id, c.firstname, c.lastname, r.type, v.reg_number, r.due_date, r.date
                     FROM reminders r
@@ -78,14 +78,14 @@ class Reminders(CTkFrame):
         if col_index == action_column_index and row_index > 0: # Clicked on "Action" cell in a data row
             actual_data_index = row_index - 1 # Adjust for header row
             if 0 <= actual_data_index < len(self.all_reminders_data):
-                mechanic_id = self.all_reminders_data[actual_data_index][0] # Get the reminders ID (first element)
-                self.show_mechanic_details_view(mechanic_id)
+                reminder_id = self.all_reminders_data[actual_data_index][0] # Get the reminders ID (first element)
+                self.show_reminder_details_view(reminder_id)
 
-    def show_mechanic_details_view(self, mechanic_id):
+    def show_reminder_details_view(self, reminder_id):
         self.clear_frame()
         self.current_view = "details"
 
-        CTkLabel(self, text=f"Mechanic Details (ID: {mechanic_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
+        CTkLabel(self, text=f"reminder Details (ID: {reminder_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
         # Fetch more comprehensice details from DB
         db = connection
@@ -97,23 +97,26 @@ class Reminders(CTkFrame):
         details_text = "Reminders details not found."
         if db_obj.con:
             try:
-                # Query to get detailed mechanic info
+                # Query to get detailed reminder info
                 query = """
-                    SELECT firstname, lastname, identification, certification, certified_on, institute, skills, specification, date_registered
-                    FROM reminders"""
-                db_obj.cur.execute(query, (mechanic_id))
+                    SELECT c.firstname, c.lastname, r.type, r.description, v.reg_number, r.due_date, r.status, r.date
+                    FROM reminders r
+                    JOIN customers c ON r.customer_id = c.id
+                    JOIN vehicles v ON r.vehicle_id = v.id
+                    WHERE r.id = %s
+                """
+                db_obj.cur.execute(query, (reminder_id))
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
                         f"Firstname: {record[0]}\n"
                         f"Lastname: {record[1]}\n"
-                        f"Identification: {record[2]}\n"
-                        f"Certification: {record[3]}\n"
-                        f"Certified on: {record[4]}\n"
-                        f"Institute: {record[5]}\n"
-                        f"Skills: {record[6]}\n"
-                        f"Specification: {record[7]}\n"
-                        f"Date Registered: {record[8]}\n"
+                        f"Type: {record[2]}\n"
+                        f"Description: {record[3]}\n"
+                        f"Registration Number: {record[4]}\n"
+                        f"Due Date: {record[4]}\n"
+                        f"Status: {record[5]}\n"
+                        f"Date: {record[6]}\n"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
