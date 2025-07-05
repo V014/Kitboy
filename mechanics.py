@@ -97,7 +97,7 @@ class Mechanics(CTkFrame):
             try:
                 # Query to get detailed mechanic info
                 query = """
-                    SELECT SELECT firstname, lastname, identification, certification, certified_on, institute, skills, specification, date_registered
+                    SELECT firstname, lastname, identification, certification, certified_on, institute, skills, specification, date_registered
                     FROM mechanics"""
                 db_obj.cur.execute(query, (mechanic_id))
                 record = db_obj.cur.fetchone()
