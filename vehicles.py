@@ -126,5 +126,4 @@ class Vehicles(CTkFrame):
                 db_obj.con.close()
         
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
-
         CTkButton(self, text="Back to List", command=self.show_vehicles_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)

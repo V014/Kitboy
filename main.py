@@ -111,6 +111,8 @@ class KitboyApp(CTk):
             Customers(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "vehicles":
             Vehicles(self.content_frame).pack(expand=True, fill="both")
+        elif page_name == "mechanics":
+            Mechanics(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
     def load_icon(self, filename, size=None):
