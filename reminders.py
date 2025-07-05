@@ -39,15 +39,17 @@ class Reminders(CTkFrame):
                 # Ensure you select the 'id' column first
                 # Query to get mechanic's info
                 query = """
-                    SELECT id, firstname, lastname, identification, certification, specification
-                    FROM reminders
-                    """
+                    SELECT r.id, c.firstname, c.lastname, type, v.reg_number, due_date, status, date
+                    FROM reminders r
+                    JOIN customers c ON r.customer_id = c.id
+                    JOIN vehicles v ON r.vehicle_id = v.id
+                """
                 db_obj.cur.execute(query)
                 self.all_reminders_data = db_obj.cur.fetchall()
             finally:
                 db_obj.con.close()
 
-        table_display_values = [["Name", "Identification", "Certification", "Specification", "Action"]]
+        table_display_values = [["Customer", "Type", "Vehicle", "Date Due", "Status", "Action"]]
         for row_data in self.all_reminders_data:
             reminders_name = f"{row_data[1]} {row_data[2]}" # Combile firstname and lastname
             display_row = [reminders_name, row_data[3], row_data[4], row_data[5], "View Details"]

@@ -7,6 +7,7 @@ from maintenances import Maintenances
 from customers import Customers
 from vehicles import Vehicles
 from mechanics import Mechanics
+from reminders import Reminders
 
 class KitboyApp(CTk):
     def __init__(self): # constructor
@@ -113,6 +114,8 @@ class KitboyApp(CTk):
             Vehicles(self.content_frame).pack(expand=True, fill="both")
         elif page_name == "mechanics":
             Mechanics(self.content_frame).pack(expand=True, fill="both")
+        elif page_name == "reminders":
+            Reminders(self.content_frame).pack(expand=True, fill="both")
         # ... other pages ...
 
     def load_icon(self, filename, size=None):
