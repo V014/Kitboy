@@ -99,7 +99,7 @@ class Reminders(CTkFrame):
             try:
                 # Query to get detailed reminder info
                 query = """
-                    SELECT c.firstname, c.lastname, r.type, r.description, v.reg_number, r.due_date, r.status, r.date
+                    SELECT c.firstname, c.lastname, r.type, r.description, v.reg_number, r.due_date, r.status,  DATE_FORMAT(r.date, '%%Y-%%m-%%d')
                     FROM reminders r
                     JOIN customers c ON r.customer_id = c.id
                     JOIN vehicles v ON r.vehicle_id = v.id
@@ -123,5 +123,5 @@ class Reminders(CTkFrame):
             finally:
                 db_obj.con.close()
         
-        CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
+        CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600).pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_reminders_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
