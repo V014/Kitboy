@@ -23,7 +23,7 @@ class Reminders(CTkFrame):
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Reminders", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="Add Mechanic", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
+        CTkButton(master=title_frame, text="Set Reminder", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
 
         self._load_and_display_reminders_table()
 
@@ -39,7 +39,7 @@ class Reminders(CTkFrame):
                 # Ensure you select the 'id' column first
                 # Query to get mechanic's info
                 query = """
-                    SELECT r.id, c.firstname, c.lastname, type, v.reg_number, due_date, status, date
+                    SELECT r.id, c.firstname, c.lastname, r.type, v.reg_number, r.due_date, r.date
                     FROM reminders r
                     JOIN customers c ON r.customer_id = c.id
                     JOIN vehicles v ON r.vehicle_id = v.id
@@ -49,7 +49,7 @@ class Reminders(CTkFrame):
             finally:
                 db_obj.con.close()
 
-        table_display_values = [["Customer", "Type", "Vehicle", "Date Due", "Status", "Action"]]
+        table_display_values = [["Customer", "Type", "Vehicle", "Date Due", "Action"]]
         for row_data in self.all_reminders_data:
             reminders_name = f"{row_data[1]} {row_data[2]}" # Combile firstname and lastname
             display_row = [reminders_name, row_data[3], row_data[4], row_data[5], "View Details"]
