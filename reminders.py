@@ -99,13 +99,13 @@ class Reminders(CTkFrame):
             try:
                 # Query to get detailed reminder info
                 query = """
-                    SELECT c.firstname, c.lastname, r.type, r.description, v.reg_number, r.due_date, r.status,  DATE_FORMAT(r.date, '%%Y-%%m-%%d')
+                    SELECT c.firstname, c.lastname, r.type, r.description, v.reg_number, r.due_date, r.status,  DATE_FORMAT(r.date, '%Y-%m-%d')
                     FROM reminders r
                     JOIN customers c ON r.customer_id = c.id
                     JOIN vehicles v ON r.vehicle_id = v.id
                     WHERE r.id = %s
                 """
-                db_obj.cur.execute(query, (reminder_id))
+                db_obj.cur.execute(query, (reminder_id,))
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
@@ -113,10 +113,10 @@ class Reminders(CTkFrame):
                         f"Lastname: {record[1]}\n"
                         f"Type: {record[2]}\n"
                         f"Description: {record[3]}\n"
-                        f"Registration Number: {record[4]}\n"
-                        f"Due Date: {record[4]}\n"
-                        f"Status: {record[5]}\n"
-                        f"Date: {record[6]}\n"
+                        f"Vehicle Registration Number: {record[4]}\n"
+                        f"Due Date: {record[5]}\n"
+                        f"Status: {record[6]}\n"
+                        f"Date: {record[7]}\n"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
