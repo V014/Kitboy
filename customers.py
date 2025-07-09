@@ -2,6 +2,7 @@ import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
+from customers_add import AddCustomerForm
 
 class Customers(CTkFrame):
     def __init__(self, master):
@@ -27,6 +28,11 @@ class Customers(CTkFrame):
         CTkButton(master=title_frame, text="New Customer", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
 
         self._load_and_display_customers_table()
+
+    def _show_add_form(self):
+        self._clear_view()
+        add_form = AddCustomerForm(self, back_command=self._show_main_view)
+        add_form.pack(expand=True, fill="both")
 
     def _load_and_display_customers_table(self):
         db = connection
