@@ -99,8 +99,10 @@ class Customers(CTkFrame):
         details_text = "Details not found."
         if db_obj.con:
             try:
-                # Customize this query to fetch all relevant details for a customer
-                db_obj.cur.execute("SELECT firstname, lastname, contact, email, address, payment_status, DATE_FORMAT(date_registered, '%Y-%m-%d') FROM customers WHERE id = %s", (customer_id,))
+                db_obj.cur.execute(
+                    "SELECT firstname, lastname, contact, email, address, payment_status, DATE_FORMAT(date_registered, '%Y-%m-%d') FROM customers WHERE id = %s",
+                    (customer_id,)
+                )
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
@@ -116,12 +118,6 @@ class Customers(CTkFrame):
                 details_text = f"Error fetching details: {e}"
             finally:
                 db_obj.con.close()
-        
+
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
-
         CTkButton(self, text="Back to List", command=self.show_customers_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
-
-        if col_index == action_column_index and row_index > 0:
-            # Get the customer ID from the table (first column)
-            customer_id = self.customers_table.values[row_index][0]
-            self.show_customer_detail_view(customer_id)
