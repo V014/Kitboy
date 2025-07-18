@@ -121,3 +121,52 @@ class Customers(CTkFrame):
 
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_customers_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
+
+    def update_customer_payment_status(customer_id):
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB: pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+
+        if db_obj.con:
+            try:
+                # Get all maintenances for this customer
+                db_obj.cur.execute("SELECT id, cost FROM maintenances WHERE customers_id = %s", (customer_id,))
+                maintenances = db_obj.cur.fetchall()
+
+                # Get all payments for this customer
+                db_obj.cur.execute("SELECT maintenance_id, amount FROM customer_payments WHERE customer_id = %s", (customer_id,))
+                payments = db_obj.cur.fetchall()
+
+                # Map maintenance_id to cost
+                maintenance_costs = {m[0]: float(m[1]) for m in maintenances}
+                # Map maintenance_id to total paid
+                paid = {}
+                for p in payments:
+                    paid[p[0]] = paid.get(p[0], 0) + float(p[1])
+
+                # Check payment status for each maintenance
+                all_complete = True
+                any_paid = False
+                for mid, cost in maintenance_costs.items():
+                    paid_amount = paid.get(mid, 0)
+                    if paid_amount >= cost:
+                        any_paid = True
+                    else:
+                        all_complete = False
+                        if paid_amount > 0:
+                            any_paid = True
+
+                if all_complete and maintenance_costs:
+                    status = 'complete'
+                elif any_paid:
+                    status = 'pending'
+                else:
+                    status = 'incomplete'
+
+                # Update the customer table
+                db_obj.cur.execute("UPDATE customers SET payment_status = %s WHERE id = %s", (status, customer_id))
+                db_obj.con.commit()
+            finally:
+                db_obj.con.close()
