@@ -85,7 +85,6 @@ class Mechanics(CTkFrame):
 
         CTkLabel(self, text=f"Mechanic Details (ID: {mechanic_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
-        # Fetch more comprehensice details from DB
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -95,11 +94,10 @@ class Mechanics(CTkFrame):
         details_text = "Mechanics details not found."
         if db_obj.con:
             try:
-                # Query to get detailed mechanic info
                 query = """
                     SELECT firstname, lastname, identification, certification, certified_on, institute, skills, specification, date_registered
-                    FROM mechanics"""
-                db_obj.cur.execute(query, (mechanic_id))
+                    FROM mechanics WHERE id = %s"""
+                db_obj.cur.execute(query, (mechanic_id,))
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
