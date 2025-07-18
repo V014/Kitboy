@@ -34,22 +34,22 @@ class Payments(CTkFrame):
         self.all_payments_data = []
         if db_obj.con:
             try:
-                # Join with customers, vehicles, maintenances for richer info
                 db_obj.cur.execute("""
-                    SELECT p.id, c.firstname, c.lastname, v.reg_number, m.service_type, p.method, p.amount, p.recipt_number, p.date
+                    SELECT p.id, c.firstname, c.lastname, v.reg_number, p.amount, p.date
                     FROM customer_payments p
                     JOIN customers c ON p.customer_id = c.id
                     JOIN vehicles v ON p.vehicle_id = v.id
-                    JOIN maintenances m ON p.maintenance_id = m.id
                     ORDER BY p.date DESC
                 """)
                 self.all_payments_data = db_obj.cur.fetchall()
             finally:
                 db_obj.con.close()
 
-        table_display_values = [["ID", "First Name", "Last Name", "Reg Number", "Service", "Method", "Amount", "Receipt", "Date", "Action"]]
+        # Table header: Customer, Reg Number, Amount, Date, Action (ID is hidden)
+        table_display_values = [["Customer", "Reg Number", "Amount", "Date", "Action"]]
         for row in self.all_payments_data:
-            display_row = list(row) + ["View Details"]
+            customer_name = f"{row[1]} {row[2]}"
+            display_row = [customer_name, row[3], row[4], row[5], "View Details"]
             table_display_values.append(display_row)
 
         if hasattr(self, "payments_table"):
@@ -73,7 +73,8 @@ class Payments(CTkFrame):
         action_column_index = len(self.payments_table.values[0]) - 1
 
         if col_index == action_column_index and row_index > 0:
-            payment_id = self.payments_table.values[row_index][0]
+            # Get the payment ID from self.all_payments_data (row_index-1 because header is row 0)
+            payment_id = self.all_payments_data[row_index - 1][0]
             self.show_payment_detail_view(payment_id)
 
     def show_payment_detail_view(self, payment_id):
@@ -92,11 +93,10 @@ class Payments(CTkFrame):
         if db_obj.con:
             try:
                 db_obj.cur.execute("""
-                    SELECT p.id, c.firstname, c.lastname, v.reg_number, m.service_type, p.method, p.amount, p.recipt_number, p.date
+                    SELECT p.id, c.firstname, c.lastname, v.reg_number, p.amount, p.date
                     FROM customer_payments p
                     JOIN customers c ON p.customer_id = c.id
                     JOIN vehicles v ON p.vehicle_id = v.id
-                    JOIN maintenances m ON p.maintenance_id = m.id
                     WHERE p.id = %s
                 """, (payment_id,))
                 record = db_obj.cur.fetchone()
@@ -105,11 +105,8 @@ class Payments(CTkFrame):
                         f"Payment ID: {record[0]}\n"
                         f"Customer: {record[1]} {record[2]}\n"
                         f"Vehicle Reg: {record[3]}\n"
-                        f"Service: {record[4]}\n"
-                        f"Method: {record[5]}\n"
-                        f"Amount: {record[6]}\n"
-                        f"Receipt #: {record[7]}\n"
-                        f"Date: {record[8]}"
+                        f"Amount: {record[4]}\n"
+                        f"Date: {record[5]}"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
