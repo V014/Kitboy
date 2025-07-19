@@ -40,8 +40,8 @@ class AddCustomerForm(CTkFrame):
         actions = CTkFrame(self, fg_color="transparent")
         actions.pack(fill="both")
 
-        CTkButton(actions, text="Back", width=300, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#eee", border_width=2, text_color="#601E88", command=self.back_command).pack(side="left", anchor="sw", pady=(30,0), padx=(27,24))
-        CTkButton(actions, text="Add", width=300, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.add_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
+        CTkButton(actions, text="Back", width=100, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#eee", border_width=2, text_color="#601E88", command=self.back_command).pack(side="left", anchor="sw", pady=(30,0), padx=(27,24))
+        CTkButton(actions, text="Add", width=100, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.add_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
 
     def add_customer(self):
         import connection

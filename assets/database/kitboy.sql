@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 16, 2025 at 12:06 AM
+-- Generation Time: Jul 19, 2025 at 09:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,20 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `company_payments`
---
-
-CREATE TABLE `company_payments` (
-  `id` int(7) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `to` varchar(255) NOT NULL,
-  `amount` decimal(12,2) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `customers`
 --
 
@@ -46,10 +32,10 @@ CREATE TABLE `customers` (
   `user_id` int(7) DEFAULT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `address` varchar(255) NOT NULL,
   `contact` varchar(255) NOT NULL,
-  `payment_status` enum('complete','pending','incomplete') NOT NULL,
+  `payment_status` enum('complete','pending','incomplete') DEFAULT NULL,
   `date_registered` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -149,12 +135,12 @@ INSERT INTO `maintenances` (`id`, `customers_id`, `vehicle_id`, `mechanic_id`, `
 
 CREATE TABLE `mechanics` (
   `id` int(7) NOT NULL,
-  `fisrtname` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `identification` varchar(255) NOT NULL,
   `certification` varchar(255) NOT NULL,
   `certified_on` date DEFAULT NULL,
-  `certification_institute` varchar(255) DEFAULT NULL,
+  `institute` varchar(255) DEFAULT NULL,
   `skills` varchar(255) NOT NULL,
   `specification` varchar(255) DEFAULT NULL,
   `date_registered` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -164,8 +150,11 @@ CREATE TABLE `mechanics` (
 -- Dumping data for table `mechanics`
 --
 
-INSERT INTO `mechanics` (`id`, `fisrtname`, `lastname`, `identification`, `certification`, `certified_on`, `certification_institute`, `skills`, `specification`, `date_registered`) VALUES
-(1, 'George', 'Banda', 'VXY1234', 'German Auto Mobiles', '2023-01-06', 'Carl Benz School of Engineering', 'General service on German brands such as: Audi, BMW, Mercedes-Benz, Porsche, Volkswagen. OBD-II engine diagnostics and error code handling. Suspension and head gasket repair.', 'OBD-II engine diagnostics and error code handling.', '2025-05-18 16:35:06');
+INSERT INTO `mechanics` (`id`, `firstname`, `lastname`, `identification`, `certification`, `certified_on`, `institute`, `skills`, `specification`, `date_registered`) VALUES
+(1, 'George', 'Banda', 'VXY1234', 'German Auto Mobiles', '2023-01-06', 'Carl Benz School of Engineering', 'General service on German makes.', 'OBD-II engine diagnostics', '2025-07-17 07:25:38'),
+(2, 'Isaac', 'knox', 'BTER34', 'Bachelor in Mechanical Engineering', '2020-01-01', 'Polytechnic Malawi', 'Vehicle repairs', 'Engine Maintenance', '2025-07-17 07:24:50'),
+(3, 'Bill', 'Phiri', 'OIDU67', 'Master\'s in engineering', '1999-01-01', 'Polytechnic Malawi', 'General Vehicle repairs', 'Engine repairs', '2025-07-17 07:27:44'),
+(4, 'Ongani', 'Banda', 'IUR495', 'Bachelors in Electrical Engineering', '1998-01-01', 'Polytechnic Malawi', 'General Electric repairs', 'Vehicle electric repairs', '2025-07-17 07:30:33');
 
 -- --------------------------------------------------------
 
@@ -176,18 +165,22 @@ INSERT INTO `mechanics` (`id`, `fisrtname`, `lastname`, `identification`, `certi
 CREATE TABLE `reminders` (
   `id` int(7) NOT NULL,
   `customer_id` int(7) DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
+  `type` enum('Payment','Service','Retreival','Recovery','Maintenance') NOT NULL,
   `description` text DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `vehicle_id` int(7) DEFAULT NULL
+  `vehicle_id` int(7) DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `status` enum('complete','incomplete') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reminders`
 --
 
-INSERT INTO `reminders` (`id`, `customer_id`, `title`, `description`, `date`, `vehicle_id`) VALUES
-(1, 1, 'Communicate with client to accept job.', 'The customer might be alarmed by the price for the job, make sure they will commit.', '2025-05-20 13:34:17', 1);
+INSERT INTO `reminders` (`id`, `customer_id`, `type`, `description`, `date`, `vehicle_id`, `due_date`, `status`) VALUES
+(1, 1, 'Retreival', 'The customer might be alarmed by the price for the job, make sure they will commit.', '2025-07-05 20:44:10', 1, '2025-06-30', 'incomplete'),
+(2, 2, 'Maintenance', 'Remind mechanics to get started with repairs', '2025-06-16 21:00:55', 2, '2025-06-18', 'incomplete'),
+(3, 3, 'Maintenance', 'Reminder to mechanics to get started', '2025-06-16 21:02:33', 3, '2025-06-18', 'incomplete');
 
 -- --------------------------------------------------------
 
@@ -220,8 +213,9 @@ CREATE TABLE `user_sessions` (
   `id` int(7) NOT NULL,
   `user_id` int(7) NOT NULL,
   `status` enum('online','offline') DEFAULT NULL,
-  `login_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `logout_time` datetime DEFAULT NULL
+  `login` time NOT NULL DEFAULT current_timestamp(),
+  `logout` time DEFAULT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -257,12 +251,6 @@ INSERT INTO `vehicles` (`id`, `customer_id`, `model`, `make`, `year`, `reg_numbe
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `company_payments`
---
-ALTER TABLE `company_payments`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `customers`
@@ -334,12 +322,6 @@ ALTER TABLE `vehicles`
 --
 
 --
--- AUTO_INCREMENT for table `company_payments`
---
-ALTER TABLE `company_payments`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
@@ -367,13 +349,13 @@ ALTER TABLE `maintenances`
 -- AUTO_INCREMENT for table `mechanics`
 --
 ALTER TABLE `mechanics`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reminders`
 --
 ALTER TABLE `reminders`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
