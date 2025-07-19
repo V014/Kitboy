@@ -1,57 +1,77 @@
 from customtkinter import *
+from tkinter import messagebox
 
 class AddCustomerForm(CTkFrame):
-    def __init__(self, master, back_command, **kwargs):
-        super().__init__(master, **kwargs)
-
+    def __init__(self, master, back_command=None):
+        super().__init__(master, fg_color="#fff")
         self.back_command = back_command
-        self.configure(fg_color="transparent")
 
-        # Title
-        CTkLabel(master=self, text="Add New Customer", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
+        CTkLabel(self, text="Add Customer", font=("Arial Black", 25), text_color="#601E88").pack(anchor="nw", pady=(29,0), padx=27)
 
-        # Full Name
-        CTkLabel(master=self, text="Full Name", font=("Arial Bold", 17), text_color="#fff").pack(anchor="nw", pady=(25,0), padx=27)
-        self.name_entry = CTkEntry(master=self, fg_color="#040C15", border_color="#601E88", border_width=2, height=50)
-        self.name_entry.pack(fill="x", pady=(12,0), padx=27)
+        grid = CTkFrame(self, fg_color="transparent")
+        grid.pack(fill="both", padx=27, pady=(31,0))
 
-        # Grid for other details
-        grid = CTkFrame(master=self, fg_color="transparent")
-        grid.pack(fill="both", expand=True, padx=27, pady=(31,0))
-        grid.grid_columnconfigure(0, weight=1)
-        grid.grid_columnconfigure(1, weight=1)
+        # First Name
+        CTkLabel(grid, text="First Name", font=("Arial Bold", 17), text_color="#601E88").grid(row=0, column=0, sticky="w")
+        self.firstname_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
+        self.firstname_entry.grid(row=1, column=0, ipady=10)
+
+        # Last Name
+        CTkLabel(grid, text="Last Name", font=("Arial Bold", 17), text_color="#601E88").grid(row=0, column=1, sticky="w", padx=(25,0))
+        self.lastname_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
+        self.lastname_entry.grid(row=1, column=1, ipady=10, padx=(24,0))
+
+        # Contact
+        CTkLabel(grid, text="Contact", font=("Arial Bold", 17), text_color="#601E88").grid(row=2, column=0, sticky="w", pady=(38, 0))
+        self.contact_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
+        self.contact_entry.grid(row=3, column=0, ipady=10, pady=(16,0))
 
         # Email
-        CTkLabel(master=grid, text="Email Address", font=("Arial Bold", 17), text_color="#fff", justify="left").grid(row=0, column=0, sticky="w")
-        self.email_entry = CTkEntry(master=grid, fg_color="#040C15", border_color="#601E88", border_width=2, height=50)
-        self.email_entry.grid(row=1, column=0, sticky="ew", padx=(0, 12))
-
-        # Phone Number
-        CTkLabel(master=grid, text="Phone Number", font=("Arial Bold", 17), text_color="#fff", justify="left").grid(row=0, column=1, sticky="w", padx=(12,0))
-        self.phone_entry = CTkEntry(master=grid, fg_color="#040C15", border_color="#601E88", border_width=2, height=50)
-        self.phone_entry.grid(row=1, column=1, sticky="ew", padx=(12,0))
+        CTkLabel(grid, text="Email", font=("Arial Bold", 17), text_color="#601E88").grid(row=2, column=1, sticky="w", pady=(38, 0), padx=(25,0))
+        self.email_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
+        self.email_entry.grid(row=3, column=1, ipady=10, padx=(24,0), pady=(16,0))
 
         # Address
-        CTkLabel(master=grid, text="Address", font=("Arial Bold", 17), text_color="#fff", justify="left").grid(row=2, column=0, columnspan=2, sticky="w", pady=(38, 0))
-        self.address_textbox = CTkTextbox(master=grid, fg_color="#040C15", border_color="#601E88", border_width=2)
-        self.address_textbox.grid(row=3, column=0, columnspan=2, sticky="nsew", pady=(16, 0))
-        grid.grid_rowconfigure(3, weight=1) # Allow textbox to expand vertically
+        CTkLabel(grid, text="Address", font=("Arial Bold", 17), text_color="#601E88").grid(row=4, column=0, sticky="w", pady=(38, 0))
+        self.address_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
+        self.address_entry.grid(row=5, column=0, ipady=10, pady=(16,0))
 
-        # Action Buttons
-        actions = CTkFrame(master=self, fg_color="transparent")
-        actions.pack(side="bottom", fill="x", pady=(20, 20), padx=27)
-        actions.grid_columnconfigure(0, weight=1)
-        actions.grid_columnconfigure(1, weight=1)
+        # Actions
+        actions = CTkFrame(self, fg_color="transparent")
+        actions.pack(fill="both")
 
-        CTkButton(master=actions, text="Back", height=50, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#25192f", border_width=2, text_color="#fff", command=self.back_command).grid(row=0, column=0, sticky="ew", padx=(0, 12))
-        CTkButton(master=actions, text="Add Customer", height=50, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self._add_customer_handler).grid(row=0, column=1, sticky="ew", padx=(12, 0))
+        CTkButton(actions, text="Back", width=300, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#eee", border_width=2, text_color="#601E88", command=self.back_command).pack(side="left", anchor="sw", pady=(30,0), padx=(27,24))
+        CTkButton(actions, text="Add", width=300, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.add_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
 
-    def _add_customer_handler(self):
-        name = self.name_entry.get()
-        email = self.email_entry.get()
-        phone = self.phone_entry.get()
-        address = self.address_textbox.get("1.0", "end-1c")
-        print(f"Adding Customer:\nName: {name}\nEmail: {email}\nPhone: {phone}\nAddress: {address}")
-        # Here you would add the logic to save the customer to a database or file
-        # After saving, you can call the back_command to return to the list
-        self.back_command()
+    def add_customer(self):
+        import connection
+        firstname = self.firstname_entry.get().strip()
+        lastname = self.lastname_entry.get().strip()
+        contact = self.contact_entry.get().strip()
+        email = self.email_entry.get().strip()
+        address = self.address_entry.get().strip()
+
+        if not firstname or not lastname or not contact:
+            messagebox.showerror("Error", "First name, last name, and contact are required.")
+            return
+
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB: pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+
+        if db_obj.con:
+            try:
+                db_obj.cur.execute(
+                    "INSERT INTO customers (firstname, lastname, contact, email, address) VALUES (%s, %s, %s, %s, %s)",
+                    (firstname, lastname, contact, email, address)
+                )
+                db_obj.con.commit()
+                messagebox.showinfo("Success", "Customer added successfully!")
+                if self.back_command:
+                    self.back_command()
+            except Exception as e:
+                messagebox.showerror("Database Error", f"Could not add customer: {e}")
+            finally:
+                db_obj.con.close()

@@ -25,13 +25,21 @@ class Customers(CTkFrame):
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Customers", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="New Customer", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
+        CTkButton(
+            master=title_frame,
+            text="New Customer",
+            font=("Arial", 15),
+            text_color="#fff",
+            fg_color="#601E88",
+            hover_color="#9569AF",
+            command=self._show_add_form  # <-- Add this line
+        ).pack(anchor="ne", side="right")
 
         self._load_and_display_customers_table()
 
     def _show_add_form(self):
-        self._clear_view()
-        add_form = AddCustomerForm(self, back_command=self._show_main_view)
+        self.clear_frame()
+        add_form = AddCustomerForm(self, back_command=self.show_customers_list_view)
         add_form.pack(expand=True, fill="both")
 
     def _load_and_display_customers_table(self):
