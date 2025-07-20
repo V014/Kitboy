@@ -2,7 +2,7 @@ import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
-from customers_add import AddCustomerForm
+from forms.customers_add import AddCustomerForm
 
 class Customers(CTkFrame):
     def __init__(self, master):
