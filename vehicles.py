@@ -2,6 +2,7 @@ import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
+from forms.vehicle_add import AddVehicleForm
 
 class Vehicles(CTkFrame):
     def __init__(self, master):
@@ -24,7 +25,7 @@ class Vehicles(CTkFrame):
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Vehicles", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="Add Vehicle", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
+        CTkButton(master=title_frame, text="Add Vehicle", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self._show_add_form).pack(anchor="ne", side="right")
         
         self._load_and_display_vehicles_table()
 
@@ -127,3 +128,24 @@ class Vehicles(CTkFrame):
         
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_vehicles_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
+
+    def get_customer_options(self):
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB: pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+        options = []
+        if db_obj.con:
+            try:
+                db_obj.cur.execute("SELECT id FROM customers")
+                options = [str(row[0]) for row in db_obj.cur.fetchall()]
+            finally:
+                db_obj.con.close()
+        return options
+
+    def _show_add_form(self):
+        self.clear_frame()
+        customer_options = self.get_customer_options()
+        add_form = AddVehicleForm(self, customer_options, back_command=self.show_vehicles_list_view)
+        add_form.pack(expand=True, fill="both")
