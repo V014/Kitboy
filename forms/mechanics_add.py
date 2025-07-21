@@ -57,13 +57,13 @@ class AddMechanicForm(CTkFrame):
         actions.pack(fill="x", pady=(10, 20), padx=27)
 
         CTkButton(
-            actions, text="Back", width=150, height=40, fg_color="transparent",
+            actions, text="Back", width=138, height=40, fg_color="transparent",
             font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88",
             border_width=2, text_color="#fff", command=self.back_command
         ).pack(side="left", padx=(0,12))
 
         CTkButton(
-            actions, text="Add", width=150, height=40, font=("Arial Bold", 17),
+            actions, text="Add", width=138, height=40, font=("Arial Bold", 17),
             hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
             command=self.add_mechanic
         ).pack(side="left", padx=(12,0))
