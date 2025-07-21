@@ -1,7 +1,6 @@
 import connection
 from customtkinter import *
 from CTkTable import CTkTable
-from forms.maintenance_form import MaintenanceForm
 
 class Maintenances(CTkFrame):
     def __init__(self, master):
@@ -27,18 +26,6 @@ class Maintenances(CTkFrame):
         CTkButton(master=title_frame, text="Set Maintenance", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self.open_form).pack(anchor="ne", side="right")
 
         self._load_and_display_maintenances_table()
-
-    def open_form(self):
-        def on_submit(data):
-            # Save to DB or process as needed
-            print("Job assigned:", data)
-            # Refresh the list view after a new job is submitted
-            if self.current_view == "list":
-                self.show_maintenances_list_view()
-            elif hasattr(self.master, 'show_page'): # If called from main app context
-                self.master.show_page("maintenances")
-
-        MaintenanceForm(self, on_submit)
     
     def _load_and_display_maintenances_table(self):
         db = connection
