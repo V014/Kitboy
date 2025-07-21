@@ -8,56 +8,65 @@ class AddMechanicForm(CTkFrame):
 
         CTkLabel(self, text="Add Mechanic", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
-        # Scrollable frame for form fields
-        scroll_frame = CTkScrollableFrame(self, fg_color="transparent", width=1, height=420)
-        scroll_frame.pack(fill="both", expand=True, padx=27, pady=(10,0))
+        # Main form frame
+        form_frame = CTkFrame(self, fg_color="transparent")
+        form_frame.pack(fill="x", padx=27, pady=(10,0))
 
         # First Name
-        CTkLabel(scroll_frame, text="First Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0, 2))
-        self.firstname_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="First Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0, 2))
+        self.firstname_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.firstname_entry.grid(row=1, column=0, ipady=10, pady=(0, 10))
 
         # Last Name
-        CTkLabel(scroll_frame, text="Last Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0, 2))
-        self.lastname_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="Last Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0, 2))
+        self.lastname_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.lastname_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0, 10))
 
         # Identification
-        CTkLabel(scroll_frame, text="Identification", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0, 2))
-        self.identification_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="Identification", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0, 2))
+        self.identification_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.identification_entry.grid(row=3, column=0, ipady=10, pady=(0, 10))
 
         # Certification
-        CTkLabel(scroll_frame, text="Certification", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0, 2))
-        self.certification_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="Certification", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0, 2))
+        self.certification_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.certification_entry.grid(row=3, column=1, ipady=10, padx=(24,0), pady=(0, 10))
 
         # Certified On
-        CTkLabel(scroll_frame, text="Certified On (YYYY-MM-DD)", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0, 2))
-        self.certified_on_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="Certified On (YYYY-MM-DD)", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0, 2))
+        self.certified_on_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.certified_on_entry.grid(row=5, column=0, ipady=10, pady=(0, 10))
 
         # Institute
-        CTkLabel(scroll_frame, text="Institute", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0, 2))
-        self.institute_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="Institute", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0, 2))
+        self.institute_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.institute_entry.grid(row=5, column=1, ipady=10, padx=(24,0), pady=(0, 10))
 
         # Skills
-        CTkLabel(scroll_frame, text="Skills", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", pady=(0, 2))
-        self.skills_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="Skills", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", pady=(0, 2))
+        self.skills_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.skills_entry.grid(row=7, column=0, ipady=10, pady=(0, 10))
 
         # Specification
-        CTkLabel(scroll_frame, text="Specification", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=1, sticky="w", padx=(25,0), pady=(0, 2))
-        self.specification_entry = CTkEntry(scroll_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        CTkLabel(form_frame, text="Specification", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=1, sticky="w", padx=(25,0), pady=(0, 2))
+        self.specification_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.specification_entry.grid(row=7, column=1, ipady=10, padx=(24,0), pady=(0, 10))
 
-        # Actions (always visible at the bottom)
+        # Actions (bottom row, evenly spaced)
         actions = CTkFrame(self, fg_color="transparent")
-        actions.pack(fill="x", pady=(10, 20))
+        actions.pack(fill="x", pady=(10, 20), padx=27)
 
-        CTkButton(actions, text="Back", width=138, height=40, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88", border_width=2, text_color="#fff", command=self.back_command).pack(side="left", anchor="sw", padx=(27,24))
-        CTkButton(actions, text="Add", width=138, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.add_mechanic).pack(side = "left", anchor="se", padx=(0,27))
+        CTkButton(
+            actions, text="Back", width=150, height=40, fg_color="transparent",
+            font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88",
+            border_width=2, text_color="#fff", command=self.back_command
+        ).pack(side="left", padx=(0,12))
+
+        CTkButton(
+            actions, text="Add", width=150, height=40, font=("Arial Bold", 17),
+            hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
+            command=self.add_mechanic
+        ).pack(side="left", padx=(12,0))
 
     def add_mechanic(self):
         import connection
