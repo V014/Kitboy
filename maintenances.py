@@ -149,7 +149,7 @@ class Maintenances(CTkFrame):
     # function to get user options (ComboBox)
     
     def get_options(self, table_name, column_name):
-        db = connection.dbcon_func
+        db = connection
         dbcon_func = db.dbcon
         class DummyDB:
             pass
@@ -163,23 +163,6 @@ class Maintenances(CTkFrame):
             finally:
                 db_obj.con.close()
         return options
-    
-    """
-    def get_customer_options(self):
-        db = connection
-        dbcon_func = db.dbcon
-        class DummyDB: pass
-        db_obj = DummyDB()
-        dbcon_func(db_obj)
-        options = []
-        if db_obj.con:
-            try:
-                db_obj.cur.execute("SELECT id FROM customers")
-                options = [str(row[0]) for row in db_obj.cur.fetchall()]
-            finally:
-                db_obj.con.close()
-        return options
-    """
 
     def _show_add_form(self):
         self.clear_frame()
@@ -187,5 +170,5 @@ class Maintenances(CTkFrame):
         vehicle_options = self.get_options("vehicles", "id")
         mechanic_options = self.get_options("mechanics", "id")
         service_type_options = [service_type.value for service_type in ServiceType]
-        add_form = AddMaintenancesForm(self, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=self.show_vehicles_list_view)
+        add_form = AddMaintenancesForm(self, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=self.show_maintenances_list_view)
         add_form.pack(expand=True, fill="both")
