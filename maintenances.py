@@ -4,6 +4,13 @@ from CTkTable import CTkTable
 from enum import Enum
 from forms.maintenances_add import AddMaintenancesForm
 
+class ServiceType(Enum):
+        TYPE1 = "Breaking system"
+        TYPE2 = "Engine service"
+        TYPE3 = "General service"
+        TYPE4 = "Body service"
+        TYPE5 = "Suspension system"
+
 class Maintenances(CTkFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
@@ -157,12 +164,6 @@ class Maintenances(CTkFrame):
                 db_obj.con.close()
         return options
     
-    class ServiceType(Enum):
-        TYPE1 = "Breaking system"
-        TYPE2 = "Engine service"
-        TYPE3 = "General service"
-        TYPE4 = "Body service"
-        TYPE5 = "Suspension system"
     """
     def get_customer_options(self):
         db = connection
