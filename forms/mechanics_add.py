@@ -15,42 +15,42 @@ class AddMechanicForm(CTkFrame):
         # First Name
         CTkLabel(form_frame, text="First Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0, 2))
         self.firstname_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.firstname_entry.grid(row=1, column=0, ipady=10, pady=(0, 10))
+        self.firstname_entry.grid(row=1, column=0, ipady=0, pady=(0, 10))
 
         # Last Name
         CTkLabel(form_frame, text="Last Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0, 2))
         self.lastname_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.lastname_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0, 10))
+        self.lastname_entry.grid(row=1, column=1, ipady=0, padx=(24,0), pady=(0, 10))
 
         # Identification
         CTkLabel(form_frame, text="Identification", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0, 2))
         self.identification_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.identification_entry.grid(row=3, column=0, ipady=10, pady=(0, 10))
+        self.identification_entry.grid(row=3, column=0, ipady=0, pady=(0, 10))
 
         # Certification
         CTkLabel(form_frame, text="Certification", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0, 2))
         self.certification_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.certification_entry.grid(row=3, column=1, ipady=10, padx=(24,0), pady=(0, 10))
+        self.certification_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0, 10))
 
         # Certified On
         CTkLabel(form_frame, text="Certified On (YYYY-MM-DD)", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0, 2))
         self.certified_on_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.certified_on_entry.grid(row=5, column=0, ipady=10, pady=(0, 10))
+        self.certified_on_entry.grid(row=5, column=0, ipady=0, pady=(0, 10))
 
         # Institute
         CTkLabel(form_frame, text="Institute", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0, 2))
         self.institute_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.institute_entry.grid(row=5, column=1, ipady=10, padx=(24,0), pady=(0, 10))
+        self.institute_entry.grid(row=5, column=1, ipady=0, padx=(24,0), pady=(0, 10))
 
         # Skills
         CTkLabel(form_frame, text="Skills", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", pady=(0, 2))
         self.skills_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.skills_entry.grid(row=7, column=0, ipady=10, pady=(0, 10))
+        self.skills_entry.grid(row=7, column=0, ipady=0, pady=(0, 10))
 
         # Specification
         CTkLabel(form_frame, text="Specification", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=1, sticky="w", padx=(25,0), pady=(0, 2))
         self.specification_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.specification_entry.grid(row=7, column=1, ipady=10, padx=(24,0), pady=(0, 10))
+        self.specification_entry.grid(row=7, column=1, ipady=0, padx=(24,0), pady=(0, 10))
 
         # Actions (bottom row, evenly spaced)
         actions = CTkFrame(self, fg_color="transparent")
