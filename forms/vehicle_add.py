@@ -14,42 +14,42 @@ class AddVehicleForm(CTkFrame):
         # Customer selection (ComboBox)
         CTkLabel(form_frame, text="Owner (Customer ID)", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
         self.customer_combo = CTkComboBox(form_frame, values=customer_options, width=300)
-        self.customer_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
+        self.customer_combo.grid(row=1, column=0, ipady=0, pady=(0,10))
 
         # Registration Number
         CTkLabel(form_frame, text="Registration Number", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.reg_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.reg_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.reg_entry.grid(row=1, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Make
         CTkLabel(form_frame, text="Make", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
         self.make_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.make_entry.grid(row=3, column=0, ipady=10, pady=(0,10))
+        self.make_entry.grid(row=3, column=0, ipady=0, pady=(0,10))
 
         # Model
         CTkLabel(form_frame, text="Model", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.model_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.model_entry.grid(row=3, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.model_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Year
         CTkLabel(form_frame, text="Year", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
         self.year_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.year_entry.grid(row=5, column=0, ipady=10, pady=(0,10))
+        self.year_entry.grid(row=5, column=0, ipady=0, pady=(0,10))
 
         # Transmission
         CTkLabel(form_frame, text="Transmission", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.transmission_combo = CTkComboBox(form_frame, values=["Manual", "Automatic"], width=300)
-        self.transmission_combo.grid(row=5, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.transmission_combo.grid(row=5, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Color
         CTkLabel(form_frame, text="Color", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", pady=(0,2))
         self.color_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.color_entry.grid(row=7, column=0, ipady=10, pady=(0,10))
+        self.color_entry.grid(row=7, column=0, ipady=0, pady=(0,10))
 
         # VIN Number (optional)
         CTkLabel(form_frame, text="VIN Number (optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.vin_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.vin_entry.grid(row=7, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.vin_entry.grid(row=7, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
