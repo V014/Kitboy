@@ -81,3 +81,24 @@ class AddMaintenancesForm(CTkFrame):
         if not customer_id or not vehicle_id or not mechanic_id or not service_type:
             messagebox.showerror("Error", "All fields except mileage, cost, labor hours and description are required.")
             return
+        
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB: pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+
+        if db_obj.con:
+            try:
+                db_obj.execute(
+                    "INSERT INTO maintenances (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                    (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost)
+                )
+                db_obj.con.commit()
+                messagebox.showinfo("Success", "Maintenance set successfully!")
+                if self.back_conmmand:
+                    self.back_conmmand()
+            except Exception as e:
+                messagebox.showerror("Database Error", f"Could not add maintenance: {e}")
+            finally:
+                db_obj.con.close()
