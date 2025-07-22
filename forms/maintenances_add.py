@@ -49,7 +49,7 @@ class AddMaintenancesForm(CTkFrame):
         # 8. Cost
         CTkLabel(form_frame, text="Cost", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.cost_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.cost_entry.grid(row=7, column=1, ipady=10, pady=(0,10))
+        self.cost_entry.grid(row=7, column=1, ipady=10, padx=(24,0), pady=(0,10))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
