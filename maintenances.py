@@ -138,6 +138,24 @@ class Maintenances(CTkFrame):
         
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_maintenances_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
+    
+    # function to get user options (ComboBox)
+    
+    def get_options(self, table_name, column_name):
+        db = connection.dbcon_func
+        dbcon_func = db.dbcon
+        class DummyDB:
+            pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+        options = []
+        if db_obj.con:
+            try:
+                db_obj.cur.execute(f"SELECT {column_name} FROM {table_name}")
+                options = [str(row[0]) for row in db_obj.cur.fetchall()]
+            finally:
+                db_obj.con.close()
+        return options
 
     def get_customer_options(self):
         db = connection
