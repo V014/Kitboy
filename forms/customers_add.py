@@ -14,27 +14,27 @@ class AddCustomerForm(CTkFrame):
         # First Name
         CTkLabel(grid, text="First Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w")
         self.firstname_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
-        self.firstname_entry.grid(row=1, column=0, ipady=10)
+        self.firstname_entry.grid(row=1, column=0, ipady=0)
 
         # Last Name
         CTkLabel(grid, text="Last Name", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0))
         self.lastname_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
-        self.lastname_entry.grid(row=1, column=1, ipady=10, padx=(24,0))
+        self.lastname_entry.grid(row=1, column=1, ipady=0, padx=(24,0))
 
         # Contact
         CTkLabel(grid, text="Contact", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(38, 0))
         self.contact_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
-        self.contact_entry.grid(row=3, column=0, ipady=10, pady=(16,0))
+        self.contact_entry.grid(row=3, column=0, ipady=0, pady=(16,0))
 
         # Email
         CTkLabel(grid, text="Email", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", pady=(38, 0), padx=(25,0))
         self.email_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
-        self.email_entry.grid(row=3, column=1, ipady=10, padx=(24,0), pady=(16,0))
+        self.email_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(16,0))
 
         # Address
         CTkLabel(grid, text="Address", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(38, 0))
         self.address_entry = CTkEntry(grid, fg_color="#F0F0F0", border_width=0, width=300)
-        self.address_entry.grid(row=5, column=0, ipady=10, pady=(16,0))
+        self.address_entry.grid(row=5, column=0, ipady=0, pady=(16,0))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
