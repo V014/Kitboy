@@ -12,42 +12,42 @@ class AddMaintenancesForm(CTkFrame):
         form_frame.pack(fill="x", padx=27, pady=(10,0))
 
         
-        # Customer selection (ComboBox)
+        # 1. Customer selection (ComboBox)
         CTkLabel(form_frame, text="Owner (Customer ID)", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
         self.customer_combo = CTkComboBox(form_frame, values=customer_options, width=300)
         self.customer_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
 
-        # Vehicle selection (ComboBox)
+        # 2. Vehicle selection (ComboBox)
         CTkLabel(form_frame, text="Owner (Vehicle ID)", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.vehicle_combo = CTkComboBox(form_frame, values=vehicle_options, width=300)
         self.vehicle_combo.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
 
-        # Mechanic selection (ComboBox)
-        CTkLabel(form_frame, text="Mechanic ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
+        # 3. Mechanic selection (ComboBox)
+        CTkLabel(form_frame, text="Mechanic ID", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
         self.mechanic_combo = CTkComboBox(form_frame, values=mechanic_options, width=300)
         self.mechanic_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
 
-        # Mileage
-        CTkLabel(form_frame, text="Vehicle Mileage", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        # 4. Mileage
+        CTkLabel(form_frame, text="Vehicle Mileage", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.mileage_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.mileage_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
 
-        # Service type selection (ComboBox)
-        CTkLabel(form_frame, text="Service Type", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
+        # 5. Service type selection (ComboBox)
+        CTkLabel(form_frame, text="Service Type", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
         self.service_type_combo = CTkComboBox(form_frame, values=service_type_options, width=300)
         self.service_type_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
 
-        # Description
-        CTkLabel(form_frame, text="Problem Description", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        # 6. Description
+        CTkLabel(form_frame, text="Problem Description", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.description_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.description_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
 
-        # Labor hours
-        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        # 7. Labor hours
+        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", padx=(25,0), pady=(0,2))
         self.labor_hours_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.labor_hours_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
 
-        # Cost
+        # 8. Cost
         CTkLabel(form_frame, text="Cost", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.cost_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.cost_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
