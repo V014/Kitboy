@@ -77,3 +77,7 @@ class AddMaintenancesForm(CTkFrame):
         description = self.description_entry.get().strip()
         labor_hours = self.labor_hours_entry.get().strip()
         cost = self.cost_entry.get().strip()
+
+        if not customer_id or not vehicle_id or not mechanic_id or not service_type:
+            messagebox.showerror("Error", "All fields except mileage, cost, labor hours and description are required.")
+            return
