@@ -42,14 +42,14 @@ class AddMaintenancesForm(CTkFrame):
         self.description_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
 
         # 7. Labor hours
-        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", padx=(25,0), pady=(0,2))
+        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", pady=(0,2))
         self.labor_hours_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.labor_hours_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.labor_hours_entry.grid(row=1, column=1, ipady=10, pady=(0,10))
 
         # 8. Cost
         CTkLabel(form_frame, text="Cost", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.cost_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.cost_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.cost_entry.grid(row=1, column=1, ipady=10, pady=(0,10))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
