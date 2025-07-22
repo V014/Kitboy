@@ -2,11 +2,11 @@ from customtkinter import *
 from tkinter import messagebox
 
 class AddMaintenancesForm(CTkFrame):
-    def __init__(self, master, customer_options, vehicle_options, mechanic_options, back_command=None):
+    def __init__(self, master, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=None):
         super().__init__(master, fg_color="transparent")
         self.back_conmmand = back_command
 
-        CTKLabel(self, text="Set Maintenance", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pday=(29,0), padx=27)
+        CTkLabel(self, text="Set Maintenance", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pday=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
         form_frame.pack(fill="x", padx=27, pady=(10,0))
@@ -22,6 +22,31 @@ class AddMaintenancesForm(CTkFrame):
         self.vehicle_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
 
         # Mechanic selection (ComboBox)
-        CTkLabel(form_frame, text="Owner (Vehicle ID)", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
+        CTkLabel(form_frame, text="Mechanic ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
         self.mechanic_combo = CTkComboBox(form_frame, values=mechanic_options, width=300)
         self.mechanic_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
+
+        # Mileage
+        CTkLabel(form_frame, text="Vehicle Mileage", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        self.mileage_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.mileage_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+
+        # Service type selection (ComboBox)
+        CTkLabel(form_frame, text="Service Type", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
+        self.service_type_combo = CTkComboBox(form_frame, values=service_type_options, width=300)
+        self.service_type_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
+
+        # Description
+        CTkLabel(form_frame, text="Problem Description", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        self.description_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.description_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+
+        # Labor hours
+        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        self.labor_hours_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.labor_hours_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+
+        # Cost
+        CTkLabel(form_frame, text="Cost", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        self.cost_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.cost_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
