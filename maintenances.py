@@ -156,7 +156,14 @@ class Maintenances(CTkFrame):
             finally:
                 db_obj.con.close()
         return options
-
+    
+    class ServiceType(Enum):
+        TYPE1 = "Breaking system"
+        TYPE2 = "Engine service"
+        TYPE3 = "General service"
+        TYPE4 = "Body service"
+        TYPE5 = "Suspension system"
+    """
     def get_customer_options(self):
         db = connection
         dbcon_func = db.dbcon
@@ -171,6 +178,7 @@ class Maintenances(CTkFrame):
             finally:
                 db_obj.con.close()
         return options
+    """
 
     def _show_add_form(self):
         self.clear_frame()
