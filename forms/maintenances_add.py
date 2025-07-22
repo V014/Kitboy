@@ -50,3 +50,30 @@ class AddMaintenancesForm(CTkFrame):
         CTkLabel(form_frame, text="Cost", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.cost_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.cost_entry.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+
+        # Actions
+        actions = CTkFrame(self, fg_color="transparent")
+        actions.pack(fill="x", pady=(10, 20), padx=27)
+
+        CTkButton(
+            actions, text="Back", width=150, height=40, fg_color="transparent",
+            font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88",
+            border_width=2, text_color="#fff", command=self.back_command
+        ).pack(side="left", padx=(0,12))
+
+        CTkButton(
+            actions, text="Set", width=150, height=40, font=("Arial Bold", 17),
+            hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
+            command=self.set_maintenance
+        ).pack(side="left", padx=(12,0))
+
+    def set_maintenance(self):
+        import connection
+        customer_id = self.customer_combo.get().strip()
+        vehicle_id = self.vehicle_combo.get().strip()
+        mechanic_id = self.mechanic_combo.get().strip()
+        mileage = self.mileage_entry.get().strip()
+        service_type = self.service_type_combo.get().strip()
+        description = self.description_entry.get().strip()
+        labor_hours = self.labor_hours_entry.get().strip()
+        cost = self.cost_entry.get().strip()
