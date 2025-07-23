@@ -11,7 +11,7 @@ class ServiceType(Enum):
         TYPE4 = "Body service"
         TYPE5 = "Suspension system"
 
-class Maintenances(CTkFrame):
+class Maintenances(CTkScrollableFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         self.all_maintenances_data = [] # To store data including IDs
