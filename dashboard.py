@@ -2,7 +2,7 @@ from customtkinter import *
 from CTkTable import CTkTable
 import connection # Import the connection module
 from PIL import Image
-import matplotlib
+import matplotlib 
 matplotlib.use("Agg")  # Use a non-interactive backend
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -23,7 +23,7 @@ class Dashboard(CTkScrollableFrame):
 
         # metrics frame
     def create_metrics_frame(self):
-        metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
+        metrics_frame = CTkFrame(master=self, fg_color="transparent")
         metrics_frame.grid(row=0, column=0, sticky="ew", padx=27, pady=(36, 0))
 
         # Customers metric
