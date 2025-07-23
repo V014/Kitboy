@@ -3,7 +3,7 @@ from customtkinter import *
 from CTkTable import CTkTable
 from forms.mechanics_add import AddMechanicForm
 
-class Mechanics(CTkFrame):
+class Mechanics(CTkScrollableFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         self.all_mechanics_data = []  # To store data including IDs
