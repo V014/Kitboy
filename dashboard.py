@@ -9,7 +9,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 from scipy.interpolate import make_interp_spline
 
-class Dashboard(CTkFrame):
+class Dashboard(CTkScrollableFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         # CTkLabel(self, text="Dashboard", font=("Arial Black", 25)).pack(pady=20)
