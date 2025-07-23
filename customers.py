@@ -4,7 +4,7 @@ from CTkTable import CTkTable
 from PIL import Image
 from forms.customers_add import AddCustomerForm
 
-class Customers(CTkFrame):
+class Customers(CTkScrollableFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         self.all_customers_data = [] # To store data including IDs
