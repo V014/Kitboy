@@ -2,7 +2,7 @@ import connection
 from customtkinter import *
 from CTkTable import CTkTable
 
-class Payments(CTkFrame):
+class Payments(CTkScrollableFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         self.all_payments_data = []
