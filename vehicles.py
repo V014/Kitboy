@@ -4,7 +4,7 @@ from CTkTable import CTkTable
 from PIL import Image
 from forms.vehicle_add import AddVehicleForm
 
-class Vehicles(CTkFrame):
+class Vehicles(CTkScrollableFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         self.all_vehicles_data = [] # To store data including IDs
