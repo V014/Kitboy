@@ -90,14 +90,14 @@ class AddMaintenancesForm(CTkFrame):
 
         if db_obj.con:
             try:
-                db_obj.execute(
+                db_obj.cur.execute(
                     "INSERT INTO maintenances (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                     (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost)
                 )
                 db_obj.con.commit()
                 messagebox.showinfo("Success", "Maintenance set successfully!")
-                if self.back_conmmand:
-                    self.back_conmmand()
+                if self.back_command:
+                    self.back_command()
             except Exception as e:
                 messagebox.showerror("Database Error", f"Could not add maintenance: {e}")
             finally:
