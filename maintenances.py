@@ -3,6 +3,7 @@ from customtkinter import *
 from CTkTable import CTkTable
 from enum import Enum
 from forms.maintenances_add import AddMaintenancesForm
+from utils import Utils
 
 class ServiceType(Enum):
         TYPE1 = "Breaking system"
@@ -145,30 +146,13 @@ class Maintenances(CTkScrollableFrame):
         
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_maintenances_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
-    
-    # function to get user options (ComboBox)
-    
-    def get_options(self, table_name, column_name):
-        db = connection
-        dbcon_func = db.dbcon
-        class DummyDB:
-            pass
-        db_obj = DummyDB()
-        dbcon_func(db_obj)
-        options = []
-        if db_obj.con:
-            try:
-                db_obj.cur.execute(f"SELECT {column_name} FROM {table_name}")
-                options = [str(row[0]) for row in db_obj.cur.fetchall()]
-            finally:
-                db_obj.con.close()
-        return options
 
+    # show the add form
     def _show_add_form(self):
         self.clear_frame()
-        customer_options = self.get_options("customers", "id")
-        vehicle_options = self.get_options("vehicles", "id")
-        mechanic_options = self.get_options("mechanics", "id")
+        customer_options = Utils.get_options("customers", "id")
+        vehicle_options = Utils.get_options("vehicles", "id")
+        mechanic_options = Utils.get_options("mechanics", "id")
         service_type_options = [service_type.value for service_type in ServiceType]
         add_form = AddMaintenancesForm(self, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=self.show_maintenances_list_view)
         add_form.pack(expand=True, fill="both")
