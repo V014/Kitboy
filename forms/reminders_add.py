@@ -56,15 +56,12 @@ class AddRemindersForm(CTkFrame):
     def set_reminder(self):
         customer_id = self.customer_combo.get().strip()
         vehicle_id = self.vehicle_combo.get().strip()
-        mechanic_id = self.mechanic_combo.get().strip()
-        mileage = self.mileage_entry.get().strip()
-        service_type = self.service_type_combo.get().strip()
+        reminder_type = self.reminder_type_combo.get().strip()
         description = self.description_entry.get().strip()
-        labor_hours = self.labor_hours_entry.get().strip()
-        cost = self.cost_entry.get().strip()
+        due_date = self.date_due_entry.get().strip()
 
-        if not customer_id or not vehicle_id or not mechanic_id or not service_type:
-            messagebox.showerror("Error", "All fields except mileage, cost, labor hours and description are required.")
+        if not customer_id or not vehicle_id or not reminder_type or not due_date:
+            messagebox.showerror("Error", "All fields except description are required.")
             return
         
         db = connection
@@ -76,14 +73,14 @@ class AddRemindersForm(CTkFrame):
         if db_obj.con:
             try:
                 db_obj.cur.execute(
-                    "INSERT INTO maintenances (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                    (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost)
+                    "INSERT INTO reminders (customer_id, vehicle_id, reminder_type, desciption, due_date) VALUES (%s, %s, %s, %s, %s)",
+                    (customer_id, vehicle_id, reminder_type, description, due_date)
                 )
                 db_obj.con.commit()
-                messagebox.showinfo("Success", "Maintenance set successfully!")
+                messagebox.showinfo("Success", "reminder set successfully!")
                 if self.back_command:
                     self.back_command()
             except Exception as e:
-                messagebox.showerror("Database Error", f"Could not add maintenance: {e}")
+                messagebox.showerror("Database Error", f"Could not add reminder: {e}")
             finally:
                 db_obj.con.close()
