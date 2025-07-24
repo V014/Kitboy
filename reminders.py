@@ -32,7 +32,7 @@ class Reminders(CTkScrollableFrame):
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Reminders", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(master=title_frame, text="Set Reminder", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF").pack(anchor="ne", side="right")
+        CTkButton(master=title_frame, text="Set Reminder", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self._show_add_form).pack(anchor="ne", side="right")
 
         self._load_and_display_reminders_table()
 
@@ -135,12 +135,12 @@ class Reminders(CTkScrollableFrame):
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600).pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_reminders_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
 
-        # show the add form
-        def _show_add_form(self):
-            self.clear_frame()
-            customer_options = Utils.get_options("customers", "id")
-            vehicle_options = Utils.get_options("vehicles", "id")
-            reminder_type_options = [reminder.value for reminder in ReminderType]
-            add_form = AddRemindersForm(self, customer_options, vehicle_options, reminder_type_options, back_command=self.show_reminders_list_view)
-            add_form.pack(expand=True, fill="both")
+    # show the add form
+    def _show_add_form(self):
+        self.clear_frame()
+        customer_options = Utils.get_options("customers", "id")
+        vehicle_options = Utils.get_options("vehicles", "id")
+        reminder_type_options = [reminder.value for reminder in ReminderType]
+        add_form = AddRemindersForm(self, customer_options, vehicle_options, reminder_type_options, back_command=self.show_reminders_list_view)
+        add_form.pack(expand=True, fill="both")
             
