@@ -1,12 +1,12 @@
 from customtkinter import *
 from tkinter import messagebox
 
-class AddMaintenancesForm(CTkFrame):
-    def __init__(self, master, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=None):
+class AddRemindersForm(CTkFrame):
+    def __init__(self, master, customer_options, vehicle_options, reminder_type_options, back_command=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
 
-        CTkLabel(self, text="Set Maintenance", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
+        CTkLabel(self, text="Set Reminder", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
         form_frame.pack(fill="x", padx=27, pady=(10,0))
@@ -21,35 +21,20 @@ class AddMaintenancesForm(CTkFrame):
         self.vehicle_combo = CTkComboBox(form_frame, values=vehicle_options, width=300)
         self.vehicle_combo.grid(row=1, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
-        # 3. Mechanic selection (ComboBox)
-        CTkLabel(form_frame, text="Mechanic ID", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
-        self.mechanic_combo = CTkComboBox(form_frame, values=mechanic_options, width=300)
-        self.mechanic_combo.grid(row=3, column=0, ipady=0, pady=(0,10))
+        # 3. Reminder type selection (ComboBox)
+        CTkLabel(form_frame, text="Reminder Type", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
+        self.reminder_type_combo = CTkComboBox(form_frame, values=reminder_type_options, width=300)
+        self.reminder_type_combo.grid(row=3, column=0, ipady=0, pady=(0,10))
 
-        # 4. Mileage
-        CTkLabel(form_frame, text="Vehicle Mileage", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.mileage_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.mileage_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
-
-        # 5. Service type selection (ComboBox)
-        CTkLabel(form_frame, text="Service Type", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
-        self.service_type_combo = CTkComboBox(form_frame, values=service_type_options, width=300)
-        self.service_type_combo.grid(row=5, column=0, ipady=0, pady=(0,10))
-
-        # 6. Description
-        CTkLabel(form_frame, text="Problem Description", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        # 4. Description
+        CTkLabel(form_frame, text="Problem Description", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.description_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.description_entry.grid(row=5, column=1, ipady=0, padx=(24,0), pady=(0,10))
+        self.description_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
-        # 7. Labor hours
-        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", pady=(0,2))
-        self.labor_hours_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.labor_hours_entry.grid(row=7, column=0, ipady=0, pady=(0,10))
-
-        # 8. Cost
-        CTkLabel(form_frame, text="Cost", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.cost_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.cost_entry.grid(row=7, column=1, ipady=0, padx=(24,0), pady=(0,10))
+        # 5. Date due
+        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=3, column=0, sticky="w", pady=(0,2))
+        self.date_due_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.date_due_entry.grid(row=5, column=0, ipady=0, pady=(0,10))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
@@ -62,12 +47,12 @@ class AddMaintenancesForm(CTkFrame):
         ).pack(side="left", padx=(0,12))
 
         CTkButton(
-            actions, text="Set", width=150, height=40, font=("Arial Bold", 17),
+            actions, text="Set Reminder", width=150, height=40, font=("Arial Bold", 17),
             hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
-            command=self.set_maintenance
+            command=self.set_reminder
         ).pack(side="left", padx=(12,0))
 
-    def set_maintenance(self):
+    def set_reminder(self):
         import connection
         customer_id = self.customer_combo.get().strip()
         vehicle_id = self.vehicle_combo.get().strip()
