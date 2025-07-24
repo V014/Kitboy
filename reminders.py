@@ -2,6 +2,14 @@ import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from forms.reminders_add import AddRemindersForm
+from enum import Enum
+from utils import Utils
+
+class ReminderType(Enum):
+    TYPE1 = "Payment"
+    TYPE2 = "Service"
+    TYPE3 = "Retrieval"
+    TYPE4 = "Recovery"
 
 class Reminders(CTkScrollableFrame):
     def __init__(self, master):
@@ -126,3 +134,10 @@ class Reminders(CTkScrollableFrame):
         
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600).pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_reminders_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
+
+        # show the add form
+        def _show_add_form(self):
+            self.clear_frame()
+            customer_options = Utils.get_customer_options()
+            vehicle_options = Utils.get_vehicle_options()
+            
