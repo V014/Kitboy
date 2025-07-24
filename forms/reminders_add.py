@@ -1,5 +1,6 @@
 from customtkinter import *
 from tkinter import messagebox
+import connection
 
 class AddRemindersForm(CTkFrame):
     def __init__(self, master, customer_options, vehicle_options, reminder_type_options, back_command=None):
@@ -53,7 +54,6 @@ class AddRemindersForm(CTkFrame):
         ).pack(side="left", padx=(12,0))
 
     def set_reminder(self):
-        import connection
         customer_id = self.customer_combo.get().strip()
         vehicle_id = self.vehicle_combo.get().strip()
         mechanic_id = self.mechanic_combo.get().strip()

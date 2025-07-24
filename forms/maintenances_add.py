@@ -1,5 +1,6 @@
 from customtkinter import *
 from tkinter import messagebox
+import connection
 
 class AddMaintenancesForm(CTkFrame):
     def __init__(self, master, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=None):
@@ -68,7 +69,6 @@ class AddMaintenancesForm(CTkFrame):
         ).pack(side="left", padx=(12,0))
 
     def set_maintenance(self):
-        import connection
         customer_id = self.customer_combo.get().strip()
         vehicle_id = self.vehicle_combo.get().strip()
         mechanic_id = self.mechanic_combo.get().strip()
