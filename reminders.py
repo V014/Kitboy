@@ -1,6 +1,7 @@
 import connection
 from customtkinter import *
 from CTkTable import CTkTable
+from forms.reminders_add import AddRemindersForm
 
 class Reminders(CTkScrollableFrame):
     def __init__(self, master):
