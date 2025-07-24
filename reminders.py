@@ -140,4 +140,7 @@ class Reminders(CTkScrollableFrame):
             self.clear_frame()
             customer_options = Utils.get_customer_options()
             vehicle_options = Utils.get_vehicle_options()
+            reminder_type_options = [reminder.value for reminder in ReminderType]
+            add_form = AddRemindersForm(self, customer_options, vehicle_options, reminder_type_options, back_command=self.show_reminders_list_view)
+            add_form.pack(expand=True, fill="both")
             
