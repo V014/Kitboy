@@ -3,7 +3,6 @@ from customtkinter import *
 from CTkTable import CTkTable
 from forms.payments_add import AddPaymentsForm
 from enum import Enum
-import maintenances
 from utils import Utils
 
 class PaymentType(Enum):
