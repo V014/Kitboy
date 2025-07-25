@@ -2,12 +2,12 @@ from customtkinter import *
 from tkinter import messagebox
 import connection
 
-class AddMaintenancesForm(CTkFrame):
-    def __init__(self, master, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=None):
+class AddPaymentsForm(CTkFrame):
+    def __init__(self, master, customer_options, vehicle_options, maintenance_options, payment_type_options, back_command=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
 
-        CTkLabel(self, text="Set Maintenance", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
+        CTkLabel(self, text="Record Payment", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
         form_frame.pack(fill="x", padx=27, pady=(10,0))
