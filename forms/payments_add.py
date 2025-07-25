@@ -22,35 +22,25 @@ class AddPaymentsForm(CTkFrame):
         self.vehicle_combo = CTkComboBox(form_frame, values=vehicle_options, width=300)
         self.vehicle_combo.grid(row=1, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
-        # 3. Mechanic selection (ComboBox)
+        # 3. Maintenance selection (ComboBox)
         CTkLabel(form_frame, text="Mechanic ID", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
-        self.mechanic_combo = CTkComboBox(form_frame, values=mechanic_options, width=300)
-        self.mechanic_combo.grid(row=3, column=0, ipady=0, pady=(0,10))
+        self.maintenance_combo = CTkComboBox(form_frame, values=maintenance_options, width=300)
+        self.maintenance_combo.grid(row=3, column=0, ipady=0, pady=(0,10))
 
-        # 4. Mileage
-        CTkLabel(form_frame, text="Vehicle Mileage", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.mileage_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.mileage_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
+        # 4. Amount
+        CTkLabel(form_frame, text="Amount", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        self.amount_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.amount_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
-        # 5. Service type selection (ComboBox)
-        CTkLabel(form_frame, text="Service Type", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
-        self.service_type_combo = CTkComboBox(form_frame, values=service_type_options, width=300)
-        self.service_type_combo.grid(row=5, column=0, ipady=0, pady=(0,10))
+        # 5. Payment type selection (ComboBox)
+        CTkLabel(form_frame, text="Payment Type", font=("Arial Bold", 17), text_color="#fff").grid(row=3, column=0, sticky="w", pady=(0,2))
+        self.payment_type_combo = CTkComboBox(form_frame, values=payment_type_options, width=300)
+        self.payment_type_combo.grid(row=5, column=0, ipady=0, pady=(0,10))
 
-        # 6. Description
-        CTkLabel(form_frame, text="Problem Description", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.description_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.description_entry.grid(row=5, column=1, ipady=0, padx=(24,0), pady=(0,10))
-
-        # 7. Labor hours
-        CTkLabel(form_frame, text="Labor Hours (Optional)", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=0, sticky="w", pady=(0,2))
-        self.labor_hours_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.labor_hours_entry.grid(row=7, column=0, ipady=0, pady=(0,10))
-
-        # 8. Cost
-        CTkLabel(form_frame, text="Cost", font=("Arial Bold", 17), text_color="#fff").grid(row=6, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.cost_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.cost_entry.grid(row=7, column=1, ipady=0, padx=(24,0), pady=(0,10))
+        # 6. Recipt Number
+        CTkLabel(form_frame, text="Recipt Number", font=("Arial Bold", 17), text_color="#fff").grid(row=3, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        self.recipt_number_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.recipt_number_entry.grid(row=5, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
@@ -65,21 +55,19 @@ class AddPaymentsForm(CTkFrame):
         CTkButton(
             actions, text="Set", width=150, height=40, font=("Arial Bold", 17),
             hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
-            command=self.set_maintenance
+            command=self.record_payment
         ).pack(side="left", padx=(12,0))
 
-    def set_maintenance(self):
+    def record_payment(self):
         customer_id = self.customer_combo.get().strip()
         vehicle_id = self.vehicle_combo.get().strip()
-        mechanic_id = self.mechanic_combo.get().strip()
-        mileage = self.mileage_entry.get().strip()
-        service_type = self.service_type_combo.get().strip()
-        description = self.description_entry.get().strip()
-        labor_hours = self.labor_hours_entry.get().strip()
+        maintenance_id = self.maintenance_combo.get().strip()
         cost = self.cost_entry.get().strip()
+        payment_type = self.payment_type_combo.get().strip()
+        recipt_number = self.recipt_number_entry.get().strip()
 
-        if not customer_id or not vehicle_id or not mechanic_id or not service_type:
-            messagebox.showerror("Error", "All fields except mileage, cost, labor hours and description are required.")
+        if not customer_id or not vehicle_id or not maintenance_id or not payment_type or not cost or not recipt_number:
+            messagebox.showerror("Error", "All fields are required.")
             return
         
         db = connection
@@ -91,14 +79,14 @@ class AddPaymentsForm(CTkFrame):
         if db_obj.con:
             try:
                 db_obj.cur.execute(
-                    "INSERT INTO maintenances (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                    (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost)
+                    "INSERT INTO maintenances (customer_id, vehicle_id, maintenance_id, cost, payment_type, recipt_number) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (customer_id, vehicle_id, maintenance_id, cost, payment_type, recipt_number)
                 )
                 db_obj.con.commit()
-                messagebox.showinfo("Success", "Maintenance set successfully!")
+                messagebox.showinfo("Success", "Payment recorded successfully!")
                 if self.back_command:
                     self.back_command()
             except Exception as e:
-                messagebox.showerror("Database Error", f"Could not add maintenance: {e}")
+                messagebox.showerror("Database Error", f"Could not record payment: {e}")
             finally:
                 db_obj.con.close()
