@@ -48,7 +48,7 @@ class Reminders(CTkScrollableFrame):
                 # Ensure you select the 'id' column first
                 # Query to get reminder's info
                 query = """
-                    SELECT r.id, c.firstname, c.lastname, r.type, v.reg_number, r.due_date, r.date
+                    SELECT r.id, c.firstname, c.lastname, r.reminder_type, v.reg_number, r.due_date, r.date
                     FROM reminders r
                     JOIN customers c ON r.customer_id = c.id
                     JOIN vehicles v ON r.vehicle_id = v.id
@@ -108,7 +108,7 @@ class Reminders(CTkScrollableFrame):
             try:
                 # Query to get detailed reminder info
                 query = """
-                    SELECT c.firstname, c.lastname, r.type, r.description, v.reg_number, r.due_date, r.status,  DATE_FORMAT(r.date, '%Y-%m-%d')
+                    SELECT c.firstname, c.lastname, r.reminder_type, r.description, v.reg_number, r.due_date, r.status,  DATE_FORMAT(r.date, '%Y-%m-%d')
                     FROM reminders r
                     JOIN customers c ON r.customer_id = c.id
                     JOIN vehicles v ON r.vehicle_id = v.id

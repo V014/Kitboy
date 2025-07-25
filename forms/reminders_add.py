@@ -60,7 +60,7 @@ class AddRemindersForm(CTkFrame):
         vehicle_id = self.vehicle_combo.get().strip()
         reminder_type = self.reminder_type_combo.get().strip()
         description = self.description_entry.get().strip()
-        due_date = self.date_due_entry.get_date().strip()
+        due_date = self.date_due_entry.get_date()
 
         if not customer_id or not vehicle_id or not reminder_type or not due_date:
             messagebox.showerror("Error", "All fields except description are required.")
@@ -75,7 +75,7 @@ class AddRemindersForm(CTkFrame):
         if db_obj.con:
             try:
                 db_obj.cur.execute(
-                    "INSERT INTO reminders (customer_id, vehicle_id, reminder_type, desciption, due_date) VALUES (%s, %s, %s, %s, %s)",
+                    "INSERT INTO reminders (customer_id, vehicle_id, reminder_type, description, due_date) VALUES (%s, %s, %s, %s, %s)",
                     (customer_id, vehicle_id, reminder_type, description, due_date)
                 )
                 db_obj.con.commit()
