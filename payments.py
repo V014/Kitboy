@@ -106,20 +106,26 @@ class Payments(CTkScrollableFrame):
         if db_obj.con:
             try:
                 db_obj.cur.execute("""
-                    SELECT p.id, c.firstname, c.lastname, v.reg_number, p.amount, p.date
+                    SELECT p.id, c.firstname, c.lastname, v.make, v.model, v.reg_number, p.payment_type, p.amount, m.description, mec.firstname, mec.lastname, p.date
                     FROM customer_payments p
                     JOIN customers c ON p.customer_id = c.id
                     JOIN vehicles v ON p.vehicle_id = v.id
+                    JOIN maintenances m ON p.customer_id = m.id
+                    JOIN mechanics mec ON m.mechanic_id = mec.id
                     WHERE p.id = %s
                 """, (payment_id,))
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
-                        f"Payment ID: {record[0]}\n"
-                        f"Customer: {record[1]} {record[2]}\n"
-                        f"Vehicle Reg: {record[3]}\n"
-                        f"Amount: {record[4]}\n"
-                        f"Date: {record[5]}"
+                        f"Customer: {record[1]} {record[2]}\n\n"
+                        f"Vehicle Make: {record[3]}\n\n"
+                        f"Vehicle Model: {record[4]}\n\n"
+                        f"Vehicle Registration: {record[5]}\n\n"
+                        f"Payment Type: {record[6]}\n\n"
+                        f"Amount: {record[7]}\n\n"
+                        f"Description: {record[8]}\n\n"
+                        f"Mechanic: {record[9]} {record[10]}\n\n"
+                        f"Date: {record[11]}"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
