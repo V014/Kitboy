@@ -1,7 +1,6 @@
 from customtkinter import *
 from CTkTable import CTkTable
 import connection # Import the connection module
-from PIL import Image
 import matplotlib 
 matplotlib.use("Agg")  # Use a non-interactive backend
 from matplotlib.figure import Figure
@@ -9,7 +8,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 from scipy.interpolate import make_interp_spline
 
-class Dashboard(CTkScrollableFrame):
+class Dashboard(CTkFrame):
     def __init__(self, master):
         super().__init__(master, fg_color="transparent")
         # CTkLabel(self, text="Dashboard", font=("Arial Black", 25)).pack(pady=20)
