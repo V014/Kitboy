@@ -130,13 +130,13 @@ class Maintenances(CTkScrollableFrame):
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
-                        f"Vehicle Registration: {record[0]} ({record[1]} {record[2]})\n"
+                        f"Vehicle Registration: {record[0]} ({record[1]} {record[2]})\n\n"
                         f"Owner: {record[3]} {record[4]}\n\n"
-                        f"Mileage: {record[5] if record[5] is not None else 'N/A'}\n"
-                        f"Last Service Date: {record[6] if record[6] else 'N/A'}\n"
-                        f"Maintenance Date: {record[7] if record[7] else 'N/A'}\n"
-                        f"Description: {record[8] if record[8] else 'N/A'}\n"
-                        f"Cost: MWK {record[9]:.2f}" if record[9] is not None else "Cost: N/A\n"
+                        f"Mileage: {record[5] if record[5] is not None else 'N/A'}\n\n"
+                        f"Last Service Date: {record[6] if record[6] else 'N/A'}\n\n"
+                        f"Maintenance Date: {record[7] if record[7] else 'N/A'}\n\n"
+                        f"Description: {record[8] if record[8] else 'N/A'}\n\n"
+                        f"Cost: MWK {record[9]:.2f}" if record[9] is not None else "Cost: N/A\n\n"
                         f"Status: {record[10] if record[10] else 'N/A'}"
                     )
             except Exception as e:
@@ -146,6 +146,7 @@ class Maintenances(CTkScrollableFrame):
         
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         CTkButton(self, text="Back to List", command=self.show_maintenances_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
+        CTkButton(self, text="Update details", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
 
     # show the add form
     def _show_add_form(self):
