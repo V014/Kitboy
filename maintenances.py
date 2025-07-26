@@ -98,6 +98,11 @@ class Maintenances(CTkScrollableFrame):
         self.clear_frame()
         self.current_view = "detail"
 
+        # Navigation and action buttons
+        CTkButton(self, text="⬅️Back", command=self.show_maintenances_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
+        CTkButton(self, text="Update details", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27, anchor="e")
+
+        # Title page labrl
         CTkLabel(self, text=f"Maintenance Details (ID: {maintenance_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
         # Fetch more comprehensive details from DB
@@ -143,10 +148,9 @@ class Maintenances(CTkScrollableFrame):
                 details_text = f"Error fetching details: {e}"
             finally:
                 db_obj.con.close()
-        
+
+        # show the details
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
-        CTkButton(self, text="Back to List", command=self.show_maintenances_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
-        CTkButton(self, text="Update details", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
 
     # show the add form
     def _show_add_form(self):
