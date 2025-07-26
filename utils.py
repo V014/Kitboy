@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import connection
 
 class Utils:
@@ -34,7 +35,12 @@ class Utils:
         db_obj = DummyDB()
         dbcon_func(db_obj)
         if db_obj.con:
+            messagebox.showwarning("Are you sure?")
             try:
                 db_obj.cur.execute(f"DELETE FROM {table_name} WHERE id={table_id}")
+                db_obj.con.commit()
+                messagebox.showinfo("Success", "Maintenance deleted!")
+            except Exception as e:
+                messagebox.showerror("Database Error", f"Could not delete maintenance: {e}")
             finally:
                 db_obj.con.close()

@@ -165,3 +165,10 @@ class Maintenances(CTkScrollableFrame):
         service_type_options = [service_type.value for service_type in ServiceType]
         add_form = AddMaintenancesForm(self, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=self.show_maintenances_list_view)
         add_form.pack(expand=True, fill="both")
+
+    # delete record function via Utils class
+    @staticmethod
+    def delete_record(self, table_name, table_id):
+        Utils.delete_record(table_name, table_id)
+        if self.back_command:
+            self.back_command()
