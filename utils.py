@@ -27,7 +27,7 @@ class Utils:
     
     # delete records function
     @staticmethod
-    def delete_record(table_name, table_id):
+    def delete_record(table_name, table_id, callback=None):
         db = connection
         dbcon_func = db.dbcon
         class DummyDB:
@@ -35,12 +35,13 @@ class Utils:
         db_obj = DummyDB()
         dbcon_func(db_obj)
         if db_obj.con:
-            messagebox.showwarning("Are you sure?")
-            try:
-                db_obj.cur.execute(f"DELETE FROM {table_name} WHERE id={table_id}")
-                db_obj.con.commit()
-                messagebox.showinfo("Success", "Maintenance deleted!")
-            except Exception as e:
-                messagebox.showerror("Database Error", f"Could not delete maintenance: {e}")
-            finally:
-                db_obj.con.close()
+            if messagebox.askyesno("Delete Record", f"Are you sure you want to delete this record from {table_name}?"):
+                try:
+                    db_obj.cur.execute(f"DELETE FROM {table_name} WHERE id={table_id}")
+                    db_obj.con.commit()
+                    messagebox.showinfo("Success", "Maintenance deleted!")
+                    callback()
+                except Exception as e:
+                    messagebox.showerror("Database Error", f"Could not delete maintenance: {e}")
+                finally:
+                    db_obj.con.close()
