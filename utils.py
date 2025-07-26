@@ -1,4 +1,3 @@
-from matplotlib import table
 import connection
 
 class Utils:
@@ -7,6 +6,7 @@ class Utils:
         from datetime import datetime
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
+    # retrieve combo box data function
     @staticmethod
     def get_options(table_name, column_name):
         db = connection
@@ -24,6 +24,7 @@ class Utils:
                 db_obj.con.close()
         return options
     
+    # delete records function
     @staticmethod
     def delete_record(table_name, table_id):
         db = connection
