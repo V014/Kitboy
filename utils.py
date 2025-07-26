@@ -1,3 +1,4 @@
+from matplotlib import table
 import connection
 
 class Utils:
@@ -22,3 +23,17 @@ class Utils:
             finally:
                 db_obj.con.close()
         return options
+    
+    @staticmethod
+    def delete_record(table_name, table_id):
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB:
+            pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+        if db_obj.con:
+            try:
+                db_obj.cur.execute(f"DELETE FROM {table_name} WHERE id={table_id}")
+            finally:
+                db_obj.con.close()
