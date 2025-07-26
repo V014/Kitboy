@@ -99,8 +99,11 @@ class Maintenances(CTkScrollableFrame):
         self.current_view = "detail"
 
         # Navigation and action buttons
-        CTkButton(self, text="⬅️Back", command=self.show_maintenances_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
-        CTkButton(self, text="Update details", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27, anchor="e")
+        button_frame = CTkFrame(self, fg_color="transparent")
+        button_frame.pack(pady=20, padx=27, fill="x")
+        CTkButton(button_frame, text="⬅Back", command=self.show_maintenances_list_view, fg_color="#601E88", hover_color="#9569AF").pack(side="left")
+        CTkButton(button_frame, text="❌Delete", command=lambda: Utils.delete_record("maintenances", maintenance_id, self.show_maintenances_list_view), fg_color="#601E88", hover_color="#9569AF").pack(padx=10, side="right")
+        CTkButton(button_frame, text="⬆️Update details", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(side="right")
 
         # Title page labrl
         CTkLabel(self, text=f"Maintenance Details (ID: {maintenance_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
