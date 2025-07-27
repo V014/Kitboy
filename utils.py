@@ -40,11 +40,11 @@ class Utils:
                 try:
                     db_obj.cur.execute(f"DELETE FROM {table_name} WHERE id={table_id}")
                     db_obj.con.commit()
-                    if messagebox.showinfo("Success", "Maintenance deleted!"):
+                    if messagebox.showinfo("Success", "record deleted!"):
                         if callback:
                             callback()
                 except Exception as e:
-                    messagebox.showerror("Database Error", f"Could not delete maintenance: {e}")
+                    messagebox.showerror("Database Error", f"Could not delete record: {e}")
                     db_obj.con.rollback()
                 finally:
                     db_obj.con.close()
