@@ -1,5 +1,7 @@
 from customtkinter import *
 from tkinter import messagebox
+import connection
+from tkcalendar import DateEntry
 
 class AddMechanicForm(CTkFrame):
     def __init__(self, master, back_command=None):
@@ -34,7 +36,8 @@ class AddMechanicForm(CTkFrame):
 
         # Certified On
         CTkLabel(form_frame, text="Certified On (YYYY-MM-DD)", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0, 2))
-        self.certified_on_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        # self.certified_on_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.certified_on_entry = DateEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=46, date_pattern='yyyy-mm-dd', background='#601E88')
         self.certified_on_entry.grid(row=5, column=0, ipady=0, pady=(0, 10))
 
         # Institute
@@ -69,7 +72,6 @@ class AddMechanicForm(CTkFrame):
         ).pack(side="left", padx=(12,0))
 
     def add_mechanic(self):
-        import connection
         firstname = self.firstname_entry.get().strip()
         lastname = self.lastname_entry.get().strip()
         identification = self.identification_entry.get().strip()
