@@ -5,6 +5,7 @@ from enum import Enum
 from forms.maintenances_add import AddMaintenancesForm
 from utils import Utils
 
+# list of service types
 class ServiceType(Enum):
         TYPE1 = "Breaking system"
         TYPE2 = "Engine service"
@@ -121,9 +122,7 @@ class Maintenances(CTkScrollableFrame):
                 # Query to get detailed maintenance info, vehicle details, and customer details
                 query = """
                     SELECT
-                        v.reg_number, v.make, v.model,       -- Vehicle details
-                        c.firstname, c.lastname,             -- Customer details
-                        m.mileage,                           -- Maintenance details
+                        v.reg_number, v.make, v.model, c.firstname, c.lastname, m.mileage,                           
                         DATE_FORMAT(m.last_service, '%Y-%m-%d') AS formatted_last_service,
                         DATE_FORMAT(m.date, '%Y-%m-%d') AS formatted_maintenance_date,
                         m.description,
