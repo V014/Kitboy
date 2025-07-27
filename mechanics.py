@@ -111,15 +111,15 @@ class Mechanics(CTkScrollableFrame):
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
-                        f"Firstname: {record[0]}\n"
-                        f"Lastname: {record[1]}\n"
-                        f"Identification: {record[2]}\n"
-                        f"Certification: {record[3]}\n"
-                        f"Certified on: {record[4]}\n"
-                        f"Institute: {record[5]}\n"
-                        f"Skills: {record[6]}\n"
-                        f"Specification: {record[7]}\n"
-                        f"Date Registered: {record[8]}\n"
+                        f"Firstname: {record[0]}\n\n"
+                        f"Lastname: {record[1]}\n\n"
+                        f"Identification: {record[2]}\n\n"
+                        f"Certification: {record[3]}\n\n"
+                        f"Certified on: {record[4]}\n\n"
+                        f"Institute: {record[5]}\n\n"
+                        f"Skills: {record[6]}\n\n"
+                        f"Specification: {record[7]}\n\n"
+                        f"Date Registered: {record[8]}\n\n"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
