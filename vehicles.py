@@ -112,13 +112,13 @@ class Vehicles(CTkScrollableFrame):
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
-                        f"Registration Number: {record[0]}\n"
-                        f"Make: {record[1]}\n"
-                        f"Model: {record[2]}\n"
-                        f"Year: {record[3] if record[3] else 'N/A'}\n"
-                        f"Color: {record[4] if record[4] else 'N/A'}\n"
+                        f"Registration Number: {record[0]}\n\n"
+                        f"Make: {record[1]}\n\n"
+                        f"Model: {record[2]}\n\n"
+                        f"Year: {record[3] if record[3] else 'N/A'}\n\n"
+                        f"Color: {record[4] if record[4] else 'N/A'}\n\n"
                         f"VIN Number: {record[5] if record[5] else 'N/A'}\n\n"
-                        f"Owner: {record[6]} {record[7]}\n"
+                        f"Owner: {record[6]} {record[7]}\n\n"
                         f"Owner Contact: {record[8] if record[8] else 'N/A'}"
                     )
             except Exception as e:
