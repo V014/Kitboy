@@ -92,7 +92,7 @@ class Vehicles(CTkScrollableFrame):
         button_frame = CTkFrame(self, fg_color="transparent")
         button_frame.pack(pady=20, padx=27, fill="x")
         CTkButton(button_frame, text="Back", command=self.show_vehicles_list_view, fg_color="#601E88", hover_color="#9569AF").pack(side="left")
-        CTkButton(button_frame, text="Delete", command=lambda: Utils.delete_record("vehicles", vehicle_id, self.show_maintenances_list_view), fg_color="#601E88", hover_color="#DD4055").pack(padx=10, side="right")
+        CTkButton(button_frame, text="Delete", command=lambda: Utils.delete_record("vehicles", vehicle_id, self.show_vehicles_list_view), fg_color="#601E88", hover_color="#DD4055").pack(padx=10, side="right")
         CTkButton(button_frame, text="Update", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(side="right")
 
         # Title
