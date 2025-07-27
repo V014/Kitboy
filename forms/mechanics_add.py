@@ -38,7 +38,7 @@ class AddMechanicForm(CTkFrame):
         CTkLabel(form_frame, text="Certified On (YYYY-MM-DD)", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0, 2))
         # self.certified_on_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.certified_on_entry = DateEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=46, date_pattern='yyyy-mm-dd', background='#601E88')
-        self.certified_on_entry.grid(row=5, column=0, ipady=0, pady=(0, 10))
+        self.certified_on_entry.grid(row=5, column=0, ipady=5, pady=(0, 10))
 
         # Institute
         CTkLabel(form_frame, text="Institute", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0, 2))
