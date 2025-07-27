@@ -37,7 +37,7 @@ class AddRemindersForm(CTkFrame):
         CTkLabel(form_frame, text="Due date", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
         # self.date_due_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
         self.date_due_entry = DateEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=46, date_pattern='yyyy-mm-dd', background='#601E88')
-        self.date_due_entry.grid(row=7, column=0, ipady=4, pady=(0,10))
+        self.date_due_entry.grid(row=7, column=0, ipady=5, pady=(0,10))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
