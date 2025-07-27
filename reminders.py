@@ -94,6 +94,14 @@ class Reminders(CTkScrollableFrame):
         self.clear_frame()
         self.current_view = "details"
 
+        # Navigation and action buttons
+        button_frame = CTkFrame(self, fg_color="transparent")
+        button_frame.pack(pady=20, padx=27, fill="x")
+        CTkButton(button_frame, text="Back", command=self.show_reminders_list_view, fg_color="#601E88", hover_color="#9569AF").pack(side="left")
+        CTkButton(button_frame, text="Delete", command=lambda: Utils.delete_record("reminders", reminder_id, self.show_reminders_list_view), fg_color="#601E88", hover_color="#DD4055").pack(padx=10, side="right")
+        CTkButton(button_frame, text="Update", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(side="right")
+
+        # Title
         CTkLabel(self, text=f"reminder Details (ID: {reminder_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
         # Fetch more comprehensice details from DB
@@ -133,7 +141,6 @@ class Reminders(CTkScrollableFrame):
                 db_obj.con.close()
         
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600).pack(pady=10, padx=27, anchor="w")
-        CTkButton(self, text="Back to List", command=self.show_reminders_list_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=20, padx=27)
 
     # show the add form
     def _show_add_form(self):
