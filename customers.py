@@ -122,12 +122,12 @@ class Customers(CTkScrollableFrame):
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
-                        f"First Name: {record[0]}\n"
-                        f"Last Name: {record[1]}\n"
-                        f"Contact: {record[2]}\n"
-                        f"Email: {record[3] if record[3] else 'N/A'}\n"
-                        f"Address: {record[4] if record[4] else 'N/A'}\n"
-                        f"Payment Status: {record[5] if record[5] else 'N/A'}\n"
+                        f"First Name: {record[0]}\n\n"
+                        f"Last Name: {record[1]}\n\n"
+                        f"Contact: {record[2]}\n\n"
+                        f"Email: {record[3] if record[3] else 'N/A'}\n\n"
+                        f"Address: {record[4] if record[4] else 'N/A'}\n\n"
+                        f"Payment Status: {record[5] if record[5] else 'N/A'}\n\n"
                         f"Registration Date: {record[6] if record[6] else 'N/A'}"
                     )
             except Exception as e:
