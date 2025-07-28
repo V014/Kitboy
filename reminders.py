@@ -126,14 +126,14 @@ class Reminders(CTkScrollableFrame):
                 record = db_obj.cur.fetchone()
                 if record:
                     details_text = (
-                        f"Firstname: {record[0]}\n"
-                        f"Lastname: {record[1]}\n"
-                        f"Type: {record[2]}\n"
-                        f"Description: {record[3]}\n"
-                        f"Vehicle Registration Number: {record[4]}\n"
-                        f"Due Date: {record[5]}\n"
-                        f"Status: {record[6]}\n"
-                        f"Date: {record[7]}\n"
+                        f"Firstname: {record[0]}\n\n"
+                        f"Lastname: {record[1]}\n\n"
+                        f"Type: {record[2]}\n\n"
+                        f"Description: {record[3]}\n\n"
+                        f"Vehicle Registration Number: {record[4]}\n\n"
+                        f"Due Date: {record[5]}\n\n"
+                        f"Status: {record[6]}\n\n"
+                        f"Date: {record[7]}"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
