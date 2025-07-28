@@ -1,12 +1,12 @@
 import google.generativeai as genai
-import os
 
 # Configure the API key
-# genai.configure(api_key="API_KEY_HERE")
-genai.configure(api_key=os.read("assets/api/api_config.txt").strip())
+genai.configure(api_key="AIzaSyDMgJ_S82PNeMh8GJGs0DFWoQPzQ4ZZvDo")
 
 # Create a generative model
 model = genai.GenerativeModel('gemini-1.5-flash')
+
+print("Google AI Chatbot. Type 'quit', 'exit', or 'bye' to end the conversation.")
 
 while True:
     # Get prompt from user
