@@ -2,7 +2,8 @@ import google.generativeai as genai
 
 class AskKitboy:
     # Create function that handles prompts
-    def prompt(self, prompt):
+    @staticmethod
+    def prompt(prompt):
 
         # Configure the API key
         genai.configure(api_key="AIzaSyDMgJ_S82PNeMh8GJGs0DFWoQPzQ4ZZvDo")
