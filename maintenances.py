@@ -4,6 +4,8 @@ from CTkTable import CTkTable
 from enum import Enum
 from forms.maintenances_add import AddMaintenancesForm
 from utils import Utils
+from ask import AskKitboy
+import threading
 
 # list of service types
 class ServiceType(Enum):
@@ -117,6 +119,7 @@ class Maintenances(CTkScrollableFrame):
         dbcon_func(db_obj)
 
         details_text = "Details not found."
+        prompt_text = "No prompt available."
         if db_obj.con:
             try:
                 # Query to get detailed maintenance info, vehicle details, and customer details
@@ -136,6 +139,7 @@ class Maintenances(CTkScrollableFrame):
                 db_obj.cur.execute(query, (maintenance_id,))
                 record = db_obj.cur.fetchone()
                 if record:
+                    prompt_text = (record[8])  # Use the description for the prompt
                     details_text = (
                         f"Vehicle Registration: {record[0]} ({record[1]} {record[2]})\n\n"
                         f"Owner: {record[3]} {record[4]}\n\n"
@@ -144,7 +148,7 @@ class Maintenances(CTkScrollableFrame):
                         f"Maintenance Date: {record[7] if record[7] else 'N/A'}\n\n"
                         f"Description: {record[8] if record[8] else 'N/A'}\n\n"
                         f"Cost: MWK {record[9]:.2f}" if record[9] is not None else "Cost: N/A\n\n"
-                        f"Status: {record[10] if record[10] else 'N/A'}"
+                        f"Status: {record[10] if record[10] else 'N/A'}\n\n"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
@@ -153,7 +157,32 @@ class Maintenances(CTkScrollableFrame):
 
         # show the details
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
-        CTkButton(self, text="✨ Ask Kitboy", command=self.show_maintenance_detail_view, fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
+        # show prompt title
+        CTkLabel(self, text="Kitboy Sugguestions:", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
+        # show the prompt
+        self.kitboy_response_label = CTkLabel(self, text="", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w")
+        self.kitboy_response_label.pack(pady=10, padx=27, anchor="w")
+        # Ask Kitboy for suggestions
+        CTkButton(self, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
+
+    # Function to ask Kitboy and update the label with the response, This function will be called when the "Ask Kitboy" button is clicked
+    def ask_kitboy_and_update_label(self, prompt):
+        try:
+            response = AskKitboy.prompt(prompt)  # Calling API and function here
+            self.kitboy_response_label.configure(text=response)
+        except Exception as e:
+            self.kitboy_response_label.configure(text=f"Error: {e}")
+
+    # Function to ask Kitboy and update the label with the response in a separate thread, This is to avoid blocking the UI while waiting for the response
+    def ask_kitboy_and_update_label(self, prompt):
+        def run():
+            try:
+                response = AskKitboy.prompt(prompt)
+                self.kitboy_response_label.configure(text=response)
+            except Exception as e:
+                self.kitboy_response_label.configure(text=f"Error: {e}")
+
+        threading.Thread(target=run).start()
 
     # show the add form
     def _show_add_form(self):

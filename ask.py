@@ -1,6 +1,6 @@
 import google.generativeai as genai
 
-class ASK:
+class AskKitboy:
     # Create function that handles prompts
     def prompt(self, prompt):
 
