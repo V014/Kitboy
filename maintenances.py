@@ -139,7 +139,15 @@ class Maintenances(CTkScrollableFrame):
                 db_obj.cur.execute(query, (maintenance_id,))
                 record = db_obj.cur.fetchone()
                 if record:
-                    prompt_text = (record[8])  # Use the description for the prompt
+                    # Use the description for the prompt
+                    prompt_text = (
+                        f"Vehicle Make: {record[1]}\n\n"
+                        f"Vehicle Model: {record[2]}\n\n"
+                        f"Mileage: {record[5] if record[5] is not None else 'N/A'}\n\n"
+                        f"Last Service Date: {record[6] if record[6] else 'N/A'}\n\n"
+                        f"Description: {record[8] if record[8] else 'Please ask for details of problem, you are an api for a vehicle maintenance company.'}\n\n"
+                    )  
+                    # Prepare the details text
                     details_text = (
                         f"Vehicle Registration: {record[0]} ({record[1]} {record[2]})\n\n"
                         f"Owner: {record[3]} {record[4]}\n\n"
