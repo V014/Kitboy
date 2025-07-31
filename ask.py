@@ -1,29 +1,26 @@
 import google.generativeai as genai
 
-# Configure the API key
-genai.configure(api_key="AIzaSyDMgJ_S82PNeMh8GJGs0DFWoQPzQ4ZZvDo")
+class ASK:
+    # Create function that handles prompts
+    def prompt(self, prompt):
 
-# Create a generative model
-model = genai.GenerativeModel('gemini-1.5-flash')
+        # Configure the API key
+        genai.configure(api_key="AIzaSyDMgJ_S82PNeMh8GJGs0DFWoQPzQ4ZZvDo")
 
-print("Google AI Chatbot. Type 'quit', 'exit', or 'bye' to end the conversation.")
+        # Create a generative model
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        while True:
+            # Check for exit commands
+            if prompt.lower() in ["quit", "exit", "bye"]:
+                break
 
-while True:
-    # Get prompt from user
-    prompt = input("You: ")
+            try:
+                # Generate content
+                response = model.generate_content(prompt)
 
-    # Check for exit commands
-    if prompt.lower() in ["quit", "exit", "bye"]:
-        break
+                # Print the response
+                return (f"{response.text}")
 
-    try:
-        # Generate content
-        response = model.generate_content(prompt)
-
-        # Print the response
-        print(f"AI: {response.text}")
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-print("Conversation ended.")
+            except Exception as e:
+                return (f"An error occurred: {e}")
