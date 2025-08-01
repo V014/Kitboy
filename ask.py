@@ -1,12 +1,19 @@
+import os
+from dotenv import load_dotenv
 import google.generativeai as genai
 
 class AskKitboy:
     # Create function that handles prompts
     @staticmethod
     def prompt(prompt):
+        # Load API key from .env
+        load_dotenv()
+        api_key = os.getenv("GEMINI_API_KEY")
+        
+        if not api_key:
+            return "API key not found. Please set it in the .env file."
 
-        # Configure the API key
-        genai.configure(api_key="AIzaSyDMgJ_S82PNeMh8GJGs0DFWoQPzQ4ZZvDo")
+        genai.configure(api_key=api_key)
 
         # Create a generative model
         model = genai.GenerativeModel('gemini-1.5-flash')

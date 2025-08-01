@@ -156,7 +156,7 @@ class Maintenances(CTkScrollableFrame):
                         f"Maintenance Date: {record[7] if record[7] else 'N/A'}\n\n"
                         f"Description: {record[8] if record[8] else 'N/A'}\n\n"
                         f"Cost: MWK {record[9]:.2f}" if record[9] is not None else "Cost: N/A\n\n"
-                        f"Status: {record[10] if record[10] else 'N/A'}\n\n"
+                        f"Status: {record[10] if record[10] else 'N/A'}\n"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
@@ -166,7 +166,7 @@ class Maintenances(CTkScrollableFrame):
         # show the details
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         # show prompt title
-        CTkLabel(self, text="Kitboy Sugguestions:", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
+        CTkLabel(self, text="Kitboy Sugguestions:", font=("Arial Black", 20), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         # show the prompt
         self.kitboy_response_label = CTkLabel(self, text="", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w")
         self.kitboy_response_label.pack(pady=10, padx=27, anchor="w")
