@@ -6,10 +6,12 @@ class AskKitboy:
     # Create function that handles prompts
     @staticmethod
     def prompt(prompt):
-        # Load API key from .env
-        load_dotenv()
-        api_key = os.getenv("GEMINI_API_KEY")
-        
+        # Load the .env file from the correct path
+        load_dotenv(dotenv_path="assets/api/api_key.env")
+
+        # Get the API key
+        api_key = os.getenv("GEMINI_API_KEY")   
+
         if not api_key:
             return "API key not found. Please set it in the .env file."
 
