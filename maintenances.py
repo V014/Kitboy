@@ -141,6 +141,7 @@ class Maintenances(CTkScrollableFrame):
                 if record:
                     # Use the description for the prompt
                     prompt_text = (
+                        f"Directive: You are a virtual mechanic at a workshop, below are vehicle details and a description of an issue.\n\n"
                         f"Vehicle Make: {record[1]}\n\n"
                         f"Vehicle Model: {record[2]}\n\n"
                         f"Mileage: {record[5] if record[5] is not None else 'N/A'}\n\n"
@@ -168,7 +169,7 @@ class Maintenances(CTkScrollableFrame):
         # show prompt title
         CTkLabel(self, text="Kitboy Sugguestions:", font=("Arial Black", 20), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         # show the prompt
-        self.kitboy_response_label = CTkLabel(self, text="", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w")
+        self.kitboy_response_label = CTkLabel(self, text="", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600)
         self.kitboy_response_label.pack(pady=10, padx=27, anchor="w")
         # Ask Kitboy for suggestions
         CTkButton(self, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
@@ -184,11 +185,15 @@ class Maintenances(CTkScrollableFrame):
     # Function to ask Kitboy and update the label with the response in a separate thread, This is to avoid blocking the UI while waiting for the response
     def ask_kitboy_and_update_label(self, prompt):
         def run():
+            self.after(0, self.show_kitboy_skeleton)  # Show skeleton from main thread
+
             try:
                 response = AskKitboy.prompt(prompt)
-                self.kitboy_response_label.configure(text=response)
+                self.after(0, lambda: self.kitboy_response_label.configure(text=response))
             except Exception as e:
-                self.kitboy_response_label.configure(text=f"Error: {e}")
+                self.after(0, lambda: self.kitboy_response_label.configure(text=f"Error: {e}"))
+            finally:
+                self.after(0, self.hide_kitboy_skeleton)  # Hide skeleton from main thread
 
         threading.Thread(target=run).start()
 
@@ -201,3 +206,29 @@ class Maintenances(CTkScrollableFrame):
         service_type_options = [service_type.value for service_type in ServiceType]
         add_form = AddMaintenancesForm(self, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=self.show_maintenances_list_view)
         add_form.pack(expand=True, fill="both")
+
+    # Show Kitboy skeleton loading animation
+    def show_kitboy_skeleton(self):
+        self.skeleton_blocks = []
+        for i in range(3):
+            block = CTkLabel(self, text="", height=20, width=600, corner_radius=10, fg_color="#444444")
+            block.pack(pady=4, padx=27, anchor="w")
+            self.skeleton_blocks.append(block)
+        self.animate_skeleton()
+
+    def hide_kitboy_skeleton(self):
+        for block in getattr(self, "skeleton_blocks", []):
+            block.destroy()
+        self.skeleton_blocks = []
+
+    def animate_skeleton(self):
+        import time
+        def pulse():
+            colors = ["#444", "#555", "#666", "#555", "#444"]
+            for _ in range(3):  # cycles
+                for color in colors:
+                    for block in getattr(self, "skeleton_blocks", []):
+                        block.configure(fg_color=color)
+                    self.update()
+                    time.sleep(0.1)
+        threading.Thread(target=pulse, daemon=True).start()
