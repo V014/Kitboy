@@ -8,6 +8,33 @@ class AddMaintenancesForm(CTkFrame):
         self.back_command = back_command
         self.maintenance_id = maintenance_id
 
+        if self.maintenance_id:
+            db = connection
+            dbcon_func = db.dbcon
+            class DummyDB: pass
+            db_obj = DummyDB()
+            dbcon_func(db_obj)
+
+            if db_obj.con:
+                try:
+                    db_obj.cur.execute(
+                        "SELECT customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost FROM maintenances WHERE id = %s",
+                        (self.maintenance_id,)
+                    )
+                    record = db_obj.cur.fetchone()
+                    if record:
+                        self.customer_combo.set(str(record[0]))
+                        self.vehicle_combo.set(str(record[1]))
+                        self.mechanic_combo.set(str(record[2]))
+                        self.mileage_entry.insert(0, str(record[3]))
+                        self.service_type_combo.set(str(record[4]))
+                        self.description_entry.insert(0, str(record[5]))
+                        self.labor_hours_entry.insert(0, str(record[6]))
+                        self.cost_entry.insert(0, str(record[7]))
+                finally:
+                    db_obj.con.close()
+
+
         CTkLabel(self, text="Set Maintenance", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
