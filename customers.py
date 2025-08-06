@@ -25,15 +25,7 @@ class Customers(CTkScrollableFrame):
         title_frame = CTkFrame(master=self, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         CTkLabel(master=title_frame, text="Customers", font=("Arial", 25), text_color="#ffffff").pack(anchor="nw", side="left")
-        CTkButton(
-            master=title_frame,
-            text="New Customer",
-            font=("Arial", 15),
-            text_color="#fff",
-            fg_color="#601E88",
-            hover_color="#9569AF",
-            command=self._show_add_form  # <-- Add this line
-        ).pack(anchor="ne", side="right")
+        CTkButton(master=title_frame, text="New Customer", font=("Arial", 15), text_color="#fff", fg_color="#601E88", hover_color="#9569AF", command=self._show_add_form).pack(anchor="ne", side="right")
 
         self._load_and_display_customers_table()
 
@@ -60,8 +52,6 @@ class Customers(CTkScrollableFrame):
 
         table_display_values = [["Firstname", "Lastname", "Contact", "Action"]]
         for row_data in self.all_customers_data:
-            # row_data is (id, firstname, lastname, contact)
-            # We display firstname, lastname, contact, and "View Details" for action
             display_row = list(row_data[1:]) + ["View Details"]
             table_display_values.append(display_row)
 

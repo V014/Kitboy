@@ -7,7 +7,8 @@ class AddCustomerForm(CTkFrame):
         self.back_command = back_command
         self.customer_id = customer_id
 
-        CTkLabel(self, text="Add Customer", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
+        mode_label = "Edit Customer" if self.customer_id else "Add Customer"
+        CTkLabel(self, text=mode_label, font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         grid = CTkFrame(self, fg_color="transparent")
         grid.pack(fill="both", padx=27, pady=(31,0))
@@ -41,8 +42,9 @@ class AddCustomerForm(CTkFrame):
         actions = CTkFrame(self, fg_color="transparent")
         actions.pack(fill="both")
 
+        button_text ="Update" if self.customer_id else "Add"
         CTkButton(actions, text="Back", width=138, height=40, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88", border_width=2, text_color="#fff", command=self.back_command).pack(side="left", anchor="sw", pady=(30,0), padx=(27,24))
-        CTkButton(actions, text="Add", width=138, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.save_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
+        CTkButton(actions, text=button_text, width=138, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.save_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
 
         if self.customer_id:
             import connection
@@ -64,7 +66,7 @@ class AddCustomerForm(CTkFrame):
                         self.address_entry.insert(0, record[4])
                 finally:
                     db_obj.con.close() 
-                    
+
     # Save Customer function
     def save_customer(self):
         import connection
