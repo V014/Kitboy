@@ -64,8 +64,10 @@ class AddCustomerForm(CTkFrame):
                         self.address_entry.insert(0, record[4])
                 finally:
                     db_obj.con.close() 
-
+                    
+    # Save Customer function
     def save_customer(self):
+        import connection
         firstname = self.firstname_entry.get().strip()
         lastname = self.lastname_entry.get().strip()
         contact = self.contact_entry.get().strip()
@@ -85,14 +87,24 @@ class AddCustomerForm(CTkFrame):
 
         if db_obj.con:
             try:
-                db_obj.cur.execute(
-                    "INSERT INTO customers (firstname, lastname, contact, email, address) VALUES (%s, %s, %s, %s, %s)",
-                    (firstname, lastname, contact, email, address)
-                )
+                if self.customer.id:
+                    db_obj.cur.execute(
+                        "UPDATE customers SET firstname = %s, lastname = %s, contact = %s, email = %s, address = %s WHERE id = %s",
+                        (firstname, lastname, contact, email, address, self.customer_id)
+                    )
+                    messagebox.showinfo("Success", "Customer updated successfully!")
+                else:
+                    db_obj.cur.execute(
+                        "INSERT INTO customers (firstname, lastname, contact, email, address) VALUES (%s, %s, %s, %s, %s)",
+                        (firstname, lastname, contact, email, address)
+                    )
+                    messagebox.showinfo("Success", "Customer added successfully!")
+
                 db_obj.con.commit()
-                messagebox.showinfo("Success", "Customer added successfully!")
+
                 if self.back_command:
                     self.back_command()
+
             except Exception as e:
                 messagebox.showerror("Database Error", f"Could not add customer: {e}")
             finally:
