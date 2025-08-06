@@ -118,15 +118,34 @@ class AddMaintenancesForm(CTkFrame):
 
         if db_obj.con:
             try:
-                db_obj.cur.execute(
-                    "INSERT INTO maintenances (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                    (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost)
-                )
+                if self.maintenance_id:
+                    # UPDATE existing record
+                    db_obj.cur.execute(
+                        """
+                        UPDATE maintenances
+                        SET customer_id = %s, vehicle_id = %s, mechanic_id = %s, mileage = %s,
+                            service_type = %s, description = %s, labor_hours = %s, cost = %s
+                        WHERE id = %s
+                        """,
+                        (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost, self.maintenance_id)
+                    )
+                    messagebox.showinfo("Success", "Maintenance updated successfully!")
+                else:
+                    # INSERT new record
+                    db_obj.cur.execute(
+                        """
+                        INSERT INTO maintenances (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        """,
+                        (customer_id, vehicle_id, mechanic_id, mileage, service_type, description, labor_hours, cost)
+                    )
+                    messagebox.showinfo("Success", "Maintenance set successfully!")
+
                 db_obj.con.commit()
-                messagebox.showinfo("Success", "Maintenance set successfully!")
+
                 if self.back_command:
                     self.back_command()
             except Exception as e:
-                messagebox.showerror("Database Error", f"Could not add maintenance: {e}")
+                messagebox.showerror("Database Error", f"Could not save maintenance: {e}")
             finally:
                 db_obj.con.close()
