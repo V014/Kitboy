@@ -198,13 +198,22 @@ class Maintenances(CTkScrollableFrame):
         threading.Thread(target=run).start()
 
     # show the add form
-    def _show_add_form(self):
+    def _show_add_form(self, maintenance_id=None):
         self.clear_frame()
         customer_options = Utils.get_options("customers", "id")
         vehicle_options = Utils.get_options("vehicles", "id")
         mechanic_options = Utils.get_options("mechanics", "id")
         service_type_options = [service_type.value for service_type in ServiceType]
-        add_form = AddMaintenancesForm(self, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=self.show_maintenances_list_view)
+
+        add_form = AddMaintenancesForm(
+            self,
+            customer_options,
+            vehicle_options,
+            mechanic_options,
+            service_type_options,
+            back_command=self.show_maintenances_list_view,
+            maintenance_id=maintenance_id  # Pass ID if editing
+        )
         add_form.pack(expand=True, fill="both")
 
     # Show Kitboy skeleton loading animation
