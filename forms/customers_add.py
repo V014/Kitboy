@@ -42,7 +42,7 @@ class AddCustomerForm(CTkFrame):
         actions = CTkFrame(self, fg_color="transparent")
         actions.pack(fill="both")
 
-        button_text ="Update" if self.customer_id else "Add"
+        button_text ="Add" if self.customer_id else "Update"
         CTkButton(actions, text="Back", width=138, height=40, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88", border_width=2, text_color="#fff", command=self.back_command).pack(side="left", anchor="sw", pady=(30,0), padx=(27,24))
         CTkButton(actions, text=button_text, width=138, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.save_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
 
@@ -89,7 +89,7 @@ class AddCustomerForm(CTkFrame):
 
         if db_obj.con:
             try:
-                if self.customer.id:
+                if self.customer_id:
                     db_obj.cur.execute(
                         "UPDATE customers SET firstname = %s, lastname = %s, contact = %s, email = %s, address = %s WHERE id = %s",
                         (firstname, lastname, contact, email, address, self.customer_id)
