@@ -3,9 +3,10 @@ from tkinter import messagebox
 import connection
 
 class AddMaintenancesForm(CTkFrame):
-    def __init__(self, master, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=None):
+    def __init__(self, master, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=None, maintenance_id=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
+        self.maintenance_id = maintenance_id
 
         CTkLabel(self, text="Set Maintenance", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
