@@ -125,12 +125,13 @@ class Maintenances(CTkScrollableFrame):
                 # Query to get detailed maintenance info, vehicle details, and customer details
                 query = """
                     SELECT
-                        v.reg_number, v.make, v.model, c.firstname, c.lastname, m.mileage,                           
+                        v.reg_number, v.make, v.model, c.firstname, c.lastname, m.mileage,                          
                         DATE_FORMAT(m.last_service, '%Y-%m-%d') AS formatted_last_service,
                         DATE_FORMAT(m.date, '%Y-%m-%d') AS formatted_maintenance_date,
                         m.description,
                         m.cost,
-                        m.completion
+                        m.completion,
+                        m.service_type
                     FROM maintenances m
                     JOIN vehicles v ON m.vehicle_id = v.id
                     JOIN customers c ON v.customer_id = c.id
@@ -156,8 +157,9 @@ class Maintenances(CTkScrollableFrame):
                         f"Last Service Date: {record[6] if record[6] else 'N/A'}\n\n"
                         f"Maintenance Date: {record[7] if record[7] else 'N/A'}\n\n"
                         f"Description: {record[8] if record[8] else 'N/A'}\n\n"
-                        f"Cost: MWK {record[9]:.2f}" if record[9] is not None else "Cost: N/A\n\n"
-                        f"Status: {record[10] if record[10] else 'N/A'}\n"
+                        f"Cost MWK: {record[9] if record[9] else 'N/A'}\n\n"
+                        f"Completion (%): {record[10] if record[10] else 'N/A'}\n\n"
+                        f"Service Type: {record[11] if record[11] else 'N/A'}\n"
                     )
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
