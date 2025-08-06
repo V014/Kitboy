@@ -1,5 +1,4 @@
 import os
-import connection
 from customtkinter import *
 from tkinter import messagebox
 from main import KitboyApp
@@ -59,6 +58,7 @@ class Login(CTk):
     def login_action(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
+        import connection
         db = connection
         dbcon = db.dbcon
         class Dummy: pass
