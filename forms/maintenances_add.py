@@ -8,7 +8,7 @@ class AddMaintenancesForm(CTkFrame):
         self.back_command = back_command
         self.maintenance_id = maintenance_id
 
-        CTkLabel(self, text="Set Maintenance", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
+        CTkLabel(self, text="Maintenance Details", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
         form_frame.pack(fill="x", padx=27, pady=(10,0))
@@ -57,17 +57,8 @@ class AddMaintenancesForm(CTkFrame):
         actions = CTkFrame(self, fg_color="transparent")
         actions.pack(fill="x", pady=(10, 20), padx=27)
 
-        CTkButton(
-            actions, text="Back", width=150, height=40, fg_color="transparent",
-            font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88",
-            border_width=2, text_color="#fff", command=self.back_command
-        ).pack(side="left", padx=(0,12))
-
-        CTkButton(
-            actions, text="Set", width=150, height=40, font=("Arial Bold", 17),
-            hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
-            command=self.set_maintenance
-        ).pack(side="left", padx=(12,0))
+        CTkButton(actions, text="Back", width=150, height=40, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88", border_width=2, text_color="#fff", command=self.back_command).pack(side="left", padx=(0,12))
+        CTkButton(actions, text="Apply", width=150, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.set_maintenance).pack(side="left", padx=(12,0))
 
         if self.maintenance_id:
             db = connection
