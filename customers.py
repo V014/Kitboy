@@ -37,9 +37,9 @@ class Customers(CTkScrollableFrame):
 
         self._load_and_display_customers_table()
 
-    def _show_add_form(self):
+    def _show_add_form(self, customer_id=NONE):
         self.clear_frame()
-        add_form = AddCustomerForm(self, back_command=self.show_customers_list_view)
+        add_form = AddCustomerForm(self, back_command=self.show_customers_list_view, customer_id=customer_id)
         add_form.pack(expand=True, fill="both")
 
     def _load_and_display_customers_table(self):
@@ -100,7 +100,7 @@ class Customers(CTkScrollableFrame):
         button_frame.pack(pady=20, padx=27, fill="x")
         CTkButton(button_frame, text="Back", command=self.show_customers_list_view, fg_color="#601E88", hover_color="#9569AF").pack(side="left")
         CTkButton(button_frame, text="Delete", command=lambda: Utils.delete_record("customers", customer_id, self.show_customers_list_view), fg_color="#601E88", hover_color="#DD4055").pack(padx=10, side="right")
-        CTkButton(button_frame, text="Update", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(side="right")
+        CTkButton(button_frame, text="Update", command=lambda: self._show_add_form(customer_id), fg_color="#601E88", hover_color="#9569AF").pack(side="right")
 
         # Title
         CTkLabel(self, text=f"Customer Details (ID: {customer_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
