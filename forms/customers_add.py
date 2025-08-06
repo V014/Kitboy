@@ -2,9 +2,10 @@ from customtkinter import *
 from tkinter import messagebox
 
 class AddCustomerForm(CTkFrame):
-    def __init__(self, master, back_command=None):
+    def __init__(self, master, back_command=None, customer_id=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
+        self.customer_id = customer_id
 
         CTkLabel(self, text="Add Customer", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
@@ -41,10 +42,30 @@ class AddCustomerForm(CTkFrame):
         actions.pack(fill="both")
 
         CTkButton(actions, text="Back", width=138, height=40, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88", border_width=2, text_color="#fff", command=self.back_command).pack(side="left", anchor="sw", pady=(30,0), padx=(27,24))
-        CTkButton(actions, text="Add", width=138, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.add_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
+        CTkButton(actions, text="Add", width=138, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.save_customer).pack(side = "left", anchor="se", pady=(30,0), padx=(0,27))
 
-    def add_customer(self):
-        import connection
+        if self.customer_id:
+            import connection
+            db = connection
+            dbcon_func = db.dbcon
+            class DummyDB: pass
+            db_obj = DummyDB()
+            dbcon_func(db_obj)
+
+            if db_obj.con:
+                try:
+                    db_obj.cur.execute("SELECT firstname, lastname, contact, email, address FROM customers WHERE id = %s", (self.customer_id,))
+                    record = db_obj.cur.fetchone()
+                    if record:
+                        self.firstname_entry.insert(0, record[0])
+                        self.lastname_entry.insert(0, record[1])
+                        self.contact_entry.insert(0, record[2])
+                        self.email_entry.insert(0, record[3])
+                        self.address_entry.insert(0, record[4])
+                finally:
+                    db_obj.con.close() 
+
+    def save_customer(self):
         firstname = self.firstname_entry.get().strip()
         lastname = self.lastname_entry.get().strip()
         contact = self.contact_entry.get().strip()
@@ -54,7 +75,8 @@ class AddCustomerForm(CTkFrame):
         if not firstname or not lastname or not contact:
             messagebox.showerror("Error", "First name, last name, and contact are required.")
             return
-
+        
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
