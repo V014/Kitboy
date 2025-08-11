@@ -1,10 +1,10 @@
 # Kit Boy Auto Solution
-Kit Boy Auto Solution Digitizes and centralizes workshop operations by replacing manual and error-prone processes with a unified digital system. 
-Improve communication by ensuring timely and automated updates to both customers and workshop staff. 
-Enhance customer experience by enabling transparency, progress tracking, and service history management. 
-Support executive decision-making by providing dashboards and reports showing workshop efficiency, job completion rate, and payment records. 
-Secure and streamline financial records by reducing dependency on Excel and cashbooks, minimize data loss and improve auditability. 
-Introduce proactive service reminders by reducing missed services or updates through scheduled and automated notifications. 
+Kit Boy Auto Solution Digitizes and centralizes workshop operations by replacing manual and error-prone processes with a unified digital system.
+Improve communication by ensuring timely and automated updates to both customers and workshop staff.
+Enhance customer experience by enabling transparency, progress tracking, and service history management.
+Support executive decision-making by providing dashboards and reports showing workshop efficiency, job completion rate, and payment records.
+Secure and streamline financial records by reducing dependency on Excel and cashbooks, minimize data loss and improve auditability.
+Introduce proactive service reminders by reducing missed services or updates through scheduled and automated notifications.
 Enable accountability and traceability by logging all actions, mechanics' responsibilities, and customer approvals.
 
 # Aim
