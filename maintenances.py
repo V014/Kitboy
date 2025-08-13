@@ -133,7 +133,8 @@ class Maintenances(CTkScrollableFrame):
                         m.description,
                         m.cost,
                         m.completion,
-                        m.service_type
+                        m.service_type,
+                        m.notes
                     FROM maintenances m
                     JOIN vehicles v ON m.vehicle_id = v.id
                     JOIN customers c ON v.customer_id = c.id
@@ -163,6 +164,8 @@ class Maintenances(CTkScrollableFrame):
                         f"Completion (%): {record[10] if record[10] else 'N/A'}\n\n"
                         f"Service Type: {record[11] if record[11] else 'N/A'}\n"
                     )
+                    # Hold on to existing kitboy response if any
+                    existing_notes = record[12] if len(record) > 12 else None
             except Exception as e:
                 details_text = f"Error fetching details: {e}"
             finally:
@@ -172,27 +175,29 @@ class Maintenances(CTkScrollableFrame):
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
         # show prompt title
         CTkLabel(self, text="Kitboy Sugguestions:", font=("Arial Black", 20), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
-        # show the prompt
-        self.kitboy_response_label = CTkLabel(self, text="", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600)
+        # show the prompt and also existing prompt if available
+        self.kitboy_response_label = CTkLabel(self, text=existing_notes if existing_notes else "", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600)
         self.kitboy_response_label.pack(pady=10, padx=27, anchor="w")
         # Ask Kitboy for suggestions
         ask_button_frame = CTkFrame(self, fg_color="transparent")
         ask_button_frame.pack(pady=20, padx=27, fill="x")
-        CTkButton(ask_button_frame, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
+        CTkButton(ask_button_frame, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text, maintenance_id), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
         CTkButton(ask_button_frame, text="💾 Save Response", command=lambda: self.save_response(self.kitboy_response_label.cget("text"), maintenance_id), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
 
     # Function to ask Kitboy and update the label with the response in a separate thread, This is to avoid blocking the UI while waiting for the response
-    def ask_kitboy_and_update_label(self, prompt):
+    def ask_kitboy_and_update_label(self, prompt, maintenance_id=None):
         def run():
-            self.after(0, self.show_kitboy_skeleton)  # Show skeleton from main thread
+            self.after(0, self.show_kitboy_skeleton)
 
             try:
                 response = AskKitboy.prompt(prompt)
                 self.after(0, lambda: self.kitboy_response_label.configure(text=response))
+                if maintenance_id:
+                    self.save_response(response, maintenance_id)
             except Exception as e:
                 self.after(0, lambda: self.kitboy_response_label.configure(text=f"Error: {e}"))
             finally:
-                self.after(0, self.hide_kitboy_skeleton)  # Hide skeleton from main thread
+                self.after(0, self.hide_kitboy_skeleton)
 
         threading.Thread(target=run).start()
 
@@ -273,5 +278,5 @@ class Maintenances(CTkScrollableFrame):
                     for block in getattr(self, "skeleton_blocks", []):
                         block.configure(fg_color=color)
                     self.update()
-                    time.sleep(0.1)
+                    time.sleep(0.3)
         threading.Thread(target=pulse, daemon=True).start()
