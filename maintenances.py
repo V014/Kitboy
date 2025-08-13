@@ -1,3 +1,4 @@
+from tkinter import messagebox
 from customtkinter import *
 from CTkTable import CTkTable
 from enum import Enum
@@ -196,16 +197,37 @@ class Maintenances(CTkScrollableFrame):
         threading.Thread(target=run).start()
 
     # Function that save prompt after asking kitboy
-    def save_response(self, response, maintenance_id=None):
-        try:
-            import connection
-            db = connection
-            dbcon_func = db.dbcon
-            class DummyDB: pass
-            db_obj = DummyDB()
-            dbcon_func(db_obj)
-        except Exception e:
-            pass
+    def save_response(self, response):
+        response = self.response.get().strip()
+
+        if not response :
+            messagebox.showerror("Error", "kitboy response unavailable.")
+            return
+        
+        import connection
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB: pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+        
+        if db_obj.con:
+            try:
+                if self.maintenance_id:
+                    # UPDATE existing record
+                    db_obj.cur.execute(
+                        """
+                        UPDATE maintenances
+                        SET notes = %s
+                        WHERE id = %s
+                        """,
+                        (response, self.maintenance_id)
+                    )
+                    messagebox.showinfo("Success", "Maintenance notes updated successfully!")
+            except Exception as e:
+                messagebox.showerror("Database Error", f"Could not save maintenance notes: {e}")
+            finally:
+                    db_obj.con.close()
 
     # show the add form
     def _show_add_form(self, maintenance_id=None):
