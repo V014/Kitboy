@@ -174,7 +174,10 @@ class Maintenances(CTkScrollableFrame):
         self.kitboy_response_label = CTkLabel(self, text="", font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600)
         self.kitboy_response_label.pack(pady=10, padx=27, anchor="w")
         # Ask Kitboy for suggestions
-        CTkButton(self, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
+        ask_button_frame = CTkFrame(self, fg_color="transparent")
+        ask_button_frame.pack(pady=20, padx=27, fill="x")
+        CTkButton(ask_button_frame, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
+        CTkButton(ask_button_frame, text="💾 Save Response", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
 
     # Function to ask Kitboy and update the label with the response, This function will be called when the "Ask Kitboy" button is clicked
     def ask_kitboy_and_update_label(self, prompt):
