@@ -1,4 +1,3 @@
-import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from enum import Enum
@@ -41,6 +40,7 @@ class Maintenances(CTkScrollableFrame):
         self._load_and_display_maintenances_table()
     
     def _load_and_display_maintenances_table(self):
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -112,6 +112,7 @@ class Maintenances(CTkScrollableFrame):
         CTkLabel(self, text=f"Maintenance Details (ID: {maintenance_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
         # Fetch more comprehensive details from DB
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -177,7 +178,7 @@ class Maintenances(CTkScrollableFrame):
         ask_button_frame = CTkFrame(self, fg_color="transparent")
         ask_button_frame.pack(pady=20, padx=27, fill="x")
         CTkButton(ask_button_frame, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
-        CTkButton(ask_button_frame, text="💾 Save Response", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
+        CTkButton(ask_button_frame, text="💾 Save Response", command=lambda: self.save_response(self.kitboy_response_label, maintenance_id), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
 
     # Function to ask Kitboy and update the label with the response in a separate thread, This is to avoid blocking the UI while waiting for the response
     def ask_kitboy_and_update_label(self, prompt):
@@ -193,6 +194,18 @@ class Maintenances(CTkScrollableFrame):
                 self.after(0, self.hide_kitboy_skeleton)  # Hide skeleton from main thread
 
         threading.Thread(target=run).start()
+
+    # Function that save prompt after asking kitboy
+    def save_response(self, response, maintenance_id=None):
+        try:
+            import connection
+            db = connection
+            dbcon_func = db.dbcon
+            class DummyDB: pass
+            db_obj = DummyDB()
+            dbcon_func(db_obj)
+        except Exception e:
+            pass
 
     # show the add form
     def _show_add_form(self, maintenance_id=None):
