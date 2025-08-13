@@ -179,14 +179,6 @@ class Maintenances(CTkScrollableFrame):
         CTkButton(ask_button_frame, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
         CTkButton(ask_button_frame, text="💾 Save Response", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
 
-    # Function to ask Kitboy and update the label with the response, This function will be called when the "Ask Kitboy" button is clicked
-    def ask_kitboy_and_update_label(self, prompt):
-        try:
-            response = AskKitboy.prompt(prompt)  # Calling API and function here
-            self.kitboy_response_label.configure(text=response)
-        except Exception as e:
-            self.kitboy_response_label.configure(text=f"Error: {e}")
-
     # Function to ask Kitboy and update the label with the response in a separate thread, This is to avoid blocking the UI while waiting for the response
     def ask_kitboy_and_update_label(self, prompt):
         def run():
