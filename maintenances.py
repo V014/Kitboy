@@ -179,7 +179,7 @@ class Maintenances(CTkScrollableFrame):
         ask_button_frame = CTkFrame(self, fg_color="transparent")
         ask_button_frame.pack(pady=20, padx=27, fill="x")
         CTkButton(ask_button_frame, text="✨ Ask Kitboy", command=lambda: self.ask_kitboy_and_update_label(prompt_text), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
-        CTkButton(ask_button_frame, text="💾 Save Response", command=lambda: self.save_response(self.kitboy_response_label, maintenance_id), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
+        CTkButton(ask_button_frame, text="💾 Save Response", command=lambda: self.save_response(self.kitboy_response_label.cget("text"), maintenance_id), fg_color="#601E88", hover_color="#9569AF").pack(pady=10, padx=27, side="left")
 
     # Function to ask Kitboy and update the label with the response in a separate thread, This is to avoid blocking the UI while waiting for the response
     def ask_kitboy_and_update_label(self, prompt):
@@ -197,8 +197,8 @@ class Maintenances(CTkScrollableFrame):
         threading.Thread(target=run).start()
 
     # Function that save prompt after asking kitboy
-    def save_response(self, response):
-        response = self.response.get().strip()
+    def save_response(self, response, maintenance_id=None):
+        response = response.strip()
 
         if not response :
             messagebox.showerror("Error", "kitboy response unavailable.")
@@ -213,7 +213,7 @@ class Maintenances(CTkScrollableFrame):
         
         if db_obj.con:
             try:
-                if self.maintenance_id:
+                if maintenance_id:
                     # UPDATE existing record
                     db_obj.cur.execute(
                         """
@@ -221,9 +221,11 @@ class Maintenances(CTkScrollableFrame):
                         SET notes = %s
                         WHERE id = %s
                         """,
-                        (response, self.maintenance_id)
+                        (response, maintenance_id)
                     )
+                    db_obj.con.commit()
                     messagebox.showinfo("Success", "Maintenance notes updated successfully!")
+                    self.show_maintenance_detail_view(maintenance_id)  # Refresh details
             except Exception as e:
                 messagebox.showerror("Database Error", f"Could not save maintenance notes: {e}")
             finally:
