@@ -2,6 +2,7 @@ from customtkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
 import connection
+from datetime import date
 
 class AddRemindersForm(CTkFrame):
     def __init__(self, master, customer_options, vehicle_options, reminder_type_options, back_command=None):
@@ -61,28 +62,32 @@ class AddRemindersForm(CTkFrame):
         reminder_type = self.reminder_type_combo.get().strip()
         description = self.description_entry.get().strip()
         due_date = self.date_due_entry.get_date()
+        # Add feature that checks if the due date is behind the current day
+        if due_date > date.today():
 
-        if not customer_id or not vehicle_id or not reminder_type or not due_date:
-            messagebox.showerror("Error", "All fields except description are required.")
-            return
-        
-        db = connection
-        dbcon_func = db.dbcon
-        class DummyDB: pass
-        db_obj = DummyDB()
-        dbcon_func(db_obj)
+            if not customer_id or not vehicle_id or not reminder_type or not due_date:
+                messagebox.showerror("Error", "All fields except description are required.")
+                return
+            
+            db = connection
+            dbcon_func = db.dbcon
+            class DummyDB: pass
+            db_obj = DummyDB()
+            dbcon_func(db_obj)
 
-        if db_obj.con:
-            try:
-                db_obj.cur.execute(
-                    "INSERT INTO reminders (customer_id, vehicle_id, reminder_type, description, due_date) VALUES (%s, %s, %s, %s, %s)",
-                    (customer_id, vehicle_id, reminder_type, description, due_date)
-                )
-                db_obj.con.commit()
-                messagebox.showinfo("Success", "reminder set successfully!")
-                if self.back_command:
-                    self.back_command()
-            except Exception as e:
-                messagebox.showerror("Database Error", f"Could not add reminder: {e}")
-            finally:
-                db_obj.con.close()
+            if db_obj.con:
+                try:
+                    db_obj.cur.execute(
+                        "INSERT INTO reminders (customer_id, vehicle_id, reminder_type, description, due_date) VALUES (%s, %s, %s, %s, %s)",
+                        (customer_id, vehicle_id, reminder_type, description, due_date)
+                    )
+                    db_obj.con.commit()
+                    messagebox.showinfo("Success", "reminder set successfully!")
+                    if self.back_command:
+                        self.back_command()
+                except Exception as e:
+                    messagebox.showerror("Database Error", f"Could not add reminder: {e}")
+                finally:
+                    db_obj.con.close()
+        else:
+            messagebox.showerror("Date Error", "Cannot set a reminder for a date that has already passed")
