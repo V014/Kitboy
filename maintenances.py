@@ -229,7 +229,7 @@ class Maintenances(CTkScrollableFrame):
                         (response, maintenance_id)
                     )
                     db_obj.con.commit()
-                    messagebox.showinfo("Success", "Maintenance notes updated successfully!")
+                    # messagebox.showinfo("Success", "Maintenance notes updated successfully!")
                     self.show_maintenance_detail_view(maintenance_id)  # Refresh details
             except Exception as e:
                 messagebox.showerror("Database Error", f"Could not save maintenance notes: {e}")
