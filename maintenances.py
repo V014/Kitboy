@@ -243,6 +243,7 @@ class Maintenances(CTkScrollableFrame):
         vehicle_options = Utils.get_options("vehicles", "id")
         mechanic_options = Utils.get_options("mechanics", "id")
         service_type_options = [service_type.value for service_type in ServiceType]
+
         add_form = AddMaintenancesForm(
             self,
             customer_options,

@@ -1,9 +1,8 @@
-from socket import if_indextoname
 from customtkinter import *
 from tkinter import messagebox
 
 class AddVehicleForm(CTkFrame):
-    def __init__(self, master, customer_options, transmission_type_options, back_command=None, vehicle_id=None):
+    def __init__(self, master, customer_options, back_command=None, vehicle_id=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
         self.vehicle_id = vehicle_id
@@ -41,7 +40,7 @@ class AddVehicleForm(CTkFrame):
 
         # Transmission
         CTkLabel(form_frame, text="Transmission", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.transmission_combo = CTkComboBox(form_frame, values=transmission_type_options, width=300)
+        self.transmission_combo = CTkComboBox(form_frame, values=["Manual", "Automatic"], width=300)
         self.transmission_combo.grid(row=5, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Color
@@ -72,8 +71,8 @@ class AddVehicleForm(CTkFrame):
             if db_obj.con:
                 try:
                     db_obj.cur.execute(
-                        "SELECT make, year, color, model, reg_number, vin_number, transmission, customer_id FROM vehicles WHERE id = %s", 
-                        (self.vehicle_id,)
+                        "SELECT make, year, color, model, reg_number, vin_number, transmission, customer_id FROM vehicle WHERE id = %s", 
+                        (self.customer_id,)
                     )
                     record = db_obj.cur.fetchone()
                     if record:
@@ -89,6 +88,7 @@ class AddVehicleForm(CTkFrame):
                     db_obj.con.close() 
 
     def add_vehicle(self):
+        import connection
         customer_id = self.customer_combo.get().strip()
         reg_number = self.reg_entry.get().strip()
         make = self.make_entry.get().strip()
@@ -102,7 +102,6 @@ class AddVehicleForm(CTkFrame):
             messagebox.showerror("Error", "All fields except VIN Number are required.")
             return
 
-        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -111,28 +110,12 @@ class AddVehicleForm(CTkFrame):
 
         if db_obj.con:
             try:
-                if self.vehicle_id:
-                    # UPDATE existing record
-                    db_obj.cur.execute(
-                        """
-                        UPDATE vehicles
-                        SET customer_id = %s, make = %s, year = %s, model = %s,
-                            reg_number = %s, vin_number = %s, color = %s, transmission = %s
-                        WHERE id = %s
-                        """,
-                        (customer_id, make, year, model, reg_number, vin_number, color, transmission, self.vehicle_id)
-                    )
-                    messagebox.showinfo("Success", "Vehicle details updated successfully!")
-                else:
-                    # ADD a vehicle
-                    db_obj.cur.execute(
-                        "INSERT INTO vehicles (customer_id, reg_number, make, model, year, transmission, color, vin_number) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                        (customer_id, reg_number, make, model, year, transmission, color, vin_number)
-                    )
-                    messagebox.showinfo("Success", "Vehicle added successfully!")
-
+                db_obj.cur.execute(
+                    "INSERT INTO vehicles (customer_id, reg_number, make, model, year, transmission, color, vin_number) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                    (customer_id, reg_number, make, model, year, transmission, color, vin_number)
+                )
                 db_obj.con.commit()
-                
+                messagebox.showinfo("Success", "Vehicle added successfully!")
                 if self.back_command:
                     self.back_command()
             except Exception as e:
