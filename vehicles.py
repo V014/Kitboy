@@ -3,6 +3,12 @@ from customtkinter import *
 from CTkTable import CTkTable
 from utils import Utils
 from forms.vehicle_add import AddVehicleForm
+from enum import Enum
+
+# list of transmission types
+class TransmissionType(Enum):
+    TYPE1 = "Manual"
+    TYPE2 = "Automatic"
 
 class Vehicles(CTkScrollableFrame):
     def __init__(self, master):
@@ -151,8 +157,15 @@ class Vehicles(CTkScrollableFrame):
                 db_obj.con.close()
         return options
 
-    def _show_add_form(self):
+    def _show_add_form(self, vehicle_id=None):
         self.clear_frame()
         customer_options = self.get_customer_options()
-        add_form = AddVehicleForm(self, customer_options, back_command=self.show_vehicles_list_view)
+        transmission_type_options = [transmission_type.value for transmission_type in TransmissionType]
+        add_form = AddVehicleForm(
+            self, 
+            customer_options,
+            transmission_type_options, 
+            back_command=self.show_vehicles_list_view,
+            vehcile_id=vehicle_id)
+        
         add_form.pack(expand=True, fill="both")

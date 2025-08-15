@@ -2,10 +2,12 @@ from customtkinter import *
 from tkinter import messagebox
 
 class AddVehicleForm(CTkFrame):
-    def __init__(self, master, customer_options, back_command=None):
+    def __init__(self, master, customer_options, back_command=None, vehicle_id=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
+        self.vehicle_id = vehicle_id
 
+        # Title
         CTkLabel(self, text="Add Vehicle", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
@@ -55,17 +57,32 @@ class AddVehicleForm(CTkFrame):
         actions = CTkFrame(self, fg_color="transparent")
         actions.pack(fill="x", pady=(10, 20), padx=27)
 
-        CTkButton(
-            actions, text="Back", width=150, height=40, fg_color="transparent",
-            font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88",
-            border_width=2, text_color="#fff", command=self.back_command
-        ).pack(side="left", padx=(0,12))
+        CTkButton(actions, text="Back", width=150, height=40, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88", border_width=2, text_color="#fff", command=self.back_command).pack(side="left", padx=(0,12))
+        CTkButton(actions, text="Add", width=150, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.add_vehicle).pack(side="left", padx=(12,0))
 
-        CTkButton(
-            actions, text="Add", width=150, height=40, font=("Arial Bold", 17),
-            hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
-            command=self.add_vehicle
-        ).pack(side="left", padx=(12,0))
+        if self.vehicle_id:
+            import connection
+            db = connection
+            dbcon_func = db.dbcon
+            class DummyDB: pass
+            db_obj = DummyDB()
+            dbcon_func(db_obj)
+
+            if db_obj.con:
+                try:
+                    db_obj.cur.execute(
+                        "SELECT make, year, color, model, reg_number, vin_number, transmission FROM vehicle WHERE id = %s", 
+                        (self.customer_id,)
+                    )
+                    record = db_obj.cur.fetchone()
+                    if record:
+                        self.firstname_entry.insert(0, record[0])
+                        self.lastname_entry.insert(0, record[1])
+                        self.contact_entry.insert(0, record[2])
+                        self.email_entry.insert(0, record[3])
+                        self.address_entry.insert(0, record[4])
+                finally:
+                    db_obj.con.close() 
 
     def add_vehicle(self):
         import connection
