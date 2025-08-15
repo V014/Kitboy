@@ -71,16 +71,19 @@ class AddVehicleForm(CTkFrame):
             if db_obj.con:
                 try:
                     db_obj.cur.execute(
-                        "SELECT make, year, color, model, reg_number, vin_number, transmission FROM vehicle WHERE id = %s", 
+                        "SELECT make, year, color, model, reg_number, vin_number, transmission, customer_id FROM vehicle WHERE id = %s", 
                         (self.customer_id,)
                     )
                     record = db_obj.cur.fetchone()
                     if record:
-                        self.firstname_entry.insert(0, record[0])
-                        self.lastname_entry.insert(0, record[1])
-                        self.contact_entry.insert(0, record[2])
-                        self.email_entry.insert(0, record[3])
-                        self.address_entry.insert(0, record[4])
+                        self.make_entry.insert(0, record[0])
+                        self.year_entry.insert(0, record[1])
+                        self.color_entry.insert(0, record[2])
+                        self.model_entry.insert(0, record[3])
+                        self.reg_entry.insert(0, record[4])
+                        self.vin_entry.insert(0, record[5])
+                        self.transmission_combo.set(str (record[6]))
+                        self.customer_combo.set(str(record[7]))
                 finally:
                     db_obj.con.close() 
 
