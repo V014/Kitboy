@@ -1,5 +1,5 @@
 from tkinter import messagebox
-import connection
+from tkcalendar import DateEntry
 from customtkinter import *
 from CTkTable import CTkTable
 from forms.reminders_add import AddRemindersForm
@@ -38,6 +38,7 @@ class Reminders(CTkScrollableFrame):
         self._load_and_display_reminders_table()
 
     def _load_and_display_reminders_table(self):
+        import connection
         db = connection
         dbcon_func = db.dbcon  # Get the function itself
         class DummyDB: pass
@@ -110,6 +111,7 @@ class Reminders(CTkScrollableFrame):
         CTkLabel(self, text=f"reminder Details (ID: {reminder_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
         # Fetch more comprehensice details from DB
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -156,6 +158,7 @@ class Reminders(CTkScrollableFrame):
 
         reminder_data = None
         if reminder_id:
+            import connection
             db = connection
             dbcon_func = db.dbcon
             class DummyDB: pass
@@ -251,6 +254,7 @@ class AddRemindersForm(CTkFrame):
             messagebox.showerror("Error", "All fields except description are required.")
             return
 
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
