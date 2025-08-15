@@ -7,6 +7,7 @@ class AddMaintenancesForm(CTkFrame):
         self.back_command = back_command
         self.maintenance_id = maintenance_id
 
+        # Title
         CTkLabel(self, text="Maintenance Details", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")

@@ -1,18 +1,16 @@
 from customtkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
-import connection
 from datetime import date
 
 class AddRemindersForm(CTkFrame):
     def __init__(
-        self, master, customer_options, vehicle_options, reminder_type_options,
-        back_command=None, reminder_id=None, reminder_data=None
-    ):
+        self, master, customer_options, vehicle_options, reminder_type_options, back_command=None, reminder_id=None, reminder_data=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
         self.reminder_id = reminder_id
 
+        # Title
         CTkLabel(self, text="Set Reminder", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
@@ -21,7 +19,7 @@ class AddRemindersForm(CTkFrame):
         # Customer ID
         CTkLabel(form_frame, text="Customer ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
         self.customer_combo = CTkComboBox(form_frame, values=customer_options, width=300)
-        self.customer_combo.grid(row=1, column=0, ipady=10, pady=(0,10))
+        self.customer_combo.grid(row=1, column=0, ipady=0, pady=(0,10))
 
         # Vehicle ID
         CTkLabel(form_frame, text="Vehicle ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
