@@ -24,22 +24,22 @@ class AddRemindersForm(CTkFrame):
         # Vehicle ID
         CTkLabel(form_frame, text="Vehicle ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.vehicle_combo = CTkComboBox(form_frame, values=vehicle_options, width=300)
-        self.vehicle_combo.grid(row=1, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.vehicle_combo.grid(row=1, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Reminder Type
         CTkLabel(form_frame, text="Reminder Type", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
         self.reminder_type_combo = CTkComboBox(form_frame, values=reminder_type_options, width=300)
-        self.reminder_type_combo.grid(row=3, column=0, ipady=10, pady=(0,10))
+        self.reminder_type_combo.grid(row=3, column=0, ipady=0, pady=(0,10))
 
         # Date Due
         CTkLabel(form_frame, text="Date Due", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
         self.date_due_entry = DateEntry(form_frame, width=17)
-        self.date_due_entry.grid(row=3, column=1, ipady=10, padx=(24,0), pady=(0,10))
+        self.date_due_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Description
         CTkLabel(form_frame, text="Description", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
         self.description_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=624)
-        self.description_entry.grid(row=5, column=0, columnspan=2, ipady=10, pady=(0,10))
+        self.description_entry.grid(row=5, column=0, columnspan=2, ipady=0, pady=(0,10))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
