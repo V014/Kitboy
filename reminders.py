@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import connection
 from customtkinter import *
 from CTkTable import CTkTable
@@ -99,7 +100,11 @@ class Reminders(CTkScrollableFrame):
         button_frame.pack(pady=20, padx=27, fill="x")
         CTkButton(button_frame, text="Back", command=self.show_reminders_list_view, fg_color="#601E88", hover_color="#9569AF").pack(side="left")
         CTkButton(button_frame, text="Delete", command=lambda: Utils.delete_record("reminders", reminder_id, self.show_reminders_list_view), fg_color="#601E88", hover_color="#DD4055").pack(padx=10, side="right")
-        CTkButton(button_frame, text="Update", command=self._show_add_form, fg_color="#601E88", hover_color="#9569AF").pack(side="right")
+        CTkButton(
+    button_frame, text="Update",
+    command=lambda: self._show_add_form(reminder_id),
+    fg_color="#601E88", hover_color="#9569AF"
+).pack(side="right")
 
         # Title
         CTkLabel(self, text=f"reminder Details (ID: {reminder_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
@@ -143,11 +148,137 @@ class Reminders(CTkScrollableFrame):
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w", wraplength=600).pack(pady=10, padx=27, anchor="w")
 
     # show the add form
-    def _show_add_form(self):
+    def _show_add_form(self, reminder_id=None):
         self.clear_frame()
         customer_options = Utils.get_options("customers", "id")
         vehicle_options = Utils.get_options("vehicles", "id")
         reminder_type_options = [reminder.value for reminder in ReminderType]
-        add_form = AddRemindersForm(self, customer_options, vehicle_options, reminder_type_options, back_command=self.show_reminders_list_view)
+
+        reminder_data = None
+        if reminder_id:
+            db = connection
+            dbcon_func = db.dbcon
+            class DummyDB: pass
+            db_obj = DummyDB()
+            dbcon_func(db_obj)
+            if db_obj.con:
+                try:
+                    db_obj.cur.execute(
+                        "SELECT customer_id, vehicle_id, reminder_type, description, due_date FROM reminders WHERE id = %s",
+                        (reminder_id,)
+                    )
+                    reminder_data = db_obj.cur.fetchone()
+                finally:
+                    db_obj.con.close()
+
+        add_form = AddRemindersForm(
+            self,
+            customer_options,
+            vehicle_options,
+            reminder_type_options,
+            back_command=self.show_reminders_list_view,
+            reminder_id=reminder_id,
+            reminder_data=reminder_data
+        )
         add_form.pack(expand=True, fill="both")
-            
+
+class AddRemindersForm(CTkFrame):
+    def __init__(self, master, customer_options, vehicle_options, reminder_type_options, back_command=None, reminder_id=None, reminder_data=None):
+        super().__init__(master, fg_color="transparent")
+        self.back_command = back_command
+        self.reminder_id = reminder_id
+
+        # Customer ID
+        CTkLabel(self, text="Customer ID:", text_color="#ffffff", font=("Arial", 14)).pack(pady=(20, 5), padx=27, anchor="w")
+        self.customer_combo = CTkComboBox(self, values=customer_options, font=("Arial", 14), fg_color="#2B2B2B", text_color="#ffffff", dropdown_fg_color="#601E88")
+        self.customer_combo.pack(fill="x", padx=27, pady=(0, 10))
+        
+        # Vehicle ID
+        CTkLabel(self, text="Vehicle ID:", text_color="#ffffff", font=("Arial", 14)).pack(pady=(10, 5), padx=27, anchor="w")
+        self.vehicle_combo = CTkComboBox(self, values=vehicle_options, font=("Arial", 14), fg_color="#2B2B2B", text_color="#ffffff", dropdown_fg_color="#601E88")
+        self.vehicle_combo.pack(fill="x", padx=27, pady=(0, 10))
+
+        # Reminder Type
+        CTkLabel(self, text="Reminder Type:", text_color="#ffffff", font=("Arial", 14)).pack(pady=(10, 5), padx=27, anchor="w")
+        self.reminder_type_combo = CTkComboBox(self, values=reminder_type_options, font=("Arial", 14), fg_color="#2B2B2B", text_color="#ffffff", dropdown_fg_color="#601E88")
+        self.reminder_type_combo.pack(fill="x", padx=27, pady=(0, 10))
+
+        # Description
+        CTkLabel(self, text="Description:", text_color="#ffffff", font=("Arial", 14)).pack(pady=(10, 5), padx=27, anchor="w")
+        self.description_entry = CTkEntry(self, font=("Arial", 14), fg_color="#2B2B2B", text_color="#ffffff")
+        self.description_entry.pack(fill="x", padx=27, pady=(0, 10))
+
+        # Date Due
+        CTkLabel(self, text="Date Due:", text_color="#ffffff", font=("Arial", 14)).pack(pady=(10, 5), padx=27, anchor="w")
+        self.date_due_entry = DateEntry(self, font=("Arial", 14), fg_color="#2B2B2B", text_color="#ffffff", width=17)
+        self.date_due_entry.pack(fill="x", padx=27, pady=(0, 10))
+
+        # Action buttons frame
+        actions = CTkFrame(self, fg_color="transparent")
+        actions.pack(pady=20, padx=27, fill="x")
+
+        # Back button
+        CTkButton(
+            actions, text="Back", width=150, height=40, font=("Arial Bold", 17),
+            hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
+            command=self.back_command
+        ).pack(side="left", padx=(0, 12))
+
+        # Pre-fill fields if editing
+        if reminder_data:
+            self.customer_combo.set(str(reminder_data[0]))
+            self.vehicle_combo.set(str(reminder_data[1]))
+            self.reminder_type_combo.set(str(reminder_data[2]))
+            self.description_entry.insert(0, reminder_data[3] if reminder_data[3] else "")
+            self.date_due_entry.set_date(reminder_data[4])
+
+        # Change button text if editing
+        action_text = "Update Reminder" if reminder_id else "Set Reminder"
+        CTkButton(
+            actions, text=action_text, width=150, height=40, font=("Arial Bold", 17),
+            hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
+            command=self.set_reminder
+        ).pack(side="left", padx=(12,0))
+
+    def set_reminder(self):
+        customer_id = self.customer_combo.get().strip()
+        vehicle_id = self.vehicle_combo.get().strip()
+        reminder_type = self.reminder_type_combo.get().strip()
+        description = self.description_entry.get().strip()
+        due_date = self.date_due_entry.get_date()
+
+        if not customer_id or not vehicle_id or not reminder_type or not due_date:
+            messagebox.showerror("Error", "All fields except description are required.")
+            return
+
+        db = connection
+        dbcon_func = db.dbcon
+        class DummyDB: pass
+        db_obj = DummyDB()
+        dbcon_func(db_obj)
+
+        if db_obj.con:
+            try:
+                if self.reminder_id:
+                    # Update existing reminder
+                    db_obj.cur.execute(
+                        "UPDATE reminders SET customer_id=%s, vehicle_id=%s, reminder_type=%s, description=%s, due_date=%s WHERE id=%s",
+                        (customer_id, vehicle_id, reminder_type, description, due_date, self.reminder_id)
+                    )
+                    db_obj.con.commit()
+                    messagebox.showinfo("Success", "Reminder updated successfully!")
+                else:
+                    # Add new reminder
+                    db_obj.cur.execute(
+                        "INSERT INTO reminders (customer_id, vehicle_id, reminder_type, description, due_date) VALUES (%s, %s, %s, %s, %s)",
+                        (customer_id, vehicle_id, reminder_type, description, due_date)
+                    )
+                    db_obj.con.commit()
+                    messagebox.showinfo("Success", "Reminder set successfully!")
+                if self.back_command:
+                    self.back_command()
+            except Exception as e:
+                messagebox.showerror("Database Error", f"Could not save reminder: {e}")
+            finally:
+                db_obj.con.close()
+
