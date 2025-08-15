@@ -1,6 +1,5 @@
 from customtkinter import *
 from tkinter import messagebox
-import connection
 
 class AddMaintenancesForm(CTkFrame):
     def __init__(self, master, customer_options, vehicle_options, mechanic_options, service_type_options, back_command=None, maintenance_id=None):
@@ -61,6 +60,7 @@ class AddMaintenancesForm(CTkFrame):
         CTkButton(actions, text="Apply", width=150, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.set_maintenance).pack(side="left", padx=(12,0))
 
         if self.maintenance_id:
+            import connection
             db = connection
             dbcon_func = db.dbcon
             class DummyDB: pass
@@ -100,6 +100,7 @@ class AddMaintenancesForm(CTkFrame):
             messagebox.showerror("Error", "All fields except mileage, cost, labor hours and description are required.")
             return
         
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass

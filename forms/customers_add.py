@@ -55,7 +55,10 @@ class AddCustomerForm(CTkFrame):
 
             if db_obj.con:
                 try:
-                    db_obj.cur.execute("SELECT firstname, lastname, contact, email, address FROM customers WHERE id = %s", (self.customer_id,))
+                    db_obj.cur.execute(
+                        "SELECT firstname, lastname, contact, email, address FROM customers WHERE id = %s", 
+                        (self.customer_id,)
+                    )
                     record = db_obj.cur.fetchone()
                     if record:
                         self.firstname_entry.insert(0, record[0])
@@ -68,7 +71,6 @@ class AddCustomerForm(CTkFrame):
 
     # Save Customer function
     def save_customer(self):
-        import connection
         firstname = self.firstname_entry.get().strip()
         lastname = self.lastname_entry.get().strip()
         contact = self.contact_entry.get().strip()
