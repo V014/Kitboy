@@ -1,4 +1,3 @@
-import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from utils import Utils
@@ -36,6 +35,7 @@ class Vehicles(CTkScrollableFrame):
         self._load_and_display_vehicles_table()
 
     def _load_and_display_vehicles_table(self):
+        import connection
         db = connection
         dbcon_func = db.dbcon # Get the function itself
         class DummyDB: pass
@@ -105,6 +105,7 @@ class Vehicles(CTkScrollableFrame):
         CTkLabel(self, text=f"Vehicle Details (ID: {vehicle_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
         # Fetch more comprehensive details from DB
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -143,6 +144,7 @@ class Vehicles(CTkScrollableFrame):
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
 
     def get_customer_options(self):
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
