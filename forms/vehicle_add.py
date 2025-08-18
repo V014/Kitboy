@@ -110,14 +110,24 @@ class AddVehicleForm(CTkFrame):
 
         if db_obj.con:
             try:
-                db_obj.cur.execute(
-                    "INSERT INTO vehicles (customer_id, reg_number, make, model, year, transmission, color, vin_number) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                    (customer_id, reg_number, make, model, year, transmission, color, vin_number)
-                )
+                if self.vehicle_id:
+                    db_obj.cur.execute(
+                        "UPDATE vehicles SET customer_id = %s, reg_number = %s, make = %s, model = %s, year = %s, transmission = %s, color = %s, vin_number = %s WHERE id = %s",
+                        (customer_id, reg_number, make, model, year, transmission, color, vin_number, self.vehicle_id)
+                    )
+                    messagebox.showinfo("Success", "Vehicle updated successfully!")
+                else:
+                    db_obj.cur.execute(
+                        "INSERT INTO vehicles (customer_id, reg_number, make, model, year, transmission, color, vin_number) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                        (customer_id, reg_number, make, model, year, transmission, color, vin_number)
+                    )
+                    messagebox.showinfo("Success", "Vehicle added successfully!")
+
                 db_obj.con.commit()
-                messagebox.showinfo("Success", "Vehicle added successfully!")
+
                 if self.back_command:
                     self.back_command()
+
             except Exception as e:
                 messagebox.showerror("Database Error", f"Could not add vehicle: {e}")
             finally:
