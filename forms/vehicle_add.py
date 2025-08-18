@@ -71,7 +71,7 @@ class AddVehicleForm(CTkFrame):
             if db_obj.con:
                 try:
                     db_obj.cur.execute(
-                        "SELECT make, year, color, model, reg_number, vin_number, transmission, customer_id FROM vehicle WHERE id = %s", 
+                        "SELECT make, year, color, model, reg_number, vin_number, transmission, customer_id FROM vehicles WHERE id = %s", 
                         (self.vehicle_id,)
                     )
                     record = db_obj.cur.fetchone()
