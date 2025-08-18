@@ -1,4 +1,3 @@
-import connection
 from customtkinter import *
 from CTkTable import CTkTable
 from utils import Utils
@@ -40,6 +39,7 @@ class Customers(CTkScrollableFrame):
         add_form.pack(expand=True, fill="both")
 
     def _load_and_display_customers_table(self):
+        import connection
         db = connection
         dbcon_func = db.dbcon # Get the function itself
         class DummyDB: pass
@@ -101,6 +101,7 @@ class Customers(CTkScrollableFrame):
         CTkLabel(self, text=f"Customer Details (ID: {customer_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
 
         # Fetch more comprehensive details from DB
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
@@ -133,6 +134,7 @@ class Customers(CTkScrollableFrame):
         CTkLabel(self, text=details_text, font=("Arial", 14), text_color="#ffffff", justify="left", anchor="w").pack(pady=10, padx=27, anchor="w")
 
     def update_customer_payment_status(customer_id):
+        import connection
         db = connection
         dbcon_func = db.dbcon
         class DummyDB: pass
