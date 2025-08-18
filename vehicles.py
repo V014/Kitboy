@@ -161,11 +161,12 @@ class Vehicles(CTkScrollableFrame):
         self.clear_frame()
         customer_options = self.get_customer_options()
         transmission_type_options = [transmission_type.value for transmission_type in TransmissionType]
+
         add_form = AddVehicleForm(
             self, 
             customer_options,
             transmission_type_options, 
             back_command=self.show_vehicles_list_view,
-            vehcile_id=vehicle_id)
+            vehicle_id=vehicle_id)
         
         add_form.pack(expand=True, fill="both")

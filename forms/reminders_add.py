@@ -1,45 +1,42 @@
 from customtkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
-from datetime import date
 
 class AddRemindersForm(CTkFrame):
-    def __init__(
-        self, master, customer_options, vehicle_options, reminder_type_options, back_command=None, reminder_id=None, reminder_data=None):
+    def __init__(self, master, customer_options, vehicle_options, reminder_type_options,back_command=None, reminder_id=None, reminder_data=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
         self.reminder_id = reminder_id
 
-        # Title
         CTkLabel(self, text="Set Reminder", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
 
         form_frame = CTkFrame(self, fg_color="transparent")
         form_frame.pack(fill="x", padx=27, pady=(10,0))
 
         # Customer ID
-        CTkLabel(form_frame, text="Customer ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
+        CTkLabel(form_frame, text="Customer ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,6))
         self.customer_combo = CTkComboBox(form_frame, values=customer_options, width=300)
-        self.customer_combo.grid(row=1, column=0, ipady=0, pady=(0,10))
+        self.customer_combo.grid(row=1, column=0, sticky="w", pady=(0,12))
 
         # Vehicle ID
-        CTkLabel(form_frame, text="Vehicle ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        CTkLabel(form_frame, text="Vehicle ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,6))
         self.vehicle_combo = CTkComboBox(form_frame, values=vehicle_options, width=300)
-        self.vehicle_combo.grid(row=1, column=1, ipady=0, padx=(24,0), pady=(0,10))
+        self.vehicle_combo.grid(row=1, column=1, sticky="w", padx=(24,0), pady=(0,12))
 
         # Reminder Type
-        CTkLabel(form_frame, text="Reminder Type", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
+        CTkLabel(form_frame, text="Reminder Type", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,6))
         self.reminder_type_combo = CTkComboBox(form_frame, values=reminder_type_options, width=300)
-        self.reminder_type_combo.grid(row=3, column=0, ipady=0, pady=(0,10))
+        self.reminder_type_combo.grid(row=3, column=0, sticky="w", pady=(0,12))
 
         # Date Due
-        CTkLabel(form_frame, text="Date Due", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.date_due_entry = DateEntry(form_frame, width=17)
-        self.date_due_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
+        CTkLabel(form_frame, text="Date Due", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,6))
+        self.date_due_entry = DateEntry(form_frame, width=18)
+        self.date_due_entry.grid(row=3, column=1, sticky="w", padx=(24,0), pady=(0,12))
 
-        # Description
-        CTkLabel(form_frame, text="Description", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
+        # Description (full width)
+        CTkLabel(form_frame, text="Description", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,6))
         self.description_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=624)
-        self.description_entry.grid(row=5, column=0, columnspan=2, ipady=0, pady=(0,10))
+        self.description_entry.grid(row=5, column=0, columnspan=2, sticky="w", ipady=0, pady=(0,12))
 
         # Actions
         actions = CTkFrame(self, fg_color="transparent")
@@ -60,11 +57,20 @@ class AddRemindersForm(CTkFrame):
 
         # Pre-fill fields if editing
         if reminder_data:
-            self.customer_combo.set(str(reminder_data[0]))
-            self.vehicle_combo.set(str(reminder_data[1]))
-            self.reminder_type_combo.set(str(reminder_data[2]))
-            self.description_entry.insert(0, reminder_data[3] if reminder_data[3] else "")
-            self.date_due_entry.set_date(reminder_data[4])
+            try:
+                self.customer_combo.set(str(reminder_data[0]))
+                self.vehicle_combo.set(str(reminder_data[1]))
+                self.reminder_type_combo.set(str(reminder_data[2]))
+                if reminder_data[3]:
+                    self.description_entry.insert(0, reminder_data[3])
+                if reminder_data[4]:
+                    # reminder_data[4] expected as date string or date object
+                    try:
+                        self.date_due_entry.set_date(reminder_data[4])
+                    except Exception:
+                        pass
+            except Exception:
+                pass
 
     def set_reminder(self):
         customer_id = self.customer_combo.get().strip()

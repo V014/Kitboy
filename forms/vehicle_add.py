@@ -2,7 +2,7 @@ from customtkinter import *
 from tkinter import messagebox
 
 class AddVehicleForm(CTkFrame):
-    def __init__(self, master, customer_options, back_command=None, vehicle_id=None):
+    def __init__(self, master, customer_options, transmission_type_options, back_command=None, vehicle_id=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
         self.vehicle_id = vehicle_id
@@ -40,7 +40,7 @@ class AddVehicleForm(CTkFrame):
 
         # Transmission
         CTkLabel(form_frame, text="Transmission", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=1, sticky="w", padx=(25,0), pady=(0,2))
-        self.transmission_combo = CTkComboBox(form_frame, values=["Manual", "Automatic"], width=300)
+        self.transmission_combo = CTkComboBox(form_frame, values=transmission_type_options, width=300)
         self.transmission_combo.grid(row=5, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
         # Color
