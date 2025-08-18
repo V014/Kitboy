@@ -59,7 +59,6 @@ class Vehicles(CTkScrollableFrame):
 
         table_display_values = [["Reg Number", "Make", "Model", "Owner", "Action"]]
         for row_data in self.all_vehicles_data:
-            # row_data is (v.id, v.reg_number, v.make, v.model, c.firstname, c.lastname)
             owner_name = f"{row_data[4]} {row_data[5]}" # Combine firstname and lastname
             display_row = [row_data[1], row_data[2], row_data[3], owner_name, "View Details"]
             table_display_values.append(display_row)
