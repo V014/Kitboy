@@ -28,16 +28,6 @@ class Customers(CTkScrollableFrame):
 
         self._load_and_display_customers_table()
 
-    def _show_add_form(self, customer_id=NONE):
-        self.clear_frame()
-
-        add_form = AddCustomerForm(
-            self,  
-            back_command=self.show_customers_list_view, 
-            customer_id=customer_id
-        )
-        add_form.pack(expand=True, fill="both")
-
     def _load_and_display_customers_table(self):
         import connection
         db = connection
@@ -182,3 +172,12 @@ class Customers(CTkScrollableFrame):
                 db_obj.con.commit()
             finally:
                 db_obj.con.close()
+    def _show_add_form(self, customer_id=NONE):
+        self.clear_frame()
+
+        add_form = AddCustomerForm(
+            self,  
+            back_command=self.show_customers_list_view, 
+            customer_id=customer_id
+        )
+        add_form.pack(expand=True, fill="both")
