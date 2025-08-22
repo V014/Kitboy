@@ -26,42 +26,26 @@ class AddRemindersForm(CTkFrame):
         self.vehicle_combo.grid(row=1, column=1, sticky="w", padx=(24,0), pady=(0,12))
 
         # --- Reminder Type ---
-        CTkLabel(self, text="Reminder Type", font=("Arial Bold", 17), text_color="#fff").grid(
-            row=3, column=0, sticky="w", padx=27, pady=(0, 2))
-        self.reminder_type_combo = CTkComboBox(self, values=reminder_type_options, width=300)
-        self.reminder_type_combo.grid(row=4, column=0, sticky="w", padx=27, pady=(0, 10))
+        CTkLabel(form_frame, text="Reminder Type", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))
+        self.reminder_type_combo = CTkComboBox(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.reminder_type_combo.grid(row=3, column=0, ipady=0, pady=(0,10))
 
         # --- Date Due ---
-        CTkLabel(self, text="Date Due", font=("Arial Bold", 17), text_color="#fff").grid(
-            row=3, column=1, sticky="w", padx=27, pady=(0, 2))
-        self.date_due_entry = DateEntry(self, width=18)
-        self.date_due_entry.grid(row=4, column=1, sticky="w", padx=27, pady=(0, 10))
+        CTkLabel(form_frame, text="Date Due (YYYY-MM-DD)", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        self.date_due_entry = DateEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=46, date_pattern='yyyy-mm-dd', background='#601E88')
+        self.date_due_entry.grid(row=3, column=1, ipady=0, padx=(24,0), pady=(0,10))
 
-        # --- Description (span both columns) ---
-        CTkLabel(self, text="Description", font=("Arial Bold", 17), text_color="#fff").grid(
-            row=5, column=0, columnspan=2, sticky="w", padx=27, pady=(0, 2))
-        self.description_entry = CTkEntry(self, fg_color="#F0F0F0", border_width=0, width=624)
-        self.description_entry.grid(row=6, column=0, columnspan=2, sticky="ew", padx=27, pady=(0, 10))
+        # --- Description ---
+        CTkLabel(form_frame, text="Description", font=("Arial Bold", 17), text_color="#fff").grid(row=4, column=0, sticky="w", pady=(0,2))
+        self.description_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.description_entry.grid(row=5, column=0, ipady=0, pady=(0,10))
 
-        # --- Action Buttons (span both columns, align left/right) ---
-        self.grid_rowconfigure(7, weight=1)  # push buttons to the bottom
+        # Actions
+        actions = CTkFrame(self, fg_color="transparent")
+        actions.pack(fill="x", pady=(10, 20), padx=27)
 
-        back_btn = CTkButton(
-            self, text="Back", width=150, height=40, fg_color="transparent",
-            font=("Arial Bold", 17), border_color="#601E88",
-            hover_color="#601E88", border_width=2, text_color="#fff",
-            command=self.back_command
-        )
-        back_btn.grid(row=8, column=0, sticky="w", padx=27, pady=(20, 20))
-
-        action_text = "Update Reminder" if reminder_id else "Set Reminder"
-        submit_btn = CTkButton(
-            self, text=action_text, width=150, height=40,
-            font=("Arial Bold", 17), hover_color="#9569AF",
-            fg_color="#601E88", text_color="#fff",
-            command=self.set_reminder
-        )
-        submit_btn.grid(row=8, column=1, sticky="e", padx=27, pady=(20, 20))
+        CTkButton(actions, text="Back", width=150, height=40, fg_color="transparent", font=("Arial Bold", 17), border_color="#601E88", hover_color="#601E88", border_width=2, text_color="#fff", command=self.back_command).pack(side="left", padx=(0,12))
+        CTkButton(actions, text="Apply", width=150, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.set_reminder).pack(side="left", padx=(12,0))
 
         # --- Pre-fill fields if editing ---
         if reminder_data:
