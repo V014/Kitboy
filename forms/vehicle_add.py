@@ -19,9 +19,9 @@ class AddVehicleForm(CTkFrame):
         self.customer_combo.grid(row=1, column=0, ipady=0, pady=(0,10))
 
         # Registration Number
-        CTkLabel(form_frame, text="Registration Number", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,2))
+        CTkLabel(form_frame, text="Registration Number", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,6))
         self.reg_entry = CTkEntry(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
-        self.reg_entry.grid(row=1, column=1, ipady=0, padx=(24,0), pady=(0,10))
+        self.reg_entry.grid(row=1, column=1, sticky="w", padx=(24,0), pady=(0,12))
 
         # Make
         CTkLabel(form_frame, text="Make", font=("Arial Bold", 17), text_color="#fff").grid(row=2, column=0, sticky="w", pady=(0,2))

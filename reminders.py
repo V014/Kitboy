@@ -101,11 +101,7 @@ class Reminders(CTkScrollableFrame):
         button_frame.pack(pady=20, padx=27, fill="x")
         CTkButton(button_frame, text="Back", command=self.show_reminders_list_view, fg_color="#601E88", hover_color="#9569AF").pack(side="left")
         CTkButton(button_frame, text="Delete", command=lambda: Utils.delete_record("reminders", reminder_id, self.show_reminders_list_view), fg_color="#601E88", hover_color="#DD4055").pack(padx=10, side="right")
-        CTkButton(
-    button_frame, text="Update",
-    command=lambda: self._show_add_form(reminder_id),
-    fg_color="#601E88", hover_color="#9569AF"
-).pack(side="right")
+        CTkButton(button_frame, text="Update", command=lambda: self._show_add_form(reminder_id),fg_color="#601E88", hover_color="#9569AF").pack(side="right")
 
         # Title
         CTkLabel(self, text=f"reminder Details (ID: {reminder_id})", font=("Arial Black", 20), text_color="#ffffff").pack(pady=20, padx=27, anchor="w")
@@ -237,11 +233,7 @@ class AddRemindersForm(CTkFrame):
 
         # Change button text if editing
         action_text = "Update Reminder" if reminder_id else "Set Reminder"
-        CTkButton(
-            actions, text=action_text, width=150, height=40, font=("Arial Bold", 17),
-            hover_color="#9569AF", fg_color="#601E88", text_color="#fff",
-            command=self.set_reminder
-        ).pack(side="left", padx=(12,0))
+        CTkButton(actions, text=action_text, width=150, height=40, font=("Arial Bold", 17), hover_color="#9569AF", fg_color="#601E88", text_color="#fff", command=self.set_reminder).pack(side="left", padx=(12,0))
 
     def set_reminder(self):
         customer_id = self.customer_combo.get().strip()
