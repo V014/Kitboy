@@ -4,33 +4,26 @@ from tkcalendar import DateEntry
 
 
 class AddRemindersForm(CTkFrame):
-    def __init__(self, master, customer_options, vehicle_options, reminder_type_options,
-                 back_command=None, reminder_id=None, reminder_data=None):
+    def __init__(self, master, customer_options, vehicle_options, reminder_type_options, back_command=None, reminder_id=None, reminder_data=None):
         super().__init__(master, fg_color="transparent")
         self.back_command = back_command
         self.reminder_id = reminder_id
 
-        # --- Configure grid for self (the main frame) ---
-        self.grid_columnconfigure(0, weight=1)   # left column
-        self.grid_columnconfigure(1, weight=1)   # right column
-
         # Title
-        CTkLabel(
-            self, text="Set Reminder",
-            font=("Arial Black", 25), text_color="#fff"
-        ).grid(row=0, column=0, columnspan=2, sticky="w", padx=27, pady=(29, 10))
+        CTkLabel(self, text="Set Reminder", font=("Arial Black", 25), text_color="#fff").pack(anchor="nw", pady=(29,0), padx=27)
+
+        form_frame = CTkFrame(self, fg_color="transparent")
+        form_frame.pack(fill="x", padx=27, pady=(10,0))
 
         # --- Customer ID ---
-        CTkLabel(self, text="Customer ID", font=("Arial Bold", 17), text_color="#fff").grid(
-            row=1, column=0, sticky="w", padx=27, pady=(0, 2))
-        self.customer_combo = CTkComboBox(self, values=customer_options, width=300)
+        CTkLabel(form_frame, text="Customer ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
+        self.customer_combo = CTkComboBox(form_frame, values=customer_options, width=300)
         self.customer_combo.grid(row=2, column=0, sticky="w", padx=27, pady=(0, 10))
 
         # --- Vehicle ID ---
-        CTkLabel(self, text="Vehicle ID", font=("Arial Bold", 17), text_color="#fff").grid(
-            row=1, column=1, sticky="w", padx=27, pady=(0, 2))
-        self.vehicle_combo = CTkComboBox(self, values=vehicle_options, width=300)
-        self.vehicle_combo.grid(row=2, column=1, sticky="w", padx=27, pady=(0, 10))
+        CTkLabel(form_frame, text="Vehicle ID", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,6))
+        self.vehicle_combo = CTkComboBox(form_frame, fg_color="#F0F0F0", border_width=0, width=300)
+        self.vehicle_combo.grid(row=1, column=1, sticky="w", padx=(24,0), pady=(0,12))
 
         # --- Reminder Type ---
         CTkLabel(self, text="Reminder Type", font=("Arial Bold", 17), text_color="#fff").grid(

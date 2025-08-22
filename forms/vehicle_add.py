@@ -16,7 +16,7 @@ class AddVehicleForm(CTkFrame):
         # Customer selection (ComboBox)
         CTkLabel(form_frame, text="Owner (Customer ID)", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=0, sticky="w", pady=(0,2))
         self.customer_combo = CTkComboBox(form_frame, values=customer_options, width=300)
-        self.customer_combo.grid(row=1, column=0, ipady=0, pady=(0,10))
+        self.customer_combo.grid(row=2, column=0, sticky="w", padx=27, pady=(0, 10))
 
         # Registration Number
         CTkLabel(form_frame, text="Registration Number", font=("Arial Bold", 17), text_color="#fff").grid(row=0, column=1, sticky="w", padx=(25,0), pady=(0,6))
