@@ -116,8 +116,7 @@ class Vehicles(CTkScrollableFrame):
             try:
                 # Query to get detailed vehicle info and customer's name
                 query = """
-                    SELECT v.reg_number, v.make, v.model, v.year, v.color, v.vin_number, 
-                           c.firstname, c.lastname, c.contact AS customer_contact
+                    SELECT v.reg_number, v.make, v.model, v.year, v.color, v.vin_number, c.firstname, c.lastname, c.contact AS customer_contact
                     FROM vehicles v
                     JOIN customers c ON v.customer_id = c.id
                     WHERE v.id = %s
