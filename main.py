@@ -15,7 +15,7 @@ class KitboyApp(CTk):
         super().__init__() # inherit from custom tkinter
         self.setup_environment() # call method that identifies files in root folder
         self.setup_window() # call method that sets the ui theme and resolution
-        self.create_sidebar() # call sidebar first
+        self.create_sidebar() # call sidebar first 
         self.create_main_view() # call view after
 
     def setup_environment(self):
