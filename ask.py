@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-import google.generativeai as genai
+import google.genai as genai
 
 class AskKitboy:
     # Create function that handles prompts
