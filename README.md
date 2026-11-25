@@ -111,8 +111,9 @@ Kitboy remains a Python desktop application; changing languages would not addres
 
 1. Install Python 3.10 or later and MySQL Server.
 2. Back up the existing `kitboy` database before the first launch. Kitboy adds a `role` column to the existing `users` table if needed; existing workshop records are not replaced.
-3. Install the project packages with `python -m pip install -r requirements.txt`.
-4. Start the app with `python main.py`.
+3. Create a Windows virtual environment and install the project packages:
+   `.venv-windows\Scripts\python.exe -m pip install -r requirements.txt`
+4. Start the app with `.venv-windows\Scripts\python.exe main.py`.
 
 The database defaults to the existing local connection (`localhost`, database `kitboy`, MySQL user `root`). Set `KITBOY_DB_HOST`, `KITBOY_DB_USER`, `KITBOY_DB_PASSWORD`, and `KITBOY_DB_NAME` to use another local MySQL account or database. The user table must already exist and have `username` and `password` columns.
 
