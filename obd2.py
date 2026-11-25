@@ -1,15 +1,39 @@
-import obd
+"""Read-only OBD-II queries for paired Bluetooth Classic ELM327 adapters."""
 
-# Example with manually specifying the port (for Windows):
-connection = obd.OBD(portstr="COM4")  # Replace with your actual COM port
 
-# Or on Linux:
-# connection = obd.OBD(portstr="/dev/rfcomm0")
+def available_ports():
+    from serial.tools import list_ports
 
-if connection.is_connected():
-    print("Connected to ELM327")
-    rpm = connection.query(obd.commands.RPM)
-    oiltemperature = connection.query(obd.commands.OIL_TEMP)
-    print("Engine RPM:", rpm.value)
-else:
-    print("Connection failed")
+    return sorted(port.device for port in list_ports.comports())
+
+
+def read_vehicle_data(port):
+    import obd
+
+    connection = obd.OBD(portstr=port, fast=False, timeout=2)
+    try:
+        if not connection.is_connected():
+            raise ConnectionError(
+                "Could not connect. Confirm the adapter is paired and its COM port is correct."
+            )
+
+        commands = (
+            ("Engine speed", obd.commands.RPM),
+            ("Vehicle speed", obd.commands.SPEED),
+            ("Coolant temperature", obd.commands.COOLANT_TEMP),
+            ("Engine load", obd.commands.ENGINE_LOAD),
+            ("Oil temperature", obd.commands.OIL_TEMP),
+        )
+        readings = []
+        for label, command in commands:
+            if not connection.supports(command):
+                continue
+            response = connection.query(command)
+            if not response.is_null():
+                readings.append((label, str(response.value)))
+
+        dtc_response = connection.query(obd.commands.GET_DTC)
+        trouble_codes = [] if dtc_response.is_null() else list(dtc_response.value)
+        return readings, trouble_codes
+    finally:
+        connection.close()

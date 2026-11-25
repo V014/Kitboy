@@ -1,19 +1,23 @@
-# database connection
 import os
+import logging
 from mysql.connector import connect, Error
+
+
+def open_connection():
+    return connect(
+        host=os.getenv("KITBOY_DB_HOST", "localhost"),
+        user=os.getenv("KITBOY_DB_USER", "root"),
+        password=os.getenv("KITBOY_DB_PASSWORD", ""),
+        database=os.getenv("KITBOY_DB_NAME", "kitboy"),
+        connection_timeout=5,
+    )
+
 
 def dbcon(self):
     try:
-        self.con = connect(
-            host="localhost",
-            user="root",
-            passwd="",
-            database="kitboy"
-        )
+        self.con = open_connection()
         self.cur = self.con.cursor()
-    except Error as e:
-        print(f"Error connecting to database: {e}")
-        self.con.rollback()
+    except Error:
+        logging.exception("Could not connect to the Kitboy database")
         self.con = None
-        self.con.close()
         self.cur = None

@@ -2,6 +2,8 @@ import os
 from customtkinter import *
 from tkinter import messagebox
 from main import KitboyApp
+import pywinstyles
+import auth
 from PIL import Image
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -56,31 +58,33 @@ class Login(CTk):
         CTkButton(master=frame, text="Coming soon...", fg_color="#202020", hover_color="#202020", font=("Arial Bold", 9), text_color="#EEEEEE", width=225, image=self.google_icon).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
     def login_action(self):
-        username = self.username_entry.get()
+        username = self.username_entry.get().strip()
         password = self.password_entry.get()
-        import connection
-        db = connection
-        dbcon = db.dbcon
-        class Dummy: pass
-        db_obj = Dummy()
-        dbcon(db_obj)
-        if db_obj.con is None:
-            messagebox.showerror("Error", "Database connection failed.")
+        if not username or not password:
+            messagebox.showerror("Sign in failed", "Enter your username and password.")
             return
+
         try:
-            db_obj.cur.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
-            result = db_obj.cur.fetchone()
-            if result:
-                self.destroy()
-                app = KitboyApp()
-                app.mainloop()
-            else:
+            session = auth.authenticate(username, password)
+            if not session:
                 messagebox.showerror("Login Failed", "Invalid email or password.")
-        except Exception as e:
-            messagebox.showerror("Error", f"An error occurred: {e}")
-        finally:
-            if db_obj.con:
-                db_obj.con.close()
+                return
+            if session["bootstrap_admin"]:
+                messagebox.showinfo(
+                    "Administrator setup",
+                    "No administrator existed, so this first signed-in account "
+                    "has been assigned the Admin role.",
+                )
+            self.withdraw()
+            try:
+                app = KitboyApp(session)
+                pywinstyles.apply_style(app, "optimised")
+                app.iconbitmap("assets/icons/kitboy.ico")
+                app.mainloop()
+            finally:
+                self.deiconify()
+        except Exception as error:
+            messagebox.showerror("Sign in error", str(error))
 
 if __name__ == "__main__":
     app = Login()

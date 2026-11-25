@@ -103,4 +103,30 @@ Store all records securely in a relational database (MySQL), routine backups (au
 Store all records securely in a relational database (MySQL), routine backups (automated or manual), admin tool to restore from a backup when required.
 11.	Future features
 Customer self-service portal to view maintenance history and book appointments. Future features: 
-Customer self-service portal to view maintenance history and book appointments. Inventory and parts managements, KYC compliance for customer such as national ID and profile setup. Integration with OBD scanner via USB/Bluetooth for future automation.
+Customer self-service portal to view maintenance history and book appointments. Inventory and parts managements, KYC compliance for customer such as national ID and profile setup. Bluetooth Classic OBD-II diagnostics are available in the desktop app.
+
+# Running the desktop app
+
+Kitboy remains a Python desktop application; changing languages would not address the main sources of delay in this project. The dashboard chart and database lookup now load asynchronously, and application sections are imported only when opened.
+
+1. Install Python 3.10 or later and MySQL Server.
+2. Back up the existing `kitboy` database before the first launch. Kitboy adds a `role` column to the existing `users` table if needed; existing workshop records are not replaced.
+3. Install the project packages with `python -m pip install -r requirements.txt`.
+4. Start the app with `python main.py`.
+
+The database defaults to the existing local connection (`localhost`, database `kitboy`, MySQL user `root`). Set `KITBOY_DB_HOST`, `KITBOY_DB_USER`, `KITBOY_DB_PASSWORD`, and `KITBOY_DB_NAME` to use another local MySQL account or database. The user table must already exist and have `username` and `password` columns.
+
+Legacy plaintext passwords are upgraded to salted PBKDF2 hashes after a successful sign-in. If the database has no administrator role yet, the first account that signs in is promoted to Admin. Admins can add accounts and assign roles in **User access**:
+
+| Role | Main access |
+| --- | --- |
+| Admin | All sections and user access |
+| Service Advisor | Dashboard, jobs, customers, vehicles, reminders |
+| Mechanic | Dashboard, jobs, vehicles, OBD-II diagnostics |
+| Accounts | Dashboard, customers, payments |
+
+# Bluetooth OBD-II diagnostics
+
+The Diagnostics screen supports ELM327 Bluetooth Classic adapters that expose a Windows serial COM port. Pair the adapter in Windows Bluetooth settings, find its outgoing COM port in Device Manager, then select that port in Kitboy and choose **Connect & scan**. Adapter communication runs in a background thread. The screen reads supported live values (such as RPM, speed, coolant temperature, and engine load) and stored diagnostic trouble codes; it does not clear codes or change vehicle settings. Bluetooth Low Energy adapters that do not expose a COM port are not supported by this connection.
+
+OBD values and trouble codes depend on the vehicle and adapter. Verify results with a qualified technician before making repair or safety decisions.
