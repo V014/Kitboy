@@ -62,33 +62,38 @@ class Login(CTk):
         username = self.username_entry.get().strip()
         password = self.password_entry.get()
         if not username or not password:
-            messagebox.showerror("Sign in failed", "Enter your username and password.")
+            messagebox.showerror(
+                "Sign in failed", "Enter your username and password.", parent=self
+            )
             return
 
+        application = None
         try:
             session = auth.authenticate(username, password)
             if not session:
-                messagebox.showerror("Login Failed", "Invalid email or password.")
+                messagebox.showerror(
+                    "Login Failed", "Invalid username or password.", parent=self
+                )
                 return
             if session["bootstrap_admin"]:
                 messagebox.showinfo(
                     "Administrator setup",
                     "No administrator existed, so this first signed-in account "
                     "has been assigned the Admin role.",
+                    parent=self,
                 )
+            application = KitboyApp(self, session, self.return_to_login)
+            pywinstyles.apply_style(application, "optimised")
+            application.iconbitmap("assets/icons/kitboy.ico")
+            application.wait_visibility()
+            self.application = application
             self.withdraw()
-            try:
-                self.application = KitboyApp(self, session, self.return_to_login)
-                pywinstyles.apply_style(self.application, "optimised")
-                self.application.iconbitmap("assets/icons/kitboy.ico")
-            except Exception:
-                if self.application is not None:
-                    self.application.destroy()
-                    self.application = None
-                self.deiconify()
-                raise
         except Exception as error:
-            messagebox.showerror("Sign in error", str(error))
+            if application is not None:
+                application.destroy()
+            self.application = None
+            self.deiconify()
+            messagebox.showerror("Sign in error", str(error), parent=self)
 
     def return_to_login(self):
         self.application = None
