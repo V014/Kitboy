@@ -3,14 +3,21 @@ from customtkinter import *
 from PIL import Image
 from tkinter import messagebox
 
-class KitboyApp(CTk):
-    def __init__(self, current_user):
-        super().__init__()
+class KitboyApp(CTkToplevel):
+    def __init__(self, master, current_user, on_logout=None):
+        super().__init__(master)
         self.current_user = current_user
+        self.on_logout = on_logout
         self.setup_environment()
         self.setup_window()
         self.create_sidebar()
         self.create_main_view()
+        self.protocol("WM_DELETE_WINDOW", self.close_app)
+
+    def close_app(self):
+        self.destroy()
+        if self.on_logout:
+            self.on_logout()
 
     def setup_environment(self):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -121,7 +128,7 @@ class KitboyApp(CTk):
 
     def show_page(self, page_name):
         if page_name == "logout":
-            self.destroy()
+            self.close_app()
             return
         if page_name not in self.allowed_pages():
             messagebox.showerror(

@@ -14,6 +14,7 @@ class Login(CTk):
         self.geometry("600x480")
         self.resizable(0, 0)
         self.title("KitboyLogin")
+        self.application = None
 
         # Load images using organized asset paths
         self.side_img = CTkImage(
@@ -77,14 +78,21 @@ class Login(CTk):
                 )
             self.withdraw()
             try:
-                app = KitboyApp(session)
-                pywinstyles.apply_style(app, "optimised")
-                app.iconbitmap("assets/icons/kitboy.ico")
-                app.mainloop()
-            finally:
+                self.application = KitboyApp(self, session, self.return_to_login)
+                pywinstyles.apply_style(self.application, "optimised")
+                self.application.iconbitmap("assets/icons/kitboy.ico")
+            except Exception:
+                if self.application is not None:
+                    self.application.destroy()
+                    self.application = None
                 self.deiconify()
+                raise
         except Exception as error:
             messagebox.showerror("Sign in error", str(error))
+
+    def return_to_login(self):
+        self.application = None
+        self.deiconify()
 
 if __name__ == "__main__":
     app = Login()
